@@ -1,229 +1,126 @@
-# Amin360IT Website Features Document
+# Amin360IT Website — Features (Current Implementation)
 
-## 1. Navigation Header
-- [x] Glass morphism effect
-- [x] Logo and site name
-- [x] Navigation links
-- [x] Theme toggle (dark/light)
-- [x] Mobile responsive menu
-- [ ] Light mode: Dark font colors needed
+## 1. Navigation
+- [x] Fixed glassmorphism navbar with backdrop blur
+- [x] Logo + site name with hover rotation
+- [x] Desktop nav links with active section highlighting
+- [x] Dark/light theme toggle with localStorage persistence
+- [x] Off-canvas mobile menu with slide animation
+- [x] CTA "Start Project" button with shimmer effect
+- [x] Scroll progress bar at top
 
-## 2. Hero Section
-- [ ] Arrow scroll indicators need more spacing
-- [ ] Background animations needed
-- [ ] Typewriter effect for tagline
-- [ ] CTA buttons
-- [ ] SVG wave divider with animation
+## 2. Preloader
+- [x] Static hardcoded text ("Amin360IT" / "Software Solutions")
+- [x] Pulse animation on logo icon
+- [x] Spinning loader indicator
+- [x] Waits for `window.onload` before hiding (400ms grace)
+- [x] Max 4s fallback timeout
+- [x] Fade transition out
 
-## 3. Counter/Stats Section
-- [ ] Fix resize during typewriter animation
-- [ ] Bouncing dots positioned lower
-- [ ] Scroll-triggered animation
-- [ ] Number counting animation
+## 3. Hero Section
+- [x] Three.js particle system (800 particles, mouse parallax)
+- [x] Animated gradient blob backgrounds (float animation)
+- [x] Typewriter effect cycling: ENTERPRISE SYSTEMS, WEB APPLICATIONS, MOBILE APPS, DESKTOP SOFTWARE, CUSTOM SOLUTIONS
+- [x] "Accepting New Clients for 2026" badge with ping indicator
+- [x] Terminal-style command display
+- [x] Two CTA buttons: "Explore Solutions" (shimmer) + "Watch Showreel"
+- [x] Stats grid with counter animation (scroll-triggered)
 
-## 4. OUR VALUED CLIENTS Section
-- [x] 6 Bangladesh brand logos/icons
-- [ ] Spacing between arrows/elements
-- [ ] Animated backgrounds
-- [ ] Client logos from: bKash, Robi Axiata, Pathao, SSL Wireless, eCake, Bikroy
+## 4. About Section
+- [x] Score cards: 50+ Projects, 30+ Clients, 7 Years Exp, 24/7 Support
+- [x] Mission, Vision, Values cards
+- [x] "Why Work With Me" list (5 items)
+- [x] Core Capabilities tags (8 technologies)
 
 ## 5. Services Section
-### Current Services
-- [ ] Custom Software Development
-- [ ] Web Application Development
-- [ ] Mobile App Development
-- [ ] UI/UX Design
-- [ ] Cloud Solutions
-- [ ] DevOps & CI/CD
-
-### NEW Services to Add
-- [ ] Business Automation (workflow, CRM/ERP)
-- [ ] SEO Services (on-page, technical, analytics)
-- [ ] Digital Marketing (social media, email, PPC)
-- [ ] Web Hosting & Domains (registration, SSL, maintenance)
-- [ ] Graphics Design (logo, brand identity, marketing materials)
-- [ ] AI Automation (chatbots, ML, process automation)
-- [ ] ICT Services (IT consulting, network, security)
+- [x] 7 tabbed service groups with Material Icons
+- [x] Each service has: icon, title, description, feature highlights with checkmarks
+- [x] Fade transition on tab switch
+- [x] SVG wave dividers at section boundaries
+- [x] Animated pulse-ring on section header icon
 
 ## 6. Tech Stack Marquee
-- [x] Animated scrolling logos
-- [x] Hover pause effect
-- [x] Tech icons: React, Vue, Angular, SolidJS, Laravel, Node.js, Python, Flutter, etc.
+- [x] Continuous horizontal scrolling marquee
+- [x] 22+ tech logos with labels
+- [x] Hover scale effect on individual items
+- [x] Gradient fade masks on both edges
 
-## 7. FEATURED PROJECTS Section
-### Current Issues
-- [ ] Broken image links
-- [ ] Images not relevant to project types
+## 7. Portfolio Section
+- [x] Filter by category: All, Web, App, Desktop, Enterprise
+- [x] Transition-group slide-up animation on filter
+- [x] Project cards with image, overlay, category badge, tech tags
+- [x] Full-screen modal with: gallery screenshots, client info, duration, tech stack, UI/UX story, case study, testimonial, live demo/video links
+- [x] Error fallback images for broken URLs
+- [x] 10 projects across all categories
 
-### Project Data Structure - EXPANDED
-```javascript
-{
-  id: 1,
-  title: "Project Title",
-  category: "Web|App|Desktop|Enterprise",
-  client: "Client Name",
-  tech: ["Tech1", "Tech2", "Tech3"],
-  duration: "3 months",
-  image: "relevant screenshot URL",
-  screenshots: ["screen1.jpg", "screen2.jpg", "screen3.jpg"],
-  yt_link: "youtube.com/video",
-  live_link: "https://live-demo.com",
-  ui_story: "UI/UX design process description",
-  case_study: "Detailed case study text",
-  testimonial: {
-    name: "Client Name",
-    role: "CEO",
-    text: "Testimonial quote",
-    avatar: "avatar-url"
-  },
-  description: "Brief description",
-  features: ["Feature 1", "Feature 2"]
-}
-```
+## 8. Process Section
+- [x] 4-step vertical timeline: Discovery, Design, Development, Deployment
+- [x] Hover highlight on active border
+- [x] Background number watermark
 
-### Project Modal - Required Fields
-1. **Project Title** - Name of the project
-2. **Tech Stacks** - Technologies used
-3. **Development Duration** - Time taken (e.g., "3 months")
-4. **Client** - Client name
-5. **Screenshots** - Multiple images (gallery)
-6. **YouTube Link** - Video demo URL
-7. **Live/Demo Link** - Working demo URL
-8. **UI/UX Story** - Design process & decisions
-9. **Case Studies** - Challenge, solution, results
-10. **Testimonial** - Client feedback with avatar
+## 9. Testimonials
+- [x] 3 rotating testimonials with 5-second interval
+- [x] Star rating (always 5 stars)
+- [x] Avatar initials + name + role
+- [x] Dot navigation with active width transition
 
-### Project Categories (3-5 each)
-**Web Development:**
-- SaaS Platform
-- E-commerce Store
-- Social Network
-- Dashboard/Admin Panel
+## 10. Clients Section
+- [x] 6 client cards with brand colors and icons
+- [x] Float animation with staggered delays
+- [x] Hover lift + shadow effect
 
-**Mobile Apps:**
-- Food Delivery App
-- Healthcare App
-- Fitness App
-- Ride Booking App
+## 11. Pricing Section
+- [x] 3 tiers: Quick Fix ($50), Standard Project ($150), Enterprise Solution ($500+)
+- [x] Featured plan highlighted with badge and elevated position
+- [x] Feature lists with check icons
+- [x] WhatsApp CTA buttons
+- [x] Monthly availability limits
 
-**Desktop Software:**
-- POS System
-- Accounting Software
-- Inventory Manager
+## 12. "Trusted By Innovators" Marquee
+- [x] Duplicate marquee with glass pill-style tech items
+- [x] Pause on hover
+- [x] Gradient fade edges
 
-**Enterprise:**
-- CRM System
-- ERP Solution
-- Hospital Management
+## 13. Contact Section
+- [x] Address, phone, email cards with glass style
+- [x] Social media links (Facebook, LinkedIn, GitHub)
+- [x] Contact form with name/email/subject/message fields
+- [x] Web3Forms API integration
+- [x] Loading state on submit with spinner
+- [x] Toast notification system (success/error)
+- [x] Newsletter signup with email input
 
-## 8. CHOOSE YOUR PATH (Pricing) - EXPAND
-### Current: 3 Cards
-### Required: Multiple Service-Based Pricing
+## 14. Footer
+- [x] Logo + description + social icons
+- [x] Quick links (matching nav)
+- [x] Services links
+- [x] Newsletter signup
+- [x] Copyright + Privacy Policy / Terms links
 
-#### Web Development Pricing
-- Basic Website ($500-$2,000)
-- E-commerce Website ($2,000-$10,000)
-- Custom Web App ($5,000-$50,000)
-- Landing Page ($200-$500)
+## 15. Theme Support
+- [x] Dark mode (default)
+- [x] Light mode with CSS custom properties
+- [x] Smooth background/text color transitions
+- [x] System preference: no (manual toggle only, persisted to localStorage)
+- [x] Update Three.js particle color on theme switch
 
-#### Mobile App Pricing
-- Basic App ($3,000-$10,000)
-- Enterprise App ($10,000-$100,000)
-- App Redesign ($2,000-$5,000)
+## 16. UI/UX Details
+- [x] Custom cursor (dot + outline) on hover-capable devices
+- [x] Noise texture overlay for grain effect
+- [x] Glassmorphism cards with hover lift and glow
+- [x] Ripple effect on buttons
+- [x] Magnetic button effect
+- [x] Reduced motion media query support
+- [x] Custom scrollbar styling
+- [x] Focus-visible outlines for accessibility
+- [x] Print stylesheet hiding decorative elements
+- [x] Autofill input styling for dark/light modes
 
-#### Software Development Pricing
-- SaaS Product ($15,000-$100,000)
-- Enterprise Software ($25,000-$200,000)
-- MVP Development ($5,000-$25,000)
-
-#### Maintenance & Support
-- Monthly Support ($200-$2,000/mo)
-- Hosting Plans ($20-$500/mo)
-- SSL Certificates ($50-$200/yr)
-
-#### Marketing Services
-- SEO Package ($300-$2,000/mo)
-- Social Media Management ($500-$3,000/mo)
-- Content Marketing ($200-$1,500/mo)
-
-## 9. Special Offers Section
-### Current: None
-### Required Features
-- [ ] Launch Special (30% off)
-- [ ] Startup Package (Free domain + hosting)
-- [ ] Bundle Deal ($999/mo)
-- [ ] Referral Program (10% off)
-- [ ] Seasonal Sales (Black Friday)
-- [ ] Free Consultation CTA
-- [ ] Countdown timers
-- [ ] Discount badges
-
-## 10. Blog Section
-### Required Pages/Sections
-- [ ] Blog listing page
-- [ ] Category filters
-- [ ] Search functionality
-- [ ] Featured posts
-- [ ] Author profiles
-- [ ] Social sharing
-- [ ] Newsletter signup
-
-### Blog Categories
-- Technology Insights
-- Web Development Tips
-- Mobile App News
-- Digital Marketing
-- AI & Automation
-- Case Studies
-- Company Updates
-
-## 11. Docs & Guidelines Page
-### Required Sections
-- [ ] Getting Started Guide
-- [ ] API Documentation
-- [ ] Integration Guides
-- [ ] Troubleshooting FAQ
-- [ ] Video Tutorials
-- [ ] Development Standards
-- [ ] Design Guidelines
-
-## 12. Page Structure
-1. Home - Hero, Services, Portfolio, Testimonials, Pricing, Contact
-2. About - Company story, Team, Mission
-3. Services - Detailed service listings
-4. Portfolio - Project showcase with filters
-5. Pricing - Service-based pricing tables
-6. Offers - Current deals
-7. Blog - Articles
-8. Docs - Guidelines
-9. Contact - Form, Map
-10. Careers - Job openings
-11. Privacy Policy
-12. Terms of Service
-
-## 13. Technical Fixes Needed
-
-### Light Mode
-- [ ] Nav header text colors (dark fonts)
-- [ ] Consistent styling across modes
-- [ ] Background/foreground contrast
-
-### Animations
-- [ ] SVG wave animation in hero
-- [ ] Backdrop animations
-- [ ] Arrow scroll indicators spacing
-- [ ] Counter section stability
-
-### Images
-- [ ] Fix broken Unsplash image links
-- [ ] Use relevant screenshots for projects
-- [ ] Optimize image sizes
-
-## 14. Future Enhancements
-- [ ] Dark/Light toggle with system preference
-- [ ] Multilingual support
-- [ ] Client portal/login
-- [ ] Live chat integration
-- [ ] Appointment booking
-- [ ] Payment gateway
-- [ ] Analytics dashboard
+## 17. Performance & Edge Cases
+- [x] Lazy loading on images via `loading="lazy"`
+- [x] Error fallback for broken images
+- [x] Passive scroll listener for better scroll performance
+- [x] Debounced cursor movement via requestAnimationFrame
+- [x] Three.js disposed on unmount to prevent memory leaks
+- [x] Toast auto-dismiss with timer
+- [x] Scroll lock for modals/menus with stacking support

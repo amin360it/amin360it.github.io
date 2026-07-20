@@ -1,261 +1,76 @@
-# Amin360IT Website Plan
+# Amin360IT — Site Plan
 
-## 1. Current Issues to Fix
+## Site Identity
 
-### Light Mode Header
-- Navigation text colors not adapting to dark font in light mode
-- Add CSS classes for `.nav-title`, `.nav-subtitle`, `.nav-link-text`, `.nav-links-bg`, `.nav-active`, `.nav-link-active`
+| Field | Value |
+|-------|-------|
+| Name | Amin360IT |
+| Subtitle | Software Solutions |
+| Owner | Aminur Rashid |
+| Title | Software Developer |
+| Tagline | Enterprise ERP, Web Development & Digital Solutions |
+| Domain | https://amin360it.com |
 
-### Hero Section SVG Wave
-- Add CSS animation for wave paths to create waving/smooth effect
-- Currently static, needs `@keyframes` for path animation
+## Page Architecture (Single Page)
 
-### Counter Section
-- Fix bouncing dots positioning (move slightly lower)
-- Prevent resize/jump when typewriter effect changes numbers
-- Add minimum height to prevent layout shift
+| Order | Section | ID | Component |
+|-------|---------|----|-----------|
+| 1 | Preloader | — | Full-screen overlay, static text, spinner, fades on window.load |
+| 2 | Navbar | `#navbar` | Fixed glass bar, 7 links, theme toggle, mobile off-canvas |
+| 3 | Hero | `#home` | Full viewport, particles canvas, blobs, typewriter, CTAs, 4 stats |
+| 4 | Scroll Indicator | — | Bouncing pill with gradient transition |
+| 5 | About | `#about` | 4 score cards, mission/vision/values, why-me list, 8 capability tags |
+| 6 | Services | `#services` | 7 tab groups, SVG wave dividers, 3 cards per tab |
+| 7 | Tech Marquee | — | 22 icons, horizontal scroll, gradient fade edges |
+| 8 | Portfolio | `#portfolio` | 5 category filters, 10 project cards, modal with case studies |
+| 9 | Process | `#process` | 4-step timeline: Discovery → Design → Development → Deployment |
+| 10 | Testimonials | — | 3-slide carousel, 5s auto-rotate, dot nav |
+| 11 | Clients | — | 6 logo cards, brand colors, float animation |
+| 12 | Pricing | `#pricing` | 3 tiers: $50 / $150 / $500+, featured highlight |
+| 13 | Marquee 2 | — | Duplicate tech marquee, glass pill style, dark bg |
+| 14 | Contact | `#contact` | Form (Web3Forms), address, phone, email, social, newsletter |
+| 15 | Footer | — | Logo, quick links, services, newsletter, copyright |
+| 16 | Project Modal | teleport | Full overlay with gallery, case study, testimonial |
+| 17 | Video Modal | teleport | YouTube embed overlay |
+| 18 | Toast | fixed | Slide-in notification, auto-dismiss 4s |
 
-### Scroll Animation
-- Counter animation should trigger when section comes into view (Intersection Observer)
+## Navigation
 
----
+```
+[Logo] Home | About | Services | Work | Process | Pricing | Contact [🌙] [Start Project]
+```
 
-## 2. Services to Add
+## External Dependencies
 
-### Current Services (keep)
-- Custom Software Development
-- Web Application Development
-- Mobile App Development
-- UI/UX Design
-- Cloud Solutions
-- DevOps & CI/CD
+| Resource | Version | Source |
+|----------|---------|--------|
+| Vue 3 | — | unpkg CDN (ESM) |
+| Tailwind CSS | — | CDN (config via script) |
+| Three.js | r128 | cdnjs |
+| AOS | 2.3.1 | unpkg (CSS + JS) |
+| Font Awesome | 6.4.0 | cdnjs |
+| Material Icons | — | Google Fonts |
+| Plus Jakarta Sans | — | Google Fonts |
+| JetBrains Mono | — | Google Fonts |
+| Web3Forms | — | api.web3forms.com |
 
-### NEW Services to Add
+## Design Tokens
 
-#### Business Automation
-- Workflow automation
-- Process optimization
-- CRM/ERP integrations
-- Document management systems
+| Token | Value |
+|-------|-------|
+| Primary colors | Blue #3b82f6, Violet #8b5cf6, Pink #ec4899 |
+| Container max | 1280px |
+| Section spacing | 100px (desktop), 70px (mobile) |
+| Card padding | 28px (desktop), 20px (mobile) |
+| Border radius | sm: 0.5rem, md: 0.75rem, lg: 1rem, xl: 1.25rem, 2xl: 1.5rem |
+| Theme | Dark default, light toggle, localStorage persistence |
+| CSS variables | ~30 custom properties for bg/text/border/glass/input per theme |
 
-#### SEO Services
-- On-page SEO optimization
-- Technical SEO audits
-- Keyword research
-- Link building strategies
-- SEO analytics & reporting
+## Technical Architecture
 
-#### Digital Marketing
-- Social media management
-- Content marketing
-- Email marketing campaigns
-- PPC advertising
-- Conversion rate optimization
-
-#### Web Hosting & Domains
-- Domain registration
-- Web hosting solutions
-- SSL certificates
-- Email hosting
-- Website maintenance
-
-#### Graphics Design
-- Logo design
-- Brand identity
-- Marketing materials
-- Social media graphics
-- UI illustrations
-- Print design
-
-#### AI Automation
-- Chatbot development
-- Machine learning integration
-- AI-powered analytics
-- Process automation with AI
-- Custom AI solutions
-
-#### ICT Services
-- IT consulting
-- Network setup & management
-- Security solutions
-- Data backup & recovery
-- Cloud migration
-- IT support & maintenance
-
----
-
-## 3. Pricing Cards Structure
-
-### Current: 3 Cards (Starter, Business, Enterprise)
-### Expand to: Service-based pricing + Plans
-
-#### By Service Type:
-
-**Web Development**
-- Basic Website: $500 - $2,000
-- E-Commerce: $2,000 - $10,000
-- Custom Web App: $5,000 - $50,000
-
-**Mobile Apps**
-- Basic App: $3,000 - $10,000
-- Enterprise App: $10,000 - $100,000
-
-**Software Development**
-- SaaS Product: $15,000 - $100,000+
-- Enterprise Software: $25,000 - $200,000+
-
-**Ongoing Services**
-- Monthly Maintenance: $200 - $2,000/mo
-- Marketing Retainer: $500 - $5,000/mo
-- Hosting Plans: $20 - $500/mo
-
-#### By Engagement Model:
-- Project-based pricing
-- Hourly rates ($50-$150/hr)
-- Monthly retainer
-- Dedicated team
-
----
-
-## 4. Special Offers Section
-
-### Offers to Feature
-1. **Launch Special** - 30% off first project
-2. **Startup Package** - Free domain + hosting for 1 year
-3. **Bundle Deal** - Website + SEO + Maintenance at $999/mo
-4. **Referral Program** - Get 10% off for every referral
-5. **Seasonal Sales** - Black Friday/Cyber Monday deals
-6. **Free Consultation** - Initial strategy session free
-
-### Offers Design
-- Countdown timers for limited offers
-- Discount badges
-- Testimonial highlights
-- Clear CTAs
-
----
-
-## 5. Blog Section
-
-### Blog Categories
-- Technology Insights
-- Web Development Tips
-- Mobile App News
-- Digital Marketing Strategies
-- Business Automation
-- AI & Machine Learning
-- Company Updates
-- Case Studies
-
-### Blog Features
-- Featured posts grid
-- Category filters
-- Search functionality
-- Author profiles
-- Social sharing
-- Related posts
-- Newsletter signup
-
----
-
-## 6. Docs & Guidelines Page
-
-### Documentation Sections
-- Getting Started
-- API Documentation
-- Integration Guides
-- Troubleshooting
-- FAQs
-- Video Tutorials
-
-### Guideline Categories
-- Development Standards
-- Design Guidelines
-- Security Practices
-- Deployment Process
-- Code of Conduct
-
----
-
-## 7. Page Structure
-
-### Main Pages
-1. **Home** - Hero, Services, Portfolio, Testimonials, Pricing, Contact
-2. **About** - Company story, Team, Mission, Values
-3. **Services** - Detailed service listings
-4. **Portfolio** - Project showcase with filters
-5. **Pricing** - Service-based pricing tables
-6. **Offers** - Current deals and promotions
-7. **Blog** - Articles and resources
-8. **Docs** - Guidelines and documentation
-9. **Contact** - Form, Map, Contact info
-10. **Careers** - Job openings
-11. **Privacy Policy** - Legal
-12. **Terms of Service** - Legal
-
----
-
-## 8. Technical Requirements
-
-### Animations
-- [x] Hero wave SVG animation
-- [x] Counter section fix
-- [x] Scroll-triggered animations
-- [x] Marquee continuous scroll
-- [x] Hover effects
-
-### Light Mode Support
-- [x] Header text colors
-- [x] Consistent styling
-- [x] Background/foreground contrast
-
-### Performance
-- Lazy loading images
-- Code splitting
-- CDN for assets
-- Optimize images
-- Minify CSS/JS
-
-### SEO
-- Meta tags
-- Open Graph tags
-- Structured data
-- Sitemap
-- Robots.txt
-
----
-
-## 9. Implementation Priority
-
-### Phase 1: Fixes (High)
-1. Light mode header colors
-2. Counter section fixes
-3. SVG wave animation
-
-### Phase 2: Services (Medium)
-1. Add new service cards
-2. Update service descriptions
-3. Add icons/images
-
-### Phase 3: Pricing & Offers (Medium)
-1. Expand pricing cards
-2. Create offers section
-3. Add countdown timers
-
-### Phase 4: Content Pages (Low)
-1. Blog listing page
-2. Docs page
-3. Additional pages
-
----
-
-## 10. Future Enhancements
-
-- Dark mode toggle with system preference detection
-- Multilingual support
-- Client portal/login
-- Live chat integration
-- Appointment booking
-- Payment gateway integration
-- Analytics dashboard
-- Mobile app versions of docs
+- **Framework:** Vue 3 Composition API (no build step, CDN-only)
+- **Styling:** Tailwind utility classes + inline `<style>` with CSS vars
+- **Animations:** AOS scroll triggers, CSS @keyframes, Three.js WebGL
+- **Theme:** Class-based (`<html class="dark|light">`), toggles CSS variable sets
+- **Loader:** `ref(true)` → waits for `window.onload` + 400ms, 4s max fallback
+- **Scroll lock:** Counter-based stacking for modal/menu prevention

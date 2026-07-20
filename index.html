@@ -14,6 +14,8 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Amin360IT | Software & Web Solutions">
     <meta name="twitter:description" content="Enterprise ERP, web development, mobile apps, and digital solutions by Amin360IT.">
+    <meta property="og:image" content="https://amin360it.com/og-image.png">
+    <meta name="twitter:image" content="https://amin360it.com/og-image.png">
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💻</text></svg>">
     <script type="application/ld+json">
     {
@@ -155,6 +157,7 @@
             line-height: 1.6;
         }
         @media (hover: hover) and (pointer: fine) { body { cursor: none; } }
+        html { scroll-behavior: smooth; }
         html, body { overflow-x: hidden; }
         body.scroll-locked { overflow: hidden !important; }
 
@@ -222,7 +225,7 @@
         .bgp { background-color: var(--bg-primary) !important; }
         .bgs { background-color: var(--bg-secondary) !important; }
         .bgt { background-color: var(--bg-tertiary) !important; }
-        .scroll-locked { overflow: hidden !important; padding-right: 6px; }
+        .scroll-locked { overflow: hidden !important; }
 
         /* ============================================
            CURSOR (hover-only)
@@ -577,8 +580,8 @@
                         <span class="material-icons" style="color:#fff;font-size:36px">code</span>
                     </div>
                     <div style="display:flex;flex-direction:column;align-items:center">
-                        <p style="font-size:24px;font-family:'Plus Jakarta Sans','Inter',system-ui,sans-serif;font-weight:700;color:#fff;letter-spacing:0.05em">{{ siteName }}</p>
-                        <p v-if="siteSubtitle" style="font-size:14px;color:#9ca3af;text-transform:uppercase;letter-spacing:0.2em;margin-top:4px">{{ siteSubtitle }}</p>
+                        <p style="font-size:24px;font-family:'Plus Jakarta Sans','Inter',system-ui,sans-serif;font-weight:700;color:#fff;letter-spacing:0.05em">Amin360IT</p>
+                        <p style="font-size:14px;color:#9ca3af;text-transform:uppercase;letter-spacing:0.2em;margin-top:4px">Software Solutions</p>
                     </div>
                     <div style="width:40px;height:40px;border:4px solid #3b82f6;border-top-color:transparent;border-radius:50%;animation:spin 1s linear infinite"></div>
                 </div>
@@ -991,9 +994,8 @@
                 <transition name="fade" mode="out-in">
                     <div :key="activeServiceTab">
                         <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                            <div v-for="(item, i) in serviceGroups[activeServiceTab].items" :key="i" 
-                                 class="glass-card card-padding hover-trigger group interactive-hover" 
-                                 data-aos="fade-up" :data-aos-delay="i * 80">
+                             <div v-for="(item, i) in serviceGroups[activeServiceTab].items" :key="i" 
+                                 class="glass-card card-padding hover-trigger group interactive-hover">
                                 <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-blue-500/15 to-violet-500/15 flex items-center justify-center mb-6 text-blue-500 text-xl group-hover:from-blue-500 group-hover:to-violet-500 group-hover:text-white transition-all duration-300">
                                     <span class="material-icons">{{ item.icon }}</span>
                                 </div>
@@ -1145,11 +1147,10 @@
                 </div>
 
 <div class="grid sm:grid-cols-2 lg:grid-cols-3 grid-unified">
-                    <transition-group name="slide-up">
+                     <transition-group name="slide-up">
                         <div v-for="project in filteredProjects" :key="project.id" 
                              class="portfolio-item group relative rounded-2xl overflow-hidden h-56 sm:h-64 cursor-pointer hover-trigger"
-                             @click="openProjectModal(project)"
-                             data-aos="fade-up">
+                             @click="openProjectModal(project)">
                             <img :src="project.image" :alt="project.title" loading="lazy" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" @error="$event.target.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 800 600%22 fill=%22%23334155%22%3E%3Crect width=%22800%22 height=%22600%22/%3E%3Ctext x=%22400%22 y=%22300%22 text-anchor=%22middle%22 fill=%22%2394a3b8%22 font-size=%2224%22%3EProject Image%3C/text%3E%3C/svg%3E'">
                             <div class="absolute inset-0 opacity-60 group-hover:opacity-90 transition-opacity" :style="{ background: project.bgGradient || 'linear-gradient(to top, rgba(2,6,23,1) 0%, rgba(2,6,23,0.5) 50%, transparent 100%)' }"></div>
                             <div class="portfolio-overlay absolute inset-0 flex flex-col justify-end p-5 sm:p-6">
@@ -1491,6 +1492,7 @@
                              <h3 class="heading-sm tp mb-8">Send me a message</h3>
                             <form class="form-spacing" @submit.prevent="submitForm">
                                 <input type="hidden" name="access_key" value="10c1a904-df2c-4b15-8e7c-6407e5ae6943">
+                                <input type="text" name="honeypot" style="display:none" tabindex="-1" autocomplete="off">
                                 <div class="grid grid-cols-2 gap-4">
                                     <div>
                                         <label for="form-name" class="form-label tm">Your Name</label>
@@ -1740,8 +1742,23 @@ createApp({
             setup() {
                 // Site configuration - editable
                 let scrollLockCount = 0;
-                const lockScroll = () => { scrollLockCount++; document.body.classList.add('scroll-locked'); };
-                const unlockScroll = () => { scrollLockCount = Math.max(0, scrollLockCount - 1); if (scrollLockCount === 0) document.body.classList.remove('scroll-locked'); };
+                let scrollbarWidth = 0;
+                const getScrollbarWidth = () => window.innerWidth - document.documentElement.clientWidth;
+                const lockScroll = () => {
+                    scrollLockCount++;
+                    if (scrollLockCount === 1) {
+                        scrollbarWidth = getScrollbarWidth();
+                        document.body.style.paddingRight = scrollbarWidth + 'px';
+                        document.body.classList.add('scroll-locked');
+                    }
+                };
+                const unlockScroll = () => {
+                    scrollLockCount = Math.max(0, scrollLockCount - 1);
+                    if (scrollLockCount === 0) {
+                        document.body.classList.remove('scroll-locked');
+                        document.body.style.paddingRight = '';
+                    }
+                };
 
                 const siteName = ref('Amin360IT');
                 const siteLogo = ref(''); // If empty, shows text. URL like 'https://...' shows image/gif
@@ -1941,6 +1958,8 @@ const clients = [
                 };
 
                 const submitForm = () => {
+                    const honeypot = document.querySelector('input[name="honeypot"]');
+                    if (honeypot && honeypot.value) { showToast('error', 'Bot detected.'); return; }
                     formStatus.value = 'sending';
                     const payload = {
                         access_key: '10c1a904-df2c-4b15-8e7c-6407e5ae6943',
@@ -2038,13 +2057,19 @@ const animateCounters = () => {
                     document.addEventListener('mousemove', particlesMouseHandler);
                     const animate = () => {
                         particlesAnimId = requestAnimationFrame(animate);
-                        particlesMesh.rotation.y += 0.001;
-                        particlesMesh.rotation.x += 0.0005;
-                        particlesMesh.rotation.y += mouseX * 0.0005;
-                        particlesMesh.rotation.x += mouseY * 0.0005;
-                        renderer.render(scene, camera);
+                        if (particlesVisible) {
+                            particlesMesh.rotation.y += 0.001;
+                            particlesMesh.rotation.x += 0.0005;
+                            particlesMesh.rotation.y += mouseX * 0.0005;
+                            particlesMesh.rotation.x += mouseY * 0.0005;
+                            renderer.render(scene, camera);
+                        }
                     };
                     animate();
+                    particlesObserver = new IntersectionObserver((entries) => {
+                        particlesVisible = entries[0].isIntersecting;
+                    }, { threshold: 0 });
+                    particlesObserver.observe(canvas);
                     particlesResizeHandler = () => {
                         camera.aspect = window.innerWidth / window.innerHeight;
                         camera.updateProjectionMatrix();
@@ -2056,13 +2081,22 @@ const animateCounters = () => {
                 let cursorRaf = null;
                 let handleScroll = null;
                 let handleCursorMove = null;
+                let particlesVisible = true;
+                let particlesObserver = null;
 
                 onMounted(() => {
                     const savedTheme = localStorage.getItem('theme');
                     if (savedTheme === 'light') { isDark.value = false; document.documentElement.classList.remove('dark'); document.documentElement.classList.add('light'); }
 
                     AOS.init({ duration: 800, once: true, offset: 50, easing: 'ease-out-cubic' });
-                    setTimeout(() => { loading.value = false; animateCounters(); }, 800);
+                    lockScroll();
+                    const hideLoader = () => { loading.value = false; animateCounters(); unlockScroll(); };
+                    if (document.readyState === 'complete') {
+                        setTimeout(hideLoader, 400);
+                    } else {
+                        window.addEventListener('load', () => setTimeout(hideLoader, 400));
+                    }
+                    setTimeout(hideLoader, 4000);
                     typeText();
                     initParticles();
                     resetTestimonialTimer();
@@ -2080,9 +2114,13 @@ const animateCounters = () => {
                         const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
                         const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
                         scrollProgress.value = (winScroll / height) * 100;
-                        document.querySelectorAll('section[id]').forEach(section => {
-                            if (winScroll >= section.offsetTop - 150) activeSection.value = section.getAttribute('id');
-                        });
+                        const sections = document.querySelectorAll('section[id]');
+                        for (let i = sections.length - 1; i >= 0; i--) {
+                            if (winScroll >= sections[i].offsetTop - 150) {
+                                activeSection.value = sections[i].getAttribute('id');
+                                break;
+                            }
+                        }
                         const unanimatedCounters = document.querySelectorAll('.counter:not(.animated)');
                         if (unanimatedCounters.length > 0) {
                             const rect = unanimatedCounters[0].getBoundingClientRect();
@@ -2117,17 +2155,14 @@ onUnmounted(() => {
                     }
                     if (handleScroll) window.removeEventListener('scroll', handleScroll);
                     if (handleCursorMove) document.removeEventListener('mousemove', handleCursorMove);
+                    if (particlesObserver) particlesObserver.disconnect();
                 });
                 
                 watch(mobileMenuOpen, (val) => {
                     if (val) { lockScroll(); } else { unlockScroll(); }
                 });
 
-                watch(activeServiceTab, () => {
-                    nextTick(() => AOS.refresh());
-                });
-
-return {
+                return {
                     siteName, siteLogo, siteSubtitle,
                     isDark, loading, scrolled, scrollProgress, mobileMenuOpen, videoOpen,
                     activeSection, activeFilter, activeServiceTab, selectedProject, currentTestimonial, cursor,

@@ -1,0 +1,1098 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amin360IT | 3D Experience</title>
+    <meta name="description" content="Amin360IT - Enterprise ERP, Web Development & Digital Solutions">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="Amin360IT | Software & Web Solutions">
+    <meta property="og:description" content="Enterprise ERP, web development, mobile apps, and digital solutions by Amin360IT.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://amin360it.com">
+
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+            "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+        }
+    }
+    </script>
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'system-ui', '-apple-system', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'Consolas', 'monospace'],
+                        display: ['Plus Jakarta Sans', 'Inter', 'system-ui', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body {
+            background: #020617;
+            color: #f8fafc;
+            font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+            overflow-x: hidden;
+        }
+        #three-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 0;
+            pointer-events: none;
+        }
+        #app { position: relative; z-index: 1; }
+
+        .glass {
+            background: rgba(30, 41, 59, 0.5);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 1.25rem;
+        }
+        .glass-card {
+            background: rgba(30, 41, 59, 0.4);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 1.25rem;
+            transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
+        }
+        .glass-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            border-color: rgba(139,92,246,0.3);
+            box-shadow: 0 30px 60px -12px rgba(139,92,246,0.2);
+        }
+
+        .text-gradient {
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6, #ec4899);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradShift 5s ease infinite;
+        }
+        @keyframes gradShift { 0%,100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+
+        .section-pad { padding: 120px 0; }
+        .container { max-width: 1280px; margin: 0 auto; padding: 0 1.5rem; }
+
+        .nav-link { position: relative; }
+        .nav-link::after {
+            content: ''; position: absolute; bottom: -2px; left: 50%; transform: translateX(-50%);
+            width: 0; height: 2px; background: #8b5cf6; border-radius: 1px; transition: width 0.3s;
+        }
+        .nav-link:hover::after { width: 70%; }
+        .nav-link.active::after { width: 70%; }
+
+        .floating-3d-badge {
+            display: inline-block;
+            animation: floatBadge 4s ease-in-out infinite;
+        }
+        @keyframes floatBadge { 0%,100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-10px) rotate(2deg); } }
+
+        .section-header-3d {
+            text-align: center; margin-bottom: 60px;
+            perspective: 1000px;
+        }
+        .section-header-3d h2 {
+            transform-style: preserve-3d;
+            animation: textTilt 6s ease-in-out infinite;
+        }
+        @keyframes textTilt {
+            0%,100% { transform: rotateX(0deg) rotateY(0deg); }
+            25% { transform: rotateX(2deg) rotateY(-2deg); }
+            75% { transform: rotateX(-2deg) rotateY(2deg); }
+        }
+
+        .card-3d {
+            transform-style: preserve-3d;
+            transition: transform 0.6s cubic-bezier(0.4,0,0.2,1);
+        }
+        .card-3d:hover {
+            transform: rotateY(-8deg) rotateX(4deg) translateZ(20px);
+        }
+
+        .glow-border {
+            position: relative;
+        }
+        .glow-border::before {
+            content: ''; position: absolute; inset: -1px;
+            border-radius: inherit;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6, #ec4899, #3b82f6);
+            background-size: 300% 300%;
+            z-index: -1;
+            animation: borderGlow 4s ease infinite;
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+        .glow-border:hover::before { opacity: 1; }
+        @keyframes borderGlow { 0%,100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+
+        .preloader {
+            position: fixed; inset: 0; z-index: 9999;
+            background: #020617;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .loader-3d {
+            width: 60px; height: 60px;
+            border: 4px solid rgba(59,130,246,0.1);
+            border-top-color: #3b82f6;
+            border-radius: 50%;
+            animation: spin3d 1s linear infinite;
+        }
+        @keyframes spin3d { to { transform: rotate(360deg); } }
+
+        .typing-cursor::after { content: '|'; animation: blink 1s step-start infinite; color: #8b5cf6; margin-left: 2px; }
+        @keyframes blink { 50% { opacity: 0; } }
+
+        @media (max-width: 768px) {
+            .section-pad { padding: 70px 0; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <canvas id="three-canvas"></canvas>
+
+    <!-- Preloader -->
+    <transition name="fade">
+        <div v-if="loading" class="preloader">
+            <div style="display:flex;flex-direction:column;align-items:center;gap:24px">
+                <div class="loader-3d"></div>
+                <div style="text-align:center">
+                    <p style="font-size:24px;font-weight:700;letter-spacing:0.05em;color:#fff">Amin360IT</p>
+                    <p style="font-size:14px;color:#94a3b8;text-transform:uppercase;letter-spacing:0.2em;margin-top:4px">Software Solutions</p>
+                </div>
+            </div>
+        </div>
+    </transition>
+
+    <!-- Progress Bar -->
+    <div class="fixed top-0 left-0 h-[3px] z-[100] transition-all duration-150" :style="{ width: scrollProgress + '%', background: 'linear-gradient(90deg, #3b82f6, #8b5cf6, #ec4899)' }"></div>
+
+    <!-- Nav -->
+    <nav class="fixed w-full z-50 transition-all duration-500" :class="scrolled ? 'top-0' : 'top-4'">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="glass rounded-2xl px-6 py-3 flex justify-between items-center transition-all duration-500" :class="scrolled ? 'shadow-2xl shadow-violet-500/10' : 'shadow-lg'">
+                <a href="#home" class="flex items-center gap-3 group">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-violet-500 flex items-center justify-center transform group-hover:rotate-12 transition-all duration-500 shadow-lg" style="transform-style:preserve-3d">
+                        <span class="material-icons text-white">code</span>
+                    </div>
+                    <div>
+                        <h1 class="font-bold text-xl leading-none tracking-tight text-white">Amin360IT</h1>
+                        <span class="text-[7px] uppercase tracking-widest text-slate-400 font-medium">Software Solutions</span>
+                    </div>
+                </a>
+
+                <div class="hidden lg:flex items-center gap-1 bg-white/5 rounded-full p-1">
+                    <a v-for="link in navLinks" :key="link.name" :href="link.href"
+                       class="px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 nav-link"
+                       :class="activeSection === link.id ? 'bg-gradient-to-r from-blue-500/20 to-violet-500/20 text-blue-400' : 'text-slate-400 hover:text-white hover:bg-white/5'">
+                        {{ link.name }}
+                    </a>
+                </div>
+
+                <div class="flex items-center gap-3">
+                    <button @click="toggleTheme" class="w-10 h-10 rounded-xl glass flex items-center justify-center transition-all duration-300 hover:scale-110 hover:rotate-12" title="Toggle Theme">
+                        <i v-if="isDark" key="sun" class="fas fa-sun text-yellow-400 transition-transform duration-500"></i>
+                        <i v-else key="moon" class="fas fa-moon text-blue-500 transition-transform duration-500"></i>
+                    </button>
+                    <a href="#contact" class="hidden md:inline-flex items-center px-5 py-2.5 bg-gradient-to-r from-blue-500 to-violet-500 text-white text-sm font-semibold rounded-xl hover:shadow-lg transition-all duration-300 hover:scale-105">
+                        Start Project <i class="fas fa-arrow-right ml-2 text-xs"></i>
+                    </a>
+                    <button @click="mobileMenuOpen = true" class="lg:hidden text-white p-2" aria-label="Menu">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div v-if="mobileMenuOpen" class="fixed inset-0 z-[60]" @click.self="mobileMenuOpen = false">
+        <div class="absolute inset-0 bg-black/70 backdrop-blur-sm"></div>
+        <div class="absolute right-0 top-0 bottom-0 w-80 max-w-[85vw] bg-slate-900 shadow-xl flex flex-col border-l border-white/5">
+            <div class="flex justify-between items-center p-5 border-b border-white/5">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-violet-500 flex items-center justify-center">
+                        <i class="fas fa-code text-white"></i>
+                    </div>
+                    <div>
+                        <h2 class="font-bold text-lg text-white tracking-tight">Amin360IT</h2>
+                        <span class="text-[8px] uppercase tracking-widest text-slate-400">Software Solutions</span>
+                    </div>
+                </div>
+                <button @click="mobileMenuOpen = false" class="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-white hover:bg-white/10 transition-all">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="flex flex-col p-4 space-y-2 flex-1 overflow-y-auto">
+                <a v-for="link in mobileNavLinks" :key="link.name" :href="link.href" @click="mobileMenuOpen = false"
+                   class="flex items-center gap-3 px-4 py-3.5 rounded-xl text-slate-300 hover:text-white hover:bg-white/5 transition-all">
+                    <i :class="link.icon" class="w-5 text-center text-sm text-blue-400"></i>
+                    <span class="text-base font-medium">{{ link.name }}</span>
+                </a>
+            </div>
+            <div class="p-5 space-y-4 border-t border-white/5">
+                <div class="space-y-3">
+                    <div class="flex items-center gap-3 text-slate-400 text-sm"><i class="fas fa-envelope text-blue-400 w-4"></i><span>info@amin360it.com</span></div>
+                    <div class="flex items-center gap-3 text-slate-400 text-sm"><i class="fas fa-phone text-blue-400 w-4"></i><span>+880 1979 670601</span></div>
+                </div>
+                <a href="#contact" @click="mobileMenuOpen = false" class="block w-full py-3 bg-gradient-to-r from-blue-500 to-violet-500 text-white font-semibold rounded-xl text-center shadow-lg hover:shadow-xl transition-all">Start Project</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hero -->
+    <section id="home" class="min-h-screen flex items-center justify-center relative pt-28 pb-16" style="perspective:1200px">
+        <div class="container text-center max-w-5xl relative z-10">
+            <div class="floating-3d-badge inline-flex items-center gap-2 px-4 py-2 rounded-full glass mb-8" style="border-color:rgba(59,130,246,0.2)">
+                <span class="relative flex h-2.5 w-2.5">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-500 opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-violet-500"></span>
+                </span>
+                <span class="text-sm font-medium text-blue-400">Accepting New Clients for 2026</span>
+            </div>
+
+            <h1 class="text-5xl sm:text-6xl md:text-7xl font-extrabold text-white mb-4 leading-tight" style="transform-style:preserve-3d">
+                <span class="block">I BUILD</span>
+                <span class="text-gradient block text-4xl sm:text-5xl md:text-6xl min-h-[1.2em]">
+                    <span class="typing-cursor" style="text-shadow:0 0 40px rgba(139,92,246,0.3)">{{ typedText }}</span>
+                </span>
+            </h1>
+
+            <div class="flex justify-center gap-3 mb-8">
+                <div class="flex items-center gap-3 px-4 py-2.5 rounded-xl glass shadow-2xl" style="background:rgba(15,23,42,0.8)">
+                    <div class="flex gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-red-500/80"></span><span class="w-2.5 h-2.5 rounded-full bg-yellow-500/80"></span><span class="w-2.5 h-2.5 rounded-full bg-green-500/80"></span></div>
+                    <code class="text-xs sm:text-sm text-slate-300 font-mono flex items-center gap-2">
+                        <span class="text-green-400 font-bold">❯</span>
+                        <span>npm run deploy</span>
+                        <span class="text-violet-400">--production</span>
+                    </code>
+                </div>
+            </div>
+
+            <p class="text-lg sm:text-xl text-slate-300 max-w-2xl mx-auto mb-12 font-light leading-relaxed">
+                I build high-performance web apps, desktop software, ERP automations, and tailored digital solutions — end to end.
+            </p>
+
+            <div class="flex flex-col sm:flex-row justify-center gap-4 mb-20">
+                <a href="#services" class="inline-flex items-center gap-2 px-8 py-3.5 bg-gradient-to-r from-blue-500 to-violet-500 text-white font-semibold rounded-xl hover:shadow-2xl hover:shadow-violet-500/25 transition-all duration-300 hover:scale-105" style="transform-style:preserve-3d">
+                    Explore Solutions <i class="fas fa-arrow-right"></i>
+                </a>
+                <a href="#about" class="inline-flex items-center gap-3 px-8 py-3.5 glass text-white font-semibold rounded-xl hover:bg-white/10 transition-all duration-300 hover:scale-105">
+                    <div class="w-8 h-8 rounded-full flex items-center justify-center" style="background:rgba(139,92,246,0.15)"><i class="fas fa-play text-xs ml-0.5 text-violet-400"></i></div>
+                    Learn More
+                </a>
+            </div>
+
+            <!-- Stats -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
+                <div v-for="(stat, index) in stats" :key="index" class="glass-card p-5 text-center card-3d" style="transform-style:preserve-3d">
+                    <i :class="stat.icon" class="text-blue-500 text-2xl mb-3" style="display:block"></i>
+                    <h3 class="text-3xl font-bold text-white counter" :data-target="stat.value" :data-plus="stat.plus">0</h3>
+                    <p class="text-xs uppercase tracking-widest mt-2 text-slate-400 font-medium">{{ stat.label }}</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About -->
+    <section id="about" class="section-pad relative" style="background:rgba(15,23,42,0.6)">
+        <div class="container">
+            <div class="section-header-3d">
+                <h2 class="text-4xl sm:text-5xl font-bold text-white">Building <span class="text-gradient">Solutions</span></h2>
+                <p class="text-slate-400 mt-4 max-w-xl mx-auto">Solo developer building web apps, ERP systems, mobile apps, and automation tools.</p>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
+                <div v-for="(s, i) in aboutScores" :key="i" class="glass-card p-5 text-center card-3d">
+                    <div class="w-12 h-12 mx-auto mb-3 rounded-xl flex items-center justify-center" :style="{ background: s.bg }">
+                        <i :class="s.icon" :style="{color:s.color}" class="text-xl"></i>
+                    </div>
+                    <h3 class="text-3xl font-bold text-white counter" :data-target="s.value" :data-plus="s.plus">0</h3>
+                    <p class="text-xs text-slate-400 mt-1 uppercase tracking-wider">{{ s.label }}</p>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6">
+                <div v-for="(item, i) in aboutCards" :key="i" class="glass-card p-6 card-3d">
+                    <div class="flex items-start gap-4">
+                        <div class="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0" :style="{ background: item.bg }">
+                            <i :class="item.icon" class="text-white text-lg"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-white mb-2">{{ item.title }}</h3>
+                            <p class="text-sm text-slate-300 leading-relaxed">{{ item.desc }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services -->
+    <section id="services" class="section-pad relative">
+        <div class="container">
+            <div class="section-header-3d">
+                <span class="text-sm font-semibold tracking-widest uppercase text-blue-500">What I Do</span>
+                <h2 class="text-4xl sm:text-5xl font-bold text-white mt-2">Comprehensive <span class="text-gradient">Solutions</span></h2>
+                <p class="text-slate-400 mt-4 max-w-2xl mx-auto">I build web apps, automate workflows, design brands, and solve industrial IT problems — one project at a time.</p>
+            </div>
+
+            <div class="flex flex-wrap justify-center gap-2 mb-10">
+                <button v-for="(group, gIndex) in serviceGroups" :key="gIndex"
+                        @click="activeServiceTab = gIndex"
+                        class="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-300"
+                        :class="activeServiceTab === gIndex ? 'bg-gradient-to-r from-blue-500 to-violet-500 text-white shadow-lg' : 'glass text-slate-300 hover:bg-white/10'">
+                    <span class="material-icons text-base">{{ group.icon }}</span>
+                    <span>{{ group.title }}</span>
+                </button>
+            </div>
+
+            <transition name="fade" mode="out-in">
+                <div :key="activeServiceTab">
+                    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div v-for="(item, i) in serviceGroups[activeServiceTab].items" :key="i"
+                             class="glass-card p-6 card-3d glow-border" style="border-radius:1.25rem">
+                            <div class="w-14 h-14 rounded-xl flex items-center justify-center mb-6 text-2xl transition-all duration-300" 
+                                 style="background:linear-gradient(135deg,rgba(59,130,246,0.15),rgba(139,92,246,0.15));color:#8b5cf6">
+                                <span class="material-icons">{{ item.icon }}</span>
+                            </div>
+                            <h3 class="text-xl font-bold text-white mb-3">{{ item.title }}</h3>
+                            <p class="text-sm text-slate-300 leading-relaxed mb-5">{{ item.description }}</p>
+                            <ul class="text-sm text-slate-400 space-y-2">
+                                <li v-for="h in item.highlights" :key="h" class="flex items-center gap-2.5">
+                                    <i class="fas fa-check text-violet-500 text-xs"></i> {{ h }}
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </transition>
+        </div>
+    </section>
+
+    <!-- Portfolio -->
+    <section id="portfolio" class="section-pad relative" style="background:rgba(15,23,42,0.6)">
+        <div class="container">
+            <div class="section-header-3d">
+                <span class="text-sm font-semibold tracking-widest uppercase text-blue-500">Selected Work</span>
+                <h2 class="text-4xl sm:text-5xl font-bold text-white mt-2">Featured <span class="text-gradient">Projects</span></h2>
+            </div>
+
+            <div class="flex flex-wrap justify-center gap-2 mb-12">
+                <button v-for="cat in categories" :key="cat"
+                        @click="activeFilter = cat"
+                        class="px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 border"
+                        :class="activeFilter === cat ? 'border-blue-500/30 text-blue-500 shadow-lg' : 'text-slate-400 hover:text-white border-white/10'"
+                        :style="activeFilter === cat ? { background:'rgba(59,130,246,0.08)' } : {}">
+                    {{ cat }}
+                </button>
+            </div>
+
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div v-for="project in filteredProjects" :key="project.id"
+                     class="glass-card overflow-hidden cursor-pointer group card-3d" style="border-radius:1.25rem"
+                     @click="openProjectModal(project)">
+                    <div class="relative h-56 overflow-hidden">
+                        <img :src="project.image" :alt="project.title" loading="lazy"
+                             class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                             @error="$event.target.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 800 600%22 fill=%22%23334155%22%3E%3Crect width=%22800%22 height=%22600%22/%3E%3Ctext x=%22400%22 y=%22300%22 text-anchor=%22middle%22 fill=%22%2394a3b8%22 font-size=%2224%22%3EProject Image%3C/text%3E%3C/svg%3E'">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/50 to-transparent opacity-60 group-hover:opacity-90 transition-opacity"></div>
+                        <div class="absolute bottom-0 left-0 right-0 p-5">
+                            <span class="text-blue-400 text-xs font-bold uppercase tracking-widest">{{ project.category }}</span>
+                            <h3 class="text-lg font-bold text-white mt-1">{{ project.title }}</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Process -->
+    <section id="process" class="section-pad relative">
+        <div class="container">
+            <div class="section-header-3d">
+                <h2 class="text-4xl sm:text-5xl font-bold text-white">My <span class="text-gradient">Process</span></h2>
+            </div>
+            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div v-for="(step, index) in process" :key="index" class="glass-card p-6 card-3d relative">
+                    <span class="text-6xl font-bold absolute -top-2 -right-2 text-white/5 select-none">{{ '0' + (index + 1) }}</span>
+                    <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-violet-500 flex items-center justify-center mb-4">
+                        <i :class="step.icon" class="text-white text-lg"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">{{ step.title }}</h3>
+                    <p class="text-sm text-slate-300 leading-relaxed">{{ step.desc }}</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="section-pad relative" style="background:rgba(15,23,42,0.6)">
+        <div class="container">
+            <div class="section-header-3d">
+                <h2 class="text-4xl sm:text-5xl font-bold text-white">What Clients <span class="text-gradient">Say</span></h2>
+            </div>
+            <div class="max-w-4xl mx-auto">
+                <transition name="fade" mode="out-in">
+                    <div :key="currentTestimonial" class="text-center glass-card p-8 card-3d">
+                        <div class="flex justify-center gap-1 mb-6">
+                            <i v-for="n in 5" :key="n" class="fas fa-star text-yellow-400 text-sm"></i>
+                        </div>
+                        <p class="text-2xl font-medium text-white leading-snug mb-8 italic">"{{ currentTestimonialData.text }}"</p>
+                        <div class="flex items-center justify-center gap-4">
+                            <div class="w-14 h-14 rounded-full bg-gradient-to-br from-violet-400 to-purple-500 flex items-center justify-center text-white font-bold text-xl">
+                                {{ currentTestimonialData.name.charAt(0) }}
+                            </div>
+                            <div class="text-left">
+                                <div class="text-white font-bold">{{ currentTestimonialData.name }}</div>
+                                <div class="text-violet-400 text-sm">{{ currentTestimonialData.role }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </transition>
+                <div class="flex justify-center gap-3 mt-8">
+                    <button v-for="(t, i) in testimonials" :key="i" @click="setTestimonial(i)"
+                            :class="['w-3 h-3 rounded-full transition-all', currentTestimonial === i ? 'bg-violet-500 w-8' : 'bg-white/20 hover:bg-white/40']">
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing -->
+    <section id="pricing" class="section-pad relative">
+        <div class="container">
+            <div class="section-header-3d">
+                <h2 class="text-4xl sm:text-5xl font-bold text-white">Pick a <span class="text-gradient">Gig</span></h2>
+                <p class="text-slate-400 mt-4">I work solo — direct communication, fast turnaround, no layers.</p>
+            </div>
+            <div class="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+                <div v-for="(plan, index) in pricing" :key="index"
+                     class="glass-card p-6 card-3d flex flex-col relative glow-border"
+                     :class="plan.featured ? 'md:-translate-y-4' : ''"
+                     :style="plan.featured ? { borderColor:'rgba(59,130,246,0.3)' } : {}">
+                    <div v-if="plan.badge" class="absolute -top-3 left-1/2 -translate-x-1/2 bg-gradient-to-r from-blue-500 to-violet-500 text-white text-xs px-4 py-1 rounded-full font-bold shadow-lg">{{ plan.badge }}</div>
+                    <h3 class="text-xl font-bold text-white mb-1">{{ plan.name }}</h3>
+                    <div class="text-3xl font-extrabold text-gradient mb-3">{{ plan.price }}</div>
+                    <p class="text-sm text-slate-300 mb-6">{{ plan.desc }}</p>
+                    <ul class="space-y-3 mb-6 text-sm text-slate-400 flex-1">
+                        <li v-for="feature in plan.features" :key="feature" class="flex items-start gap-3">
+                            <i class="fas fa-check-circle text-violet-500 mt-0.5 text-xs"></i>
+                            <span>{{ feature }}</span>
+                        </li>
+                    </ul>
+                    <p class="text-xs text-center text-slate-500 mb-4 italic">— {{ plan.limit }} —</p>
+                    <a href="#contact" class="block w-full py-3 rounded-xl font-semibold text-center transition-all duration-300 text-sm"
+                       :class="plan.featured ? 'bg-gradient-to-r from-blue-500 to-violet-500 text-white hover:shadow-lg' : 'bg-white/5 text-white hover:bg-white/10'">
+                        {{ plan.cta }}
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="section-pad relative" style="background:rgba(15,23,42,0.6)">
+        <div class="container">
+            <div class="section-header-3d">
+                <h2 class="text-4xl sm:text-5xl font-bold text-white">Let's Build <span class="text-gradient">Together</span></h2>
+            </div>
+            <div class="grid lg:grid-cols-5 gap-8 max-w-6xl mx-auto">
+                <div class="lg:col-span-2 space-y-6">
+                    <h3 class="text-xl font-bold text-white">Reach me through</h3>
+                    <div class="glass-card p-4 flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-xl flex items-center justify-center text-blue-500" style="background:rgba(59,130,246,0.12)"><i class="fas fa-map-marker-alt"></i></div>
+                        <div><h4 class="font-bold text-white text-sm">Visit Me</h4><p class="text-sm text-slate-300">House#408, Rd#29, Mohakhali DOHS, Dhaka-1212</p></div>
+                    </div>
+                    <div class="glass-card p-4 flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-xl flex items-center justify-center text-violet-500" style="background:rgba(139,92,246,0.12)"><i class="fas fa-phone-alt"></i></div>
+                        <div><h4 class="font-bold text-white text-sm">Call Me</h4><p class="text-sm text-slate-300">+880 1979 670601</p></div>
+                    </div>
+                    <div class="glass-card p-4 flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-xl flex items-center justify-center text-pink-500" style="background:rgba(236,72,153,0.12)"><i class="fas fa-envelope"></i></div>
+                        <div><h4 class="font-bold text-white text-sm">Email Me</h4><p class="text-sm text-slate-300">amin670bd@gmail.com</p></div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-3">
+                    <div class="glass-card p-6 card-3d">
+                        <h3 class="text-xl font-bold text-white mb-6">Send me a message</h3>
+                        <form @submit.prevent="submitForm">
+                            <input type="hidden" name="access_key" value="10c1a904-df2c-4b15-8e7c-6407e5ae6943">
+                            <input type="text" name="honeypot" style="display:none" tabindex="-1" autocomplete="off">
+                            <div class="grid grid-cols-2 gap-4 mb-4">
+                                <div>
+                                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">Name</label>
+                                    <input type="text" v-model="contactForm.name" class="w-full p-3 rounded-xl text-sm bg-slate-800/50 border border-white/10 text-white focus:outline-none focus:border-blue-500 transition-all" placeholder="John Doe" required>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">Email</label>
+                                    <input type="email" v-model="contactForm.email" class="w-full p-3 rounded-xl text-sm bg-slate-800/50 border border-white/10 text-white focus:outline-none focus:border-blue-500 transition-all" placeholder="john@company.com" required>
+                                </div>
+                            </div>
+                            <div class="mb-4">
+                                <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">Subject</label>
+                                <input type="text" v-model="contactForm.subject" class="w-full p-3 rounded-xl text-sm bg-slate-800/50 border border-white/10 text-white focus:outline-none focus:border-blue-500 transition-all" placeholder="Project inquiry" required>
+                            </div>
+                            <div class="mb-6">
+                                <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">Message</label>
+                                <textarea rows="4" v-model="contactForm.message" class="w-full p-3 rounded-xl text-sm bg-slate-800/50 border border-white/10 text-white focus:outline-none focus:border-blue-500 transition-all resize-none" placeholder="Tell me about your project..." required></textarea>
+                            </div>
+                            <button type="submit" class="w-full py-3 bg-gradient-to-r from-blue-500 to-violet-500 text-white font-semibold rounded-xl hover:shadow-lg transition-all" :disabled="formStatus === 'sending'">
+                                <i v-if="formStatus === 'sending'" class="fas fa-spinner fa-spin"></i>
+                                <i v-else class="fas fa-paper-plane"></i> {{ formStatus === 'sending' ? 'Sending...' : 'Send Message' }}
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 border-t border-white/5">
+        <div class="container">
+            <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-violet-500 flex items-center justify-center">
+                        <i class="fas fa-code text-white text-sm"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-lg text-white tracking-tight">Amin360IT</h4>
+                        <span class="text-[10px] uppercase text-slate-500 tracking-widest">Software Solutions</span>
+                    </div>
+                </div>
+                <p class="text-sm text-slate-400">&copy; 2026 Amin360IT. All Rights Reserved.</p>
+                <div class="flex gap-3">
+                    <a href="#" class="w-9 h-9 rounded-lg bg-white/5 flex items-center justify-center text-slate-400 hover:bg-blue-500 hover:text-white transition-all"><i class="fab fa-facebook-f text-sm"></i></a>
+                    <a href="#" class="w-9 h-9 rounded-lg bg-white/5 flex items-center justify-center text-slate-400 hover:bg-blue-500 hover:text-white transition-all"><i class="fab fa-linkedin-in text-sm"></i></a>
+                    <a href="#" class="w-9 h-9 rounded-lg bg-white/5 flex items-center justify-center text-slate-400 hover:bg-violet-500 hover:text-white transition-all"><i class="fab fa-github text-sm"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast -->
+    <transition name="toast">
+        <div v-if="toast.show" :class="'fixed top-6 right-4 z-[100] flex items-center gap-3 px-5 py-3.5 rounded-xl shadow-2xl border max-w-sm backdrop-blur-md transition-all duration-300 ' + (toast.type === 'success' ? 'bg-emerald-900/90 border-emerald-500/30 text-emerald-200' : 'bg-red-900/90 border-red-500/30 text-red-200')">
+            <i :class="toast.type === 'success' ? 'fas fa-check' : 'fas fa-exclamation'"></i>
+            <span class="text-sm font-medium">{{ toast.message }}</span>
+            <button @click="toast.show = false" class="ml-auto opacity-50 hover:opacity-100"><i class="fas fa-times text-xs"></i></button>
+        </div>
+    </transition>
+
+    <button v-show="scrolled" @click="scrollToTop" class="fixed bottom-8 right-8 w-12 h-12 bg-gradient-to-r from-blue-500 to-violet-500 text-white rounded-xl shadow-lg flex items-center justify-center hover:scale-110 transition-transform z-40">
+        <i class="fas fa-arrow-up text-sm"></i>
+    </button>
+</div>
+
+<style>
+    .fade-enter-active, .fade-leave-active { transition: opacity 0.3s ease; }
+    .fade-enter-from, .fade-leave-to { opacity: 0; }
+    .toast-enter-active { transition: all 0.4s cubic-bezier(0.4,0,0.2,1); }
+    .toast-leave-active { transition: all 0.3s ease-in; }
+    .toast-enter-from { transform: translateX(100%); opacity: 0; }
+    .toast-leave-to { transform: translateX(100%); opacity: 0; }
+</style>
+
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+const { createApp, ref, computed, onMounted, onUnmounted, reactive } = Vue;
+
+// === THREE.JS 3D SCENE ===
+const canvas = document.getElementById('three-canvas');
+const scene = new THREE.Scene();
+scene.fog = new THREE.FogExp2(0x020617, 0.035);
+
+const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+camera.position.set(0, 0, 15);
+
+const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true;
+controls.dampingFactor = 0.05;
+controls.autoRotate = true;
+controls.autoRotateSpeed = 0.8;
+controls.enableZoom = false;
+controls.enablePan = false;
+controls.maxPolarAngle = Math.PI / 3;
+controls.minPolarAngle = Math.PI / 4;
+controls.target.set(0, 0, 0);
+
+// Lights
+const ambientLight = new THREE.AmbientLight(0x404060);
+scene.add(ambientLight);
+
+const dirLight = new THREE.DirectionalLight(0x8b5cf6, 2);
+dirLight.position.set(5, 10, 7);
+dirLight.castShadow = true;
+scene.add(dirLight);
+
+const fillLight = new THREE.DirectionalLight(0x3b82f6, 1);
+fillLight.position.set(-5, 0, 5);
+scene.add(fillLight);
+
+const pointLight = new THREE.PointLight(0xec4899, 1, 20);
+pointLight.position.set(0, 3, 5);
+scene.add(pointLight);
+
+// Main centerpiece: Floating torus knot
+const knotGeo = new THREE.TorusKnotGeometry(1.2, 0.4, 128, 16);
+const knotMat = new THREE.MeshPhysicalMaterial({
+    color: 0x8b5cf6,
+    metalness: 0.3,
+    roughness: 0.2,
+    wireframe: false,
+    transparent: true,
+    opacity: 0.9,
+    emissive: 0x3b82f6,
+    emissiveIntensity: 0.1,
+});
+const knot = new THREE.Mesh(knotGeo, knotMat);
+knot.position.y = 0.5;
+knot.castShadow = true;
+scene.add(knot);
+
+// Wireframe overlay
+const knotWireGeo = new THREE.TorusKnotGeometry(1.25, 0.45, 64, 8);
+const knotWireMat = new THREE.MeshBasicMaterial({
+    color: 0x3b82f6,
+    wireframe: true,
+    transparent: true,
+    opacity: 0.15,
+});
+const knotWire = new THREE.Mesh(knotWireGeo, knotWireMat);
+knotWire.position.copy(knot.position);
+scene.add(knotWire);
+
+// Orbiting small objects
+const shapes = [];
+function createOrbiter(color, size, distance, speed, offset) {
+    const geo = new THREE.IcosahedronGeometry(size, 0);
+    const mat = new THREE.MeshPhysicalMaterial({
+        color: color,
+        metalness: 0.6,
+        roughness: 0.2,
+        emissive: color,
+        emissiveIntensity: 0.05,
+    });
+    const mesh = new THREE.Mesh(geo, mat);
+    mesh.position.x = distance;
+    mesh.position.y = offset;
+    mesh.castShadow = true;
+    scene.add(mesh);
+    return { mesh, distance, speed, offset, angle: Math.random() * Math.PI * 2 };
+}
+
+const orbiters = [
+    createOrbiter(0x3b82f6, 0.4, 3.5, 0.6, 1.2),
+    createOrbiter(0xec4899, 0.3, 4.2, -0.4, -0.8),
+    createOrbiter(0x10b981, 0.35, 3.0, 0.7, 0.3),
+    createOrbiter(0xf59e0b, 0.25, 4.8, -0.5, -1.5),
+    createOrbiter(0x8b5cf6, 0.3, 5.2, 0.3, 0.9),
+];
+
+// Particles
+const particleCount = 2000;
+const particlesGeo = new THREE.BufferGeometry();
+const posArray = new Float32Array(particleCount * 3);
+const colorsArray = new Float32Array(particleCount * 3);
+for (let i = 0; i < particleCount * 3; i++) {
+    posArray[i] = (Math.random() - 0.5) * 30;
+    const c = new THREE.Color().setHSL(0.65 + Math.random() * 0.15, 0.8, 0.5 + Math.random() * 0.3);
+    colorsArray[i] = c.r;
+    i++; colorsArray[i] = c.g;
+    i++; colorsArray[i] = c.b;
+}
+particlesGeo.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+particlesGeo.setAttribute('color', new THREE.BufferAttribute(colorsArray, 3));
+const particleMat = new THREE.PointsMaterial({
+    size: 0.03,
+    vertexColors: true,
+    transparent: true,
+    opacity: 0.8,
+    blending: THREE.AdditiveBlending,
+});
+const particles = new THREE.Points(particlesGeo, particleMat);
+scene.add(particles);
+
+// Ground plane glow
+const glowGeo = new THREE.RingGeometry(1.5, 4, 64);
+const glowMat = new THREE.MeshBasicMaterial({
+    color: 0x3b82f6,
+    transparent: true,
+    opacity: 0.05,
+    side: THREE.DoubleSide,
+});
+const glow = new THREE.Mesh(glowGeo, glowMat);
+glow.rotation.x = -Math.PI / 2;
+glow.position.y = -2;
+scene.add(glow);
+
+// Mouse tracking for parallax
+let mouseX = 0, mouseY = 0;
+document.addEventListener('mousemove', (e) => {
+    mouseX = (e.clientX / window.innerWidth) * 2 - 1;
+    mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
+});
+
+// Animation loop
+let sceneVisible = true;
+const obs = new IntersectionObserver(([entry]) => { sceneVisible = entry.isIntersecting; }, { threshold: 0 });
+obs.observe(canvas);
+
+function animate() {
+    requestAnimationFrame(animate);
+    if (!sceneVisible) return;
+
+    const time = Date.now() * 0.001;
+
+    knot.rotation.x += 0.005;
+    knot.rotation.y += 0.01;
+    knot.position.y = 0.5 + Math.sin(time * 0.5) * 0.2;
+
+    knotWire.rotation.copy(knot.rotation);
+
+    orbiters.forEach((o, i) => {
+        o.angle += 0.005 * o.speed;
+        const radius = o.distance + Math.sin(time * 0.3 + i) * 0.3;
+        o.mesh.position.x = Math.cos(o.angle) * radius;
+        o.mesh.position.z = Math.sin(o.angle) * radius;
+        o.mesh.position.y = o.offset + Math.sin(time * 0.4 + i * 2) * 0.3;
+        o.mesh.rotation.x += 0.02;
+        o.mesh.rotation.y += 0.03;
+    });
+
+    particles.rotation.y += 0.0002;
+
+    glow.rotation.z += 0.002;
+
+    // Subtle camera drift from mouse
+    if (!controls.autoRotate) {
+        camera.position.x += (mouseX * 2 - camera.position.x) * 0.02;
+        camera.position.y += (-mouseY * 1.5 - camera.position.y) * 0.02;
+        controls.update();
+    } else {
+        controls.update();
+    }
+}
+animate();
+
+window.addEventListener('resize', () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+});
+
+// === VUE APP ===
+createApp({
+    setup() {
+        let scrollLockCount = 0;
+        let scrollbarWidth = 0;
+        const getScrollbarWidth = () => window.innerWidth - document.documentElement.clientWidth;
+        const lockScroll = () => {
+            scrollLockCount++;
+            if (scrollLockCount === 1) {
+                scrollbarWidth = getScrollbarWidth();
+                document.body.style.paddingRight = scrollbarWidth + 'px';
+                document.body.classList.add('overflow-hidden');
+            }
+        };
+        const unlockScroll = () => {
+            scrollLockCount = Math.max(0, scrollLockCount - 1);
+            if (scrollLockCount === 0) {
+                document.body.classList.remove('overflow-hidden');
+                document.body.style.paddingRight = '';
+            }
+        };
+
+        const isDark = ref(true);
+        const loading = ref(true);
+        const scrolled = ref(false);
+        const scrollProgress = ref(0);
+        const mobileMenuOpen = ref(false);
+        const activeSection = ref('home');
+        const activeFilter = ref('All');
+        const activeServiceTab = ref(0);
+        const selectedProject = ref(null);
+        const currentTestimonial = ref(0);
+        const videoOpen = ref(false);
+        const videoId = ref('REPLACE_WITH_YOUR_VIDEO_ID');
+        const contactForm = reactive({ name: '', email: '', subject: '', message: '' });
+        const formStatus = ref(null);
+        const toast = reactive({ show: false, type: 'success', message: '' });
+        let toastTimer = null;
+        const showToast = (type, message, duration = 4000) => {
+            toast.type = type; toast.message = message; toast.show = true;
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => { toast.show = false; }, duration);
+        };
+
+        const typedText = ref('');
+        const words = ['ENTERPRISE SYSTEMS', 'WEB APPLICATIONS', 'MOBILE APPS', 'DESKTOP SOFTWARE', 'CUSTOM SOLUTIONS'];
+        let wordIndex = 0, charIndex = 0, isDeleting = false, typeTimer = null;
+
+        const navLinks = [
+            { name: 'Home', href: '#home', id: 'home', icon: 'fas fa-home' },
+            { name: 'About', href: '#about', id: 'about', icon: 'fas fa-user' },
+            { name: 'Services', href: '#services', id: 'services', icon: 'fas fa-cogs' },
+            { name: 'Work', href: '#portfolio', id: 'portfolio', icon: 'fas fa-briefcase' },
+            { name: 'Process', href: '#process', id: 'process', icon: 'fas fa-layer-group' },
+            { name: 'Pricing', href: '#pricing', id: 'pricing', icon: 'fas fa-tags' },
+            { name: 'Contact', href: '#contact', id: 'contact', icon: 'fas fa-envelope' }
+        ];
+        const mobileNavLinks = [...navLinks];
+
+        const stats = [
+            { value: 7, label: 'Years Exp', icon: 'fas fa-calendar-alt', plus: false },
+            { value: 50, label: 'Projects Delivered', icon: 'fas fa-laptop-code', plus: true },
+            { value: 30, label: 'Happy Clients', icon: 'fas fa-handshake', plus: true },
+            { value: 100, label: 'Users Managed', icon: 'fas fa-users', plus: true }
+        ];
+
+        const aboutScores = [
+            { value: 50, label: 'Projects Done', icon: 'fas fa-project-diagram', plus: true, bg: 'linear-gradient(135deg,rgba(59,130,246,0.2),rgba(59,130,246,0.05))', color: '#3b82f6' },
+            { value: 30, label: 'Happy Clients', icon: 'fas fa-smile', plus: true, bg: 'linear-gradient(135deg,rgba(139,92,246,0.2),rgba(139,92,246,0.05))', color: '#8b5cf6' },
+            { value: 7, label: 'Years Exp', icon: 'fas fa-trophy', plus: false, bg: 'linear-gradient(135deg,rgba(236,72,153,0.2),rgba(236,72,153,0.05))', color: '#ec4899' },
+            { value: 24, label: 'Support', icon: 'fas fa-headset', plus: false, suffix: '/7', bg: 'linear-gradient(135deg,rgba(16,185,129,0.2),rgba(16,185,129,0.05))', color: '#10b981' },
+        ];
+
+        const aboutCards = [
+            { title: 'My Mission', desc: 'To empower businesses with cutting-edge digital solutions that drive growth, efficiency, and competitive advantage.', icon: 'fas fa-bullseye', bg: 'linear-gradient(135deg,#3b82f6,#8b5cf6)' },
+            { title: 'My Vision', desc: 'To be the leading solo developer partner for businesses seeking digital transformation — known for quality, speed, and client success.', icon: 'fas fa-eye', bg: 'linear-gradient(135deg,#8b5cf6,#ec4899)' },
+            { title: 'My Values', desc: 'Integrity, Excellence, Innovation — I build lasting relationships through transparent communication and exceptional work.', icon: 'fas fa-gem', bg: 'linear-gradient(135deg,#ec4899,#f43f5e)' },
+        ];
+
+        const serviceGroups = [
+            { icon: 'laptop_mac', title: 'Web & App Development', items: [
+                { icon: 'web', title: 'Web Development & CMS', description: 'Custom WordPress, WooCommerce, Vue, and Laravel development with responsive design, SEO optimization, and payment system integration.', highlights: ['WordPress, Elementor, WooCommerce', 'Vue 3 SPA Development', 'Laravel REST API & Backend', 'Custom Theme & Plugin Development', 'Payment Gateway Integration, LMS, ACF', 'SEO Optimization & Performance Tuning'] },
+                { icon: 'important_devices', title: 'Hybrid Mobile App (PWA, Web, Android)', description: 'Cross-platform mobile solutions combining PWA and Capacitor — installable web apps and hybrid Android APKs from a single Vue/React codebase.', highlights: ['Progressive Web App (PWA) Development', 'Hybrid Android APK via Capacitor', 'Vue 3 / React + Capacitor Integration', 'Offline Mode, Push Notifications & Service Workers', 'Play Store Deployment & App Updates', 'Camera, GPS & Native Plugin Access'] },
+                { icon: 'code', title: 'Custom Software & Tools Development', description: 'Bespoke desktop applications, internal business tools, utility software, and process automation scripts tailored to your workflow.', highlights: ['Bespoke Desktop Applications', 'Internal Business & Productivity Tools', 'Utility Software & CLI Tools', 'Process Automation Scripts', 'C# .NET WinForms & ADO.NET', 'System Integration & Custom Reporting'] }
+            ]},
+            { icon: 'support', title: 'IT & Business Support', items: [
+                { icon: 'dns', title: 'IT Support & System Administration', description: 'End-to-end IT support for businesses — PC assembly, OS installation, hardware/software diagnostics, remote support, and user training.', highlights: ['PC Assembly, Upgrade & Repair', 'Windows / Linux OS Installation & Configuration', 'Hardware & Software Diagnostics', 'Remote IT Support (AnyDesk, TeamViewer)', 'Driver Setup & System Maintenance', 'User Training & Onboarding'] },
+                { icon: 'settings_applications', title: 'ERP & Business Systems Administration', description: 'Full-cycle ERP management including module configuration, data entry, payroll, inventory, POS, and user support across various business systems.', highlights: ['ERP Module Configuration & Management', 'Inventory, Payroll & Billing Operations', 'POS Systems & Data Entry', 'File Handling & Document Management', 'ERP Install, Migration & Support', 'Garments Systems & RFID Tag Generation'] },
+                { icon: 'lan', title: 'Network Infrastructure & Security', description: 'Basic network services — IP configuration, LAN/router setup, printer sharing, firewall, and general network troubleshooting for small offices and production floors.', highlights: ['Laptop / PC IP Configuration & Troubleshooting', 'LAN / Router Setup & Network Configuration', 'File & Printer Sharing Setup', 'Firewall & Antivirus Deployment', 'Network Device Diagnostics & Maintenance', 'PC / Printer Network Troubleshooting'] }
+            ]},
+            { icon: 'trending_up', title: 'E-Commerce & Marketing', items: [
+                { icon: 'shopping_cart', title: 'E-Commerce & Online Store Solutions', description: 'Full WooCommerce store development on WordPress — from theme customization and product catalog setup to photography, infographics, order management, and promotional email campaigns.', highlights: ['WooCommerce Store Development on WordPress', 'Theme Customization & Product Catalog Setup', 'Product Photography, Editing & Infographics', 'Order, Shipping & Inventory Management', 'Promotional Email Campaigns & Newsletters', 'Store Maintenance & Performance Optimization'] },
+                { icon: 'campaign', title: 'Email Marketing & Campaigns', description: 'End-to-end email campaign management — from strategy and copywriting to automation, analytics, and subscriber list management.', highlights: ['Campaign Setup & Automation', 'Newsletter & Lead Nurture Sequences', 'Bulk Mailing Tools (Mailchimp, SendGrid)', 'Email Copywriting & Analytics', 'Subscriber List Management & Segmentation', 'A/B Testing & Performance Reporting'] },
+                { icon: 'webhook', title: 'Email & Web Template Design', description: 'Custom-coded HTML email templates and responsive web page templates designed for branding, engagement, and cross-client compatibility.', highlights: ['HTML Email Template Design & Coding', 'Responsive Email Layouts (Dark Mode Ready)', 'Landing Page & Web Template Design', 'Mailchimp / SendGrid Template Integration', 'Brand-consistent Visual Email Design', 'Cross-client Email Rendering Testing'] }
+            ]},
+            { icon: 'auto_awesome', title: 'Design & Multimedia', items: [
+                { icon: 'palette', title: 'Graphic Design & Branding', description: 'Professional print and digital design — business identity, promotional materials, product visuals, and social media creatives.', highlights: ['Business Cards, Flyers & Banners', 'Social Media Posts & Cover Art', 'Product Photography & Editing', 'Infographics, Labels & Invoices', 'Logo & Brand Identity Design', 'Brochures, Menus & Print-ready Artwork'] },
+                { icon: 'videocam', title: 'Video Editing', description: 'Creative video editing and post-production for social media reels, promotional clips, event recaps, and multimedia presentations.', highlights: ['Short-form Reels & Social Media Clips', 'Promotional & Corporate Video Editing', 'Trimming, Transitions & Color Grading', 'Text Overlays, Captions & Titles', 'Background Music & Audio Sync', 'CapCut & Mobile-first Video Optimization'] },
+                { icon: 'movie_creation', title: 'AI-Powered Multimedia Production', description: 'End-to-end multimedia content created with AI — comics, cartoons, digital art, image manipulation, audio editing, music scoring, and motion graphics for media and marketing.', highlights: ['AI Comic Strip & Cartoon Generation', 'AI Digital Art & Image Compositing', 'AI Photo Retouching & Manipulation', 'AI Audio Editing & Voiceover Production', 'AI Music Composition & Background Scoring', 'AI Animation & Motion Graphics'] }
+            ]},
+            { icon: 'psychology', title: 'AI Services', items: [
+                { icon: 'description', title: 'AI Writing & Document Help', description: 'Practical AI-powered writing for everyday needs — resumes, cover letters, official emails, applications, reports, and business documents done fast.', highlights: ['Resume & Cover Letter Writing', 'Official Email & Letter Drafting', 'Job Application & Proposal Writing', 'Report & Document Formatting', 'Proofreading & Paraphrasing', 'Multi-language Translation'] },
+                { icon: 'auto_awesome', title: 'AI Image & Photo Services', description: 'Real-world image solutions — product photos, portrait retouching, background removal, old photo restoration, and custom visuals for personal or business use.', highlights: ['Product Photo Editing & Retouching', 'Background Removal & Replacement', 'Old Photo Restoration & Colorization', 'Passport & ID Photo Processing', 'AI Portrait & Profile Picture Creation', 'Social Media Visual & Thumbnail Design'] },
+                { icon: 'smart_toy', title: 'AI Automation & Chatbot Setup', description: 'Practical automation for small businesses — AI chatbots for customer queries, automated email replies, data entry help, and simple workflow bots.', highlights: ['AI Customer Reply Chatbot Setup', 'Automated Email & Message Responses', 'Data Entry & Spreadsheet Automation', 'PDF Data Extraction & Processing', 'Social Media Auto-Reply & Scheduling', 'Simple n8n Workflow Automation'] }
+            ]},
+            { icon: 'brush', title: 'Creative Services', items: [
+                { icon: 'edit_note', title: 'Custom Poetry & Voice', description: 'Personalized poetry and spoken-word content for events, presentations, and media projects — crafted with AI assistance and delivered in text or voice format.', highlights: ['Custom Poetry for Events & Occasions', 'Voice-Recorded Spoken Word', 'Presentation & Script Writing', 'Multi-language Poetry Options', 'Themed & Branded Content', 'Quick Turnaround Delivery'] },
+                { icon: 'music_note', title: 'Custom Songs & Music Production', description: 'Original songs with personalized lyrics, AI-assisted music composition, and video production — suitable for wedding presentations, brand campaigns, and special celebrations.', highlights: ['Personalized Lyrics & Composition', 'AI-Assisted Music Production', 'Wedding & Event Presentation Songs', 'Brand Campaign Audio Content', 'Full Audio + Video Output', 'Customizable Genre & Style'] },
+                { icon: 'videocam', title: 'AI Video Content Creation', description: 'Video content from concept to final edit — AI-powered visuals, animation, and storyboarding combined with professional editing for social media, portfolios, and promotions.', highlights: ['Content Planning & Storyboarding', 'AI-Generated Visuals & Animation', 'Photo Montage & Slideshow Videos', 'Voiceover & Background Music Sync', 'Social Media-Ready Short Clips', 'Professional Editing & Color Grading'] },
+                { icon: 'gesture', title: 'Pencil Sketch & Portrait Art', description: 'Hand-drawn pencil portraits from reference photos — realistic sketch art on paper with optional framing, capturing expressions with traditional technique and AI-enhanced reference processing.', highlights: ['Portrait Sketch from Photo Reference', 'Realistic Pencil Drawing on Paper', 'Custom Size & Framing Options', 'Gift-Ready Packaged Artwork', 'AI-Enhanced Photo Reference Prep', 'Digital Scan Copy Included'] },
+                { icon: 'wallpaper', title: 'AI Home Decor Design', description: 'Custom wall art and decor designs created with AI — framed pictures, canvas prints, and thematic pieces tailored to your space, style, and preferred dimensions.', highlights: ['Custom Wall-Framed Picture Design', 'AI-Generated Canvas & Print Art', 'Personalized Quote & Name Frames', 'Custom Size & Aspect Ratio Options', 'Theme-Based Decor Collections', 'Printable & Ready-to-Frame Formats'] },
+                { icon: 'store', title: 'Custom Stationery & Branding', description: 'Bespoke stationery sets, t-shirt graphics, brand identity guides, and merchandise design — combining graphics software expertise with AI for a polished, professional finish.', highlights: ['Custom Stationery Sets Design', 'T-Shirt Graphics & Print-Ready Art', 'Brand Identity & Style Guide Creation', 'Logo, Business Card & Letterhead Sets', 'Packaging & Label Design', 'Full Merchandise Design Suite'] }
+            ]},
+            { icon: 'precision_manufacturing', title: 'Industrial & On-Site', items: [
+                { icon: 'storage', title: 'Desktop Automation & Hardware Integration', description: 'Custom C# .NET desktop applications integrated with industrial hardware — weight scales, barcode printers, serial ports, and ERP systems for production environments.', highlights: ['C# .NET WinForms & ADO.NET Applications', 'YAOHUA Digital Weight Scale Integration', 'Automated Label & Barcode Printing Systems', 'Serial Port & Hardware Communication', 'Crystal Reports & Data Export Solutions', 'Excel VBA Macros & Process Automation'] },
+                { icon: 'settings_ethernet', title: 'Industrial RFID, Barcode & IoT Systems', description: 'Production floor data collection infrastructure — RFID terminals, MOXA serial communication over RJ-6 (RS-485), barcode automation, and IoT checkpoint systems.', highlights: ['RFID NXP MCU Terminal Setup & Management', 'MOXA Multiport Serial Card Configuration', 'RJ-6 (RS-485) Cabling & Infrastructure', 'Barcode Printer Configuration & Label Automation', 'Production Floor RFID Checkpoints & Data Collection', 'ERP-to-Floor Device Integration (MOXA / RFID)'] },
+                { icon: 'dns', title: 'Production Floor IT & Systems Support', description: 'IT support tailored for manufacturing environments — workstation setup, printer/network troubleshooting, ERP user admin, and equipment integration across production lines.', highlights: ['PC / Printer Setup & Troubleshooting on Production Floor', 'LAN, IP Config & Network Diagnostics', 'ERP User Administration & Module Support', 'File & Printer Sharing for Workshop Environments', '30+ Workstation & Device Management', 'RJ-6 / MOXA Device Networking & Support'] }
+            ]}
+        ];
+
+        const process = [
+            { title: 'Discovery', desc: 'I analyze your requirements and market to define the perfect solution architecture.', icon: 'fas fa-search' },
+            { title: 'Design', desc: 'Creating intuitive UI/UX wireframes and architectural blueprints for your approval.', icon: 'fas fa-pencil-ruler' },
+            { title: 'Development', desc: 'Agile coding with regular demos, testing, and quality assurance.', icon: 'fas fa-code' },
+            { title: 'Deployment', desc: 'Secure launch, training materials, and ongoing maintenance support.', icon: 'fas fa-rocket' }
+        ];
+
+        const testimonials = [
+            { name: 'Md. Mamunur Rashid', role: 'Manager (IT), Keya Knit Composite Ltd.', text: 'Amin360IT managed our entire GPRO ERP operation across 50+ workstations. The RFID tracking implementation and user training transformed our production workflow.' },
+            { name: 'Production Director', role: 'DhakaThai AlcoMaxx PLC', text: 'The Weight Checker automation system eliminated hours of daily manual data entry. Our label output tripled and accuracy reached 100%. Exceptional technical work.' },
+            { name: 'CEO', role: 'TIC Accessories Inc., New York', text: 'From building our company website to managing 200+ Amazon listings, the work was professional and results-driven. Our online sales grew significantly under their management.' }
+        ];
+
+        const categories = ['All', 'Web', 'App', 'Desktop', 'Enterprise'];
+
+        const projects = [
+            { id: 1, title: 'Weight Checker V3/V4', category: 'Desktop', client: 'DhakaThai AlcoMaxx PLC', tech: ['C# .NET', 'RS232', 'ERP Automation'], duration: '2025-2026', image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800&q=80', screenshots: ['https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800&q=80'], live_link: '#', ui_story: 'Console-based industrial automation suite with real-time RS232 polling at 200ms intervals.', case_study: 'Challenge: Manual weight entry caused 500-700 min/day bottlenecks. Solution: Automated scale-to-ERP bridge. Result: 70% time reduction, 8,000+ daily labels.', description: 'Industrial automation connecting YAOHUA weight indicators to LightHouse ERP via serial port.' },
+            { id: 2, title: 'GPRO ERP Administration', category: 'Enterprise', client: 'Keya Knit Composite Ltd.', tech: ['GPRO ERP', 'RFID', 'MOXA', 'RS-485'], duration: '2022-2025', image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80', screenshots: ['https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80'], live_link: '#', ui_story: 'Administered all GPRO ERP modules across cutting, store, production, payroll, billing, and inventory with 30+ RFID terminals.', case_study: 'Challenge: 50+ workstations needed ERP access with RFID tracking. Solution: MOXA serial cards over RS-485. Result: Managed 100+ users with near-zero downtime.', description: 'Full GPRO ERP administration with RFID terminal management, MOXA serial card configuration.' },
+            { id: 3, title: 'DifferentCafeBD', category: 'Web', client: 'DifferentCafeBD', tech: ['WordPress', 'Elementor', 'WooCommerce'], duration: '2021', image: 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=800&q=80', screenshots: ['https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=800&q=80'], live_link: 'https://differentcafebd.com', ui_story: 'Cafe brand website with digital menu, online ordering, location integration, and local SEO.', case_study: 'Challenge: Cafe needed online presence. Solution: Elementor site with WooCommerce. Result: 40% increase in online orders.', description: 'Cafe brand website with digital menu, online ordering, and local SEO optimization.' },
+            { id: 4, title: 'TIC Accessories Inc.', category: 'Web', client: 'TIC Accessories Inc. (New York)', tech: ['WordPress', 'WooCommerce', 'Amazon', 'eBay'], duration: '2020', image: 'https://images.unsplash.com/photo-1556761175-b413da4baf72?w=800&q=80', screenshots: ['https://images.unsplash.com/photo-1556761175-b413da4baf72?w=800&q=80'], live_link: '#', ui_story: 'Full corporate website with WooCommerce store, product catalog, and contact system.', case_study: 'Challenge: Needed unified web presence + marketplace management. Solution: Website + 200+ optimized listings. Result: Online sales grew 3x.', description: 'Corporate website, WooCommerce store, and marketplace listings management.' },
+            { id: 5, title: 'CosmicShopBD', category: 'App', client: 'CosmicShopBD', tech: ['WordPress', 'WooCommerce', 'Android', 'Java'], duration: '2024', image: 'https://images.unsplash.com/photo-1472851294608-062f824d29cc?w=800&q=80', screenshots: ['https://images.unsplash.com/photo-1472851294608-062f824d29cc?w=800&q=80'], live_link: '#', ui_story: 'Dual-mode retail/wholesale WooCommerce store with multi-tier pricing and native Android app.', case_study: 'Challenge: Store needed website + Android app with wholesale pricing. Solution: WooCommerce + REST API Android app. Result: 500+ app downloads.', description: 'Dual-mode retail/wholesale WooCommerce store with native Android shopping app.' },
+            { id: 6, title: 'Tasbih — Digital Counter', category: 'App', client: 'Personal Project', tech: ['MIT App Inventor', 'Android', 'TinyDB'], duration: '2024', image: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=800&q=80', screenshots: ['https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=800&q=80'], live_link: '#', ui_story: 'Clean Material Design interface for one-handed use with history tracking.', case_study: 'Challenge: Needed an intuitive digital prayer counter. Solution: Android app with profiles and history. Result: Positive user feedback.', description: 'Digital tasbih counter with multiple profiles, session history, and Material Design.' },
+            { id: 7, title: 'Tuition Management System', category: 'Desktop', client: 'Personal Project', tech: ['C#', 'SQL Server', 'WinForms'], duration: '2016', image: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=800&q=80', screenshots: ['https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=800&q=80'], live_link: '#', ui_story: 'Desktop app for tuition center management with student profiles, fee tracking, and batch management.', case_study: 'Challenge: Manual fee tracking was error-prone. Solution: C# WinForms with SQL Server. Result: Automated fee tracking with alerts.', description: 'Student and fee management desktop app with batch organization and reporting.' },
+            { id: 8, title: 'Yaohua Scale Integration', category: 'Enterprise', client: 'DhakaThai AlcoMaxx PLC', tech: ['RS232', 'Serial Port', 'Hardware'], duration: '2025', image: 'https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=800&q=80', screenshots: ['https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=800&q=80'], live_link: '#', ui_story: 'Industrial hardware integration via RS232 at 200ms polling cycles.', case_study: 'Challenge: Weight data entry was manual. Solution: RS232 bridge with 1,500+ die profile validation. Result: 100% accurate ERP pushes.', description: 'RS232 hardware-software bridge connecting digital weight indicators to ERP.' },
+            { id: 9, title: 'ZenBreaths', category: 'App', client: 'Personal Project', tech: ['Vue 3', 'Nuxt', 'Tailwind', 'Capacitor'], duration: '2026', image: 'https://images.unsplash.com/photo-1545205597-3d9d02c29597?w=800&q=80', screenshots: ['https://images.unsplash.com/photo-1545205597-3d9d02c29597?w=800&q=80'], live_link: '#', ui_story: 'Cross-platform meditation app with guided breathing animations and ambient sounds.', case_study: 'Challenge: Needed a calming breathing app. Solution: Vue 3 + Nuxt with Capacitor. Result: Clean, responsive app.', description: 'Cross-platform guided breathing and meditation app with customizable sessions.' },
+            { id: 10, title: 'Auto Bell 2.0', category: 'Desktop', client: 'Institutional', tech: ['VB.net', 'MS Access', 'TTS'], duration: '2017', image: 'https://images.unsplash.com/photo-1501386761578-eac5c94b800a?w=800&q=80', screenshots: ['https://images.unsplash.com/photo-1501386761578-eac5c94b800a?w=800&q=80'], live_link: '#', ui_story: 'Automated school bell system with TTS voice announcements and customizable schedules.', case_study: 'Challenge: Schools needed automated bell scheduling. Solution: VB.net app with TTS. Result: Reliable automated system.', description: 'Automated school bell system with customizable schedules and TTS voice announcements.' }
+        ];
+
+        const pricing = [
+            { name: 'Quick Fix', price: '$50', desc: 'Landing page, WordPress fix, or small automation — handled fast with no fuss.', features: ['Single Page / Small Fix', '2-3 Day Delivery', '1 Revision Included', 'Email Support', 'Source Code Delivered'], badge: '', featured: false, cta: "Let's Talk", limit: '2 gigs / month' },
+            { name: 'Standard Project', price: '$150', desc: 'Full website, custom tool, or ERP module — built to your spec with care.', features: ['Full Website / App / Tool', '5-7 Day Delivery', '3 Revisions Included', 'WhatsApp & Email Support', '30-Day Bug Fixes'], badge: 'Popular', featured: true, cta: 'Hire Me', limit: '1 gig / week' },
+            { name: 'Enterprise Solution', price: '$500+', desc: 'End-to-end industrial automation, ERP integration, or a full-stack platform.', features: ['End-to-End Solution', '7-14 Day Delivery', 'Unlimited Revisions', 'Live Demo & Deployment', '60-Day Priority Support'], badge: 'Best Value', featured: false, cta: "Let's Talk", limit: '1 gig / 2 weeks' }
+        ];
+
+        const filteredProjects = computed(() =>
+            activeFilter.value === 'All' ? projects : projects.filter(p => p.category === activeFilter.value)
+        );
+        const currentTestimonialData = computed(() => testimonials[currentTestimonial.value]);
+
+        const typeText = () => {
+            const currentWord = words[wordIndex];
+            if (isDeleting) {
+                typedText.value = currentWord.substring(0, charIndex - 1);
+                charIndex--;
+            } else {
+                typedText.value = currentWord.substring(0, charIndex + 1);
+                charIndex++;
+            }
+            if (!isDeleting && charIndex === currentWord.length) { isDeleting = true; setTimeout(typeText, 2000); return; }
+            if (isDeleting && charIndex === 0) { isDeleting = false; wordIndex = (wordIndex + 1) % words.length; setTimeout(typeText, 500); return; }
+            setTimeout(typeText, isDeleting ? 50 : 100);
+        };
+
+        const toggleTheme = () => {
+            isDark.value = !isDark.value;
+            document.documentElement.classList.toggle('dark', isDark.value);
+            document.documentElement.classList.toggle('light', !isDark.value);
+            localStorage.setItem('theme', isDark.value ? 'dark' : 'light');
+        };
+
+        const openProjectModal = (project) => { selectedProject.value = project; lockScroll(); };
+        const closeProjectModal = () => { selectedProject.value = null; unlockScroll(); };
+        const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+
+        const setTestimonial = (index) => { currentTestimonial.value = index; resetTestimonialTimer(); };
+
+        let testimonialTimer = null;
+        const resetTestimonialTimer = () => {
+            clearInterval(testimonialTimer);
+            testimonialTimer = setInterval(() => {
+                currentTestimonial.value = (currentTestimonial.value + 1) % testimonials.length;
+            }, 5000);
+        };
+
+        const submitForm = () => {
+            const honeypot = document.querySelector('input[name="honeypot"]');
+            if (honeypot && honeypot.value) { showToast('error', 'Bot detected.'); return; }
+            formStatus.value = 'sending';
+            fetch('https://api.web3forms.com/submit', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ access_key: '10c1a904-df2c-4b15-8e7c-6407e5ae6943', ...contactForm })
+            })
+            .then(res => res.json())
+            .then(data => {
+                formStatus.value = null;
+                if (data.success) {
+                    contactForm.name = ''; contactForm.email = ''; contactForm.subject = ''; contactForm.message = '';
+                    showToast('success', 'Message sent successfully!');
+                } else showToast('error', 'Failed to send. Try again.');
+            })
+            .catch(() => { formStatus.value = null; showToast('error', 'Something went wrong.'); });
+        };
+
+        const animateCounters = () => {
+            document.querySelectorAll('.counter:not(.animated)').forEach(counter => {
+                counter.classList.add('animated');
+                const target = parseInt(counter.getAttribute('data-target'));
+                if (isNaN(target)) return;
+                const start = performance.now();
+                const anim = (now) => {
+                    const t = Math.min((now - start) / 1500, 1);
+                    counter.textContent = Math.floor((1 - Math.pow(1 - t, 3)) * target) + (counter.dataset.plus === 'true' ? '+' : '');
+                    if (t < 1) requestAnimationFrame(anim);
+                };
+                requestAnimationFrame(anim);
+            });
+        };
+
+        onMounted(() => {
+            lockScroll();
+            const hideLoader = () => { loading.value = false; animateCounters(); unlockScroll(); };
+            if (document.readyState === 'complete') setTimeout(hideLoader, 600);
+            else window.addEventListener('load', () => setTimeout(hideLoader, 600));
+            setTimeout(hideLoader, 4000);
+
+            typeText();
+            resetTestimonialTimer();
+
+            const handleScroll = () => {
+                scrolled.value = window.scrollY > 50;
+                const winScroll = document.documentElement.scrollTop;
+                const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                scrollProgress.value = (winScroll / height) * 100;
+                const sections = document.querySelectorAll('section[id]');
+                for (let i = sections.length - 1; i >= 0; i--) {
+                    if (winScroll >= sections[i].offsetTop - 200) {
+                        activeSection.value = sections[i].getAttribute('id');
+                        break;
+                    }
+                }
+                const counters = document.querySelectorAll('.counter:not(.animated)');
+                if (counters.length > 0 && counters[0].getBoundingClientRect().top < window.innerHeight) animateCounters();
+            };
+            window.addEventListener('scroll', handleScroll, { passive: true });
+        });
+
+        onUnmounted(() => {
+            clearInterval(testimonialTimer);
+            clearTimeout(toastTimer);
+            controls.dispose();
+            renderer.dispose();
+            obs.disconnect();
+        });
+
+        return {
+            isDark, loading, scrolled, scrollProgress, mobileMenuOpen, activeSection, activeFilter,
+            activeServiceTab, selectedProject, currentTestimonial, currentTestimonialData,
+            contactForm, formStatus, toast, typedText,
+            navLinks, mobileNavLinks, stats, aboutScores, aboutCards, serviceGroups, process,
+            testimonials, categories, filteredProjects, pricing,
+            toggleTheme, openProjectModal, closeProjectModal, scrollToTop,
+            submitForm, setTestimonial, videoOpen, videoId
+        };
+    }
+}).mount('#app');
+</script>
+</body>
+</html>
