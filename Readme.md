@@ -8,7 +8,7 @@
 | Subtitle | Software Solutions |
 | Owner | Aminur Rashid |
 | Title | Software Developer |
-| Tagline | Enterprise ERP, Web Development & Digital Solutions |
+| Tagline | Software, Web Development & Digital Solutions |
 | Domain | https://amin360it.com |
 
 ## Page Architecture (Single Page)
