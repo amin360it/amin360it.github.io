@@ -5,25 +5,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Amin360IT | Software &amp; Web Solutions</title>
-    <meta name="description" content="Amin360IT - Enterprise ERP, Web Development & Digital Solutions">
+    <meta name="description" content="Amin360IT - Software, Web Development & Digital Solutions">
     <meta name="robots" content="index, follow">
     <meta property="og:title" content="Amin360IT | Software &amp; Web Solutions">
-    <meta property="og:description" content="Enterprise ERP, web development, mobile apps, and digital solutions by Amin360IT.">
+    <meta property="og:description" content="Software, Web Development & Digital Solutions by Amin360IT.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://amin360it.com">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Amin360IT | Software & Web Solutions">
-    <meta name="twitter:description" content="Enterprise ERP, web development, mobile apps, and digital solutions by Amin360IT.">
-    <meta property="og:image" content="https://amin360it.com/og-image.png">
-    <meta name="twitter:image" content="https://amin360it.com/og-image.png">
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💻</text></svg>">
+    <meta name="twitter:description" content="Software, Web Development & Digital Solutions by Amin360IT.">
+    <meta property="og:image" content="https://amin360it.com/amin360it-logo.png">
+    <meta name="twitter:image" content="https://amin360it.com/amin360it-logo.png">
+    <link rel="icon" type="image/svg+xml" href="./amin360it-logo.png" preconnect>
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
-        "@type": "Person",
-        "name": "Aminur Rashid",
+        "@type": "Solo Agency",
+        "name": "Amin360IT | Software & Web Solutions",
         "url": "https://amin360it.com",
-        "jobTitle": "Software Developer",
+        "jobTitle": "Software & Web Developer",
         "knowsAbout": ["Web Development", "ERP Systems", "Mobile Apps", "Desktop Software"],
         "description": "Solo software developer building web apps, ERP systems, mobile apps, and automation tools."
     }
@@ -411,12 +411,6 @@
         .tech-icon:hover { transform: scale(1.15) !important; }
 
         /* ============================================
-           PRICING BADGE FIX
-           ============================================ */
-        .pricing-card-wrapper { overflow: visible !important; }
-        .pricing-badge { z-index: 10 !important; }
-
-        /* ============================================
            SHIMMER BUTTON EFFECT
            ============================================ */
         .btn-shimmer { position: relative; overflow: hidden; }
@@ -575,13 +569,11 @@
         <transition name="fade">
             <div v-if="loading" class="preloader">
                 <div style="display:flex;flex-direction:column;align-items:center;gap:24px">
-                    <img v-if="siteLogo" :src="siteLogo" :alt="siteName" style="width:80px;height:80px;object-fit:contain;animation:pulse 2s ease-in-out infinite">
-                    <div v-else style="width:64px;height:64px;border-radius:16px;background:linear-gradient(135deg,#3b82f6,#8b5cf6);display:flex;align-items:center;justify-content:center;box-shadow:0 10px 15px -3px rgba(0,0,0,0.3)">
-                        <span class="material-icons" style="color:#fff;font-size:36px">code</span>
-                    </div>
+                    <img src="./amin360it-logo.png" :alt="siteName" style="width:80px;height:80px;object-fit:contain;animation:pulse 2s ease-in-out infinite">
+                    
                     <div style="display:flex;flex-direction:column;align-items:center">
                         <p style="font-size:24px;font-family:'Plus Jakarta Sans','Inter',system-ui,sans-serif;font-weight:700;color:#fff;letter-spacing:0.05em">Amin360IT</p>
-                        <p style="font-size:14px;color:#9ca3af;text-transform:uppercase;letter-spacing:0.2em;margin-top:4px">Software Solutions</p>
+                        <p style="font-size:14px;color:#9ca3af;text-transform:uppercase;letter-spacing:0.2em;margin-top:4px">Software, Web & Digital Solutions</p>
                     </div>
                     <div style="width:40px;height:40px;border:4px solid #3b82f6;border-top-color:transparent;border-radius:50%;animation:spin 1s linear infinite"></div>
                 </div>
@@ -592,48 +584,7 @@
         <div class="fixed top-0 left-0 h-[2px] bg-gradient-to-r from-blue-500 via-violet-500 to-pink-500 z-[100] transition-all duration-100" :style="{ width: scrollProgress + '%' }"></div>
 
 <!-- Navigation -->
-<nav id="navbar" class="fixed w-full z-50 transition-all duration-500 py-4 px-4 md:px-8">
-            <div class="max-w-7xl mx-auto">
-                <div class="glass rounded-2xl px-6 py-4 flex justify-between items-center shadow-lg transition-all duration-500 w-full">
-                    <a href="#home" class="flex items-center gap-2 sm:gap-3 group hover-trigger">
-                        <div class="relative w-8 sm:w-10 h-8 sm:h-10 rounded-xl bg-gradient-to-br from-blue-500 to-violet-500 flex items-center justify-center transform group-hover:rotate-12 transition-all duration-500 shadow-lg">
-                            <img v-if="siteLogo" :src="siteLogo" :alt="siteName" class="w-full h-full object-contain rounded-xl">
-                            <span v-else class="material-icons text-white text-sm sm:text-lg">code</span>
-                        </div>
-                        <div class="block">
-                            <h1 class="font-display font-bold text-base sm:text-xl leading-none tracking-tight nav-title">{{ siteName }}</h1>
-                            <span v-if="siteSubtitle" class="text-[5px] sm:text-[7px] uppercase tracking-widest font-medium nav-subtitle">{{ siteSubtitle }}</span>
-                        </div>
-                    </a>
-
-                    <div class="hidden lg:flex items-center gap-1 bg-white/5 rounded-full p-1">
-                        <a v-for="link in navLinks" :key="link.name" :href="link.href" 
-                           class="px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 nav-link"
-                           :class="activeSection === link.id ? 'bg-gradient-to-r from-blue-500/20 to-violet-500/20 text-blue-400 shadow-lg' : 'text-slate-400 hover:text-white hover:bg-white/5'">
-                            {{ link.name }}
-                        </a>
-                    </div>
-
-                    <div class="flex items-center gap-3">
-                        <button @click="toggleTheme" class="w-10 h-10 rounded-xl glass flex items-center justify-center hover-trigger transition-all duration-300 hover:scale-110 hover:rotate-12" title="Toggle Theme">
-                            <transition name="fade" mode="out-in">
-                                <i v-if="isDark" key="sun" class="fas fa-sun text-yellow-400 transition-transform duration-500"></i>
-                                <i v-else key="moon" class="fas fa-moon text-blue-500 transition-transform duration-500"></i>
-                            </transition>
-                        </button>
-                        
-                        <a href="#contact" class="hidden md:inline-flex items-center px-5 py-2.5 bg-gradient-to-r from-blue-500 to-violet-500 text-white text-sm font-semibold rounded-xl hover:shadow-lg transition-all duration-300 hover-trigger hover:scale-105 btn-shimmer">
-                            Start Project <i class="fas fa-arrow-right ml-2 text-xs"></i>
-                        </a>
-                        
-                        <button @click="mobileMenuOpen = true" class="lg:hidden tp hover-trigger p-2" aria-label="Open navigation menu">
-                            <i class="fas fa-bars text-xl"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </nav>
-
+<nav id="navbar" class="fixed w-full z-50 transition-all duration-500 py-4 px-4 md:px-8"><div class="max-w-7xl mx-auto"><div class="glass rounded-2xl px-6 py-4 flex justify-between items-center shadow-lg transition-all duration-500 w-full"><a href="#home" class="flex items-center gap-2 sm:gap-3 group hover-trigger"><div class="relative w-8 sm:w-10 h-8 sm:h-10 rounded-xl bg-gradient-to-br from-blue-900 to-black-500 flex items-center justify-center transform group-hover:rotate-12 transition-all duration-500 shadow-lg"><img src="./amin360it-logo.png" alt="Amin360IT" class="w-full h-full object-contain rounded-xl"></div><div class="block"><h1 class="font-display font-bold text-base sm:text-xl leading-none tracking-tight nav-title">Amin360IT</h1><span class="text-[5px] sm:text-[7px] uppercase tracking-widest font-medium nav-subtitle">Software, Web & Digital Solutions</span></div></a><div class="hidden lg:flex items-center gap-1 bg-white/5 rounded-full p-1"><a href="#home" class="px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 nav-link bg-gradient-to-r from-blue-500/20 to-violet-500/20 text-blue-400 shadow-lg">Home</a><a href="#about" class="px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 nav-link text-slate-400 hover:text-white hover:bg-white/5">About</a><a href="#services" class="px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 nav-link text-slate-400 hover:text-white hover:bg-white/5">Services</a><a href="#portfolio" class="px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 nav-link text-slate-400 hover:text-white hover:bg-white/5">Work</a><a href="#process" class="px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 nav-link text-slate-400 hover:text-white hover:bg-white/5">Process</a><a href="#contact" class="px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 nav-link text-slate-400 hover:text-white hover:bg-white/5">Contact</a></div><div class="flex items-center gap-3"><button class="w-10 h-10 rounded-xl glass flex items-center justify-center hover-trigger transition-all duration-300 hover:scale-110 hover:rotate-12" title="Toggle Theme"><i class="fas fa-sun text-yellow-400 transition-transform duration-500"></i></button><a href="#contact" class="hidden md:inline-flex items-center px-5 py-2.5 bg-gradient-to-r from-blue-500 to-violet-500 text-white text-sm font-semibold rounded-xl hover:shadow-lg transition-all duration-300 hover-trigger hover:scale-105 btn-shimmer"> Start Project <i class="fas fa-arrow-right ml-2 text-xs"></i></a><button class="lg:hidden tp hover-trigger p-2" aria-label="Open navigation menu"><i class="fas fa-bars text-xl"></i></button></div></div></div></nav>
 <!-- Off-Canvas Mobile Menu -->
         <div v-if="mobileMenuOpen" class="fixed inset-0 z-[60]" @click.self="mobileMenuOpen = false">
             <div class="absolute inset-0 bg-black/70 backdrop-blur-sm"></div>
@@ -645,7 +596,7 @@
                         </div>
                         <div>
                             <h2 class="font-display font-bold text-lg text-white tracking-tight">Amin360IT</h2>
-                            <span class="text-[8px] uppercase tracking-widest text-gray-400">Software Solutions</span>
+                            <span class="text-[8px] uppercase tracking-widest text-gray-400">Software, Web & Digital Solutions</span>
                         </div>
                     </div>
                     <button @click="mobileMenuOpen = false" class="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-white hover:bg-white/10 transition-all" aria-label="Close navigation menu">
@@ -663,15 +614,15 @@
                     <div class="space-y-3">
                         <div class="flex items-center gap-3 text-gray-400 text-sm">
                             <i class="fas fa-envelope text-blue-400 w-4"></i>
-                            <span>info@amin360it.com</span>
+                            <span>amin360it@gmail.com</span>
                         </div>
                         <div class="flex items-center gap-3 text-gray-400 text-sm">
                             <i class="fas fa-phone text-blue-400 w-4"></i>
-                            <span>+880 1979 670601</span>
+                            <span>+880 1973 670601</span>
                         </div>
                         <div class="flex items-center gap-3 text-gray-400 text-sm">
                             <i class="fas fa-map-marker-alt text-blue-400 w-4"></i>
-                            <span>Mohakhali DOHS, Dhaka</span>
+                            <span>Savar, Dhaka</span>
                         </div>
                     </div>
                     <a href="#contact" @click="mobileMenuOpen = false" class="w-full py-3 bg-gradient-to-r from-blue-500 to-violet-500 text-white font-semibold rounded-xl shadow-lg transition-all hover:shadow-xl hover:scale-[1.02] flex items-center justify-center gap-2">
@@ -915,7 +866,7 @@
                                         </div>
                                         <div>
                                             <span class="font-semibold tp text-sm">Competitive Pricing</span>
-                                            <p class="text-xs ts mt-1">Enterprise-grade solutions at transparent, value-driven pricing models.</p>
+                                            <p class="text-xs ts mt-1">Professional-grade solutions at transparent, value-driven pricing models.</p>
                                         </div>
                                     </li>
                                 </ul>
@@ -980,14 +931,18 @@
                 </div>
 
                 <!-- Tab Navigation -->
-                <div class="flex flex-wrap justify-center gap-2 mb-10" data-aos="fade-up">
-                    <button v-for="(group, gIndex) in serviceGroups" :key="gIndex"
-                            @click="activeServiceTab = gIndex"
-                            class="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-300"
-                            :class="activeServiceTab === gIndex ? 'bg-gradient-to-r from-blue-500 to-violet-500 text-white shadow-lg' : 'glass ts hover:bg-white/10 hover:text-white'">
-                        <span class="material-icons text-base">{{ group.icon }}</span>
-                        <span>{{ group.title }}</span>
-                    </button>
+                <div class="flex justify-center mb-10" data-aos="fade-up">
+                    <div class="inline-flex flex-wrap justify-center gap-1 p-1.5 glass rounded-2xl max-w-full" :style="{ borderColor: 'var(--border-color)' }">
+                        <button v-for="(group, gIndex) in serviceGroups" :key="gIndex"
+                                @click="activeServiceTab = gIndex"
+                                class="relative flex items-center gap-2 px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-300"
+                                :class="activeServiceTab === gIndex ? 'text-white' : 'ts hover:text-white hover:bg-white/5'">
+                            <span v-if="activeServiceTab === gIndex" class="absolute inset-0 rounded-xl bg-gradient-to-r from-blue-500 to-violet-500 shadow-lg"></span>
+                            <span class="relative z-10 material-icons text-base">{{ group.icon }}</span>
+                            <span class="relative z-10">{{ group.title }}</span>
+                            <span class="relative z-10 px-1.5 py-0.5 rounded-md text-[10px] font-bold leading-none" :class="activeServiceTab === gIndex ? 'bg-white/20' : 'bg-white/10 tm'">{{ group.items.length }}</span>
+                        </button>
+                    </div>
                 </div>
 
                 <!-- Tab Content -->
@@ -1136,14 +1091,16 @@
                     <div class="section-divider-line bg-gradient-to-r from-blue-500 to-violet-500"></div>
                 </div>
                 
-                <div class="flex flex-wrap justify-center gap-2 sm:gap-3 mb-14">
-                    <button v-for="cat in categories" :key="cat" 
-                            @click="activeFilter = cat"
-                            class="px-5 sm:px-6 py-2.5 rounded-full text-xs sm:text-sm font-medium transition-all duration-300 hover-trigger border tracking-wide"
-                            :class="activeFilter === cat ? 'border-blue-500/30 text-blue-500 shadow-lg' : 'ts hover:bg-white/5 hover:tp'"
-                            :style="activeFilter === cat ? { backgroundColor: 'rgba(59, 130, 246, 0.08)', borderColor: 'rgba(59, 130, 246, 0.25)' } : { borderColor: 'var(--border-color)' }">
-                        {{ cat }}
-                    </button>
+                <div class="flex justify-center mb-14" data-aos="fade-up">
+                    <div class="inline-flex flex-wrap justify-center gap-1 p-1.5 glass rounded-2xl max-w-full" :style="{ borderColor: 'var(--border-color)' }">
+                        <button v-for="cat in categories" :key="cat" @click="activeFilter = cat"
+                                class="relative flex items-center gap-2 px-5 sm:px-6 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-300"
+                                :class="activeFilter === cat ? 'text-white' : 'ts hover:text-white hover:bg-white/5'">
+                            <span v-if="activeFilter === cat" class="absolute inset-0 rounded-xl bg-gradient-to-r from-blue-500 to-violet-500 shadow-lg"></span>
+                            <span class="relative z-10">{{ cat }}</span>
+                            <span class="relative z-10 px-1.5 py-0.5 rounded-md text-[10px] font-bold leading-none" :class="activeFilter === cat ? 'bg-white/20' : 'bg-white/10 tm'">{{ categoryCounts[cat] }}</span>
+                        </button>
+                    </div>
                 </div>
 
 <div class="grid sm:grid-cols-2 lg:grid-cols-3 grid-unified">
@@ -1151,6 +1108,7 @@
                         <div v-for="project in filteredProjects" :key="project.id" 
                              class="portfolio-item group relative rounded-2xl overflow-hidden h-56 sm:h-64 cursor-pointer hover-trigger"
                              @click="openProjectModal(project)">
+                            <div v-if="project.new" class="absolute top-3 left-3 z-10 bg-gradient-to-r from-blue-500 to-violet-500 text-white text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full shadow-lg">New</div>
                             <img :src="project.image" :alt="project.title" loading="lazy" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" @error="$event.target.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 800 600%22 fill=%22%23334155%22%3E%3Crect width=%22800%22 height=%22600%22/%3E%3Ctext x=%22400%22 y=%22300%22 text-anchor=%22middle%22 fill=%22%2394a3b8%22 font-size=%2224%22%3EProject Image%3C/text%3E%3C/svg%3E'">
                             <div class="absolute inset-0 opacity-60 group-hover:opacity-90 transition-opacity" :style="{ background: project.bgGradient || 'linear-gradient(to top, rgba(2,6,23,1) 0%, rgba(2,6,23,0.5) 50%, transparent 100%)' }"></div>
                             <div class="portfolio-overlay absolute inset-0 flex flex-col justify-end p-5 sm:p-6">
@@ -1269,46 +1227,23 @@
             </div>
         </section>
 
-        <!-- Pricing Section -->
-        <section id="pricing" class="bgp section-spacing relative">
-            <div class="fluid-container">
-                <div class="section-header" data-aos="fade-up">
+        <!-- Pricing CTA Section -->
+        <section id="pricing" class="bgp section-spacing relative overflow-hidden">
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full opacity-10 blur-[120px] pointer-events-none" style="background: #8b5cf6;"></div>
+            <div class="fluid-container relative z-10">
+                <div class="text-center max-w-3xl mx-auto" data-aos="fade-up">
                     <span class="section-label text-blue-500">
                         <span class="w-8 h-[2px] bg-blue-500 rounded-full inline-block"></span>
-                        Gig Packages
+                        Let's Talk
                         <span class="w-8 h-[2px] bg-blue-500 rounded-full inline-block"></span>
                     </span>
-                    <h2 class="heading-lg tp">PICK A <span class="text-gradient-duotone">GIG</span></h2>
-                    <div class="section-divider-line bg-gradient-to-r from-blue-500 to-violet-500"></div>
-                    <p class="body-sm ts mt-6 section-subtitle max-w-2xl mx-auto">
-                        I work solo — direct communication, fast turnaround, no layers. Pick a plan or describe what you need.
+                    <h2 class="heading-lg tp mb-6">READY TO <span class="text-gradient-duotone">START?</span></h2>
+                    <p class="body-lg ts mb-10 font-light leading-relaxed">
+                        No fixed packages — every project gets a custom quote based on your exact needs. Describe your idea and I'll take it from there.
                     </p>
-                </div>
-
-                <div class="grid md:grid-cols-3 gap-6 sm:gap-8 max-w-5xl mx-auto">
-                    <div v-for="(plan, index) in pricing" :key="index" 
-                         class="pricing-card-wrapper glass-card card-padding flex flex-col relative hover-trigger interactive-hover"
-                         :class="plan.featured ? 'border-blue-500/50 transform md:-translate-y-4' : ''"
-                         :style="plan.featured ? { borderColor: 'rgba(59, 130, 246, 0.4)', background: 'linear-gradient(to bottom, rgba(59, 130, 246, 0.08), transparent)' } : { borderColor: 'var(--border-color)' }"
-                         data-aos="fade-up" :data-aos-delay="index * 100">
-                        <div v-if="plan.badge" class="pricing-badge absolute -top-3 left-1/2 -translate-x-1/2 bg-gradient-to-r from-blue-500 to-violet-500 text-white text-xs px-4 py-1 rounded-full font-bold shadow-lg tracking-wide">{{ plan.badge }}</div>
-                        <div class="mb-6">
-                            <h3 class="heading-sm tp mb-1.5">{{ plan.name }}</h3>
-                            <div class="text-2xl sm:text-3xl font-extrabold text-gradient-duotone mb-3">{{ plan.price }}</div>
-                            <p class="body-sm ts leading-relaxed">{{ plan.desc }}</p>
-                        </div>
-                        <ul class="space-y-3 sm:space-y-3.5 mb-6 body-sm ts flex-1">
-                            <li v-for="(feature, i) in plan.features" :key="i" class="flex items-start gap-3">
-                                <i class="fas fa-check-circle text-violet-500 mt-0.5 flex-shrink-0 text-xs"></i> <span class="leading-snug">{{ feature }}</span>
-                            </li>
-                        </ul>
-                        <p class="text-xs text-center ts mb-4 italic">— {{ plan.limit }} —</p>
-                        <a href="#contact" class="w-full py-3 rounded-xl font-semibold transition-all duration-300 hover-trigger text-sm sm:text-base ripple-effect inline-block text-center"
-                                :class="plan.featured ? 'bg-gradient-to-r from-blue-500 to-violet-500 hover:shadow-lg text-white' : 'hover:bg-white/10 tp'"
-                                :style="!plan.featured ? { backgroundColor: 'rgba(255,255,255,0.04)' } : {}">
-                            <i class="fab fa-whatsapp mr-1.5"></i> {{ plan.cta }}
-                        </a>
-                    </div>
+                    <a href="#contact" class="btn-primary bg-gradient-to-r from-blue-500 to-violet-500 text-white hover:shadow-2xl hover-trigger hover:scale-105 btn-shimmer ripple-effect">
+                        Start Your Project <i class="fas fa-arrow-right transition-transform"></i>
+                    </a>
                 </div>
             </div>
         </section>
@@ -1533,7 +1468,7 @@
                             </div>
                             <div>
                                 <h4 class="font-bold text-lg tp tracking-tight">Amin360IT</h4>
-                                <span class="text-[10px] uppercase ts tracking-widest">Software Solutions</span>
+                                <span class="text-[10px] uppercase ts tracking-widest">Software, Web & Digital Solutions</span>
                             </div>
                         </div>
                         <p class="body-sm ts leading-relaxed mb-6">
@@ -1557,7 +1492,9 @@
                         <ul class="space-y-3 body-sm ts">
                             <li><a href="#services" class="hover:text-violet-500 transition-colors hover-trigger">Web Development</a></li>
                             <li><a href="#services" class="hover:text-violet-500 transition-colors hover-trigger">Web Applications</a></li>
+							<li><a href="#services" class="hover:text-violet-500 transition-colors hover-trigger">Mobile App</a></li>
                             <li><a href="#services" class="hover:text-violet-500 transition-colors hover-trigger">Desktop Software</a></li>
+							<li><a href="#services" class="hover:text-violet-500 transition-colors hover-trigger">ERP/Automations</a></li>
                             <li><a href="#services" class="hover:text-violet-500 transition-colors hover-trigger">Custom Solutions</a></li>
                         </ul>
                     </div>
@@ -1761,7 +1698,7 @@ createApp({
                 };
 
                 const siteName = ref('Amin360IT');
-                const siteLogo = ref(''); // If empty, shows text. URL like 'https://...' shows image/gif
+                const siteLogo = ref('./amin360it-logo.png'); // If empty, shows text. URL like 'https://...' shows image/gif
                 const siteSubtitle = ref('Software Solutions');
                 
                 const isDark = ref(true);
@@ -1790,7 +1727,7 @@ createApp({
                 const testimonialTimer = ref(null);
 
                 const typedText = ref('');
-                const words = ['ENTERPRISE SYSTEMS', 'WEB APPLICATIONS', 'MOBILE APPS', 'DESKTOP SOFTWARE', 'CUSTOM SOLUTIONS'];
+                const words = ['ERP AUTOMATIONS', 'WEB APPLICATIONS', 'MOBILE APPS', 'DESKTOP SOFTWARE', 'CUSTOM SOLUTIONS'];
                 let wordIndex = 0, charIndex = 0, isDeleting = false, typeTimer = null, typingSpeed = 100;
 
                 const navLinks = [
@@ -1799,7 +1736,6 @@ createApp({
                     { name: 'Services', href: '#services', id: 'services', icon: 'fas fa-cogs' },
                     { name: 'Work', href: '#portfolio', id: 'portfolio', icon: 'fas fa-briefcase' },
                     { name: 'Process', href: '#process', id: 'process', icon: 'fas fa-layer-group' },
-                    { name: 'Pricing', href: '#pricing', id: 'pricing', icon: 'fas fa-tags' },
                     { name: 'Contact', href: '#contact', id: 'contact', icon: 'fas fa-envelope' }
                 ];
 
@@ -1809,7 +1745,6 @@ const mobileNavLinks = [
                     { name: 'Services', href: '#services', id: 'services', icon: 'fas fa-cogs' },
                     { name: 'Work', href: '#portfolio', id: 'portfolio', icon: 'fas fa-briefcase' },
                     { name: 'Process', href: '#process', id: 'process', icon: 'fas fa-layer-group' },
-                    { name: 'Pricing', href: '#pricing', id: 'pricing', icon: 'fas fa-tags' },
                     { name: 'Contact', href: '#contact', id: 'contact', icon: 'fas fa-envelope' }
                 ];
 
@@ -1868,33 +1803,33 @@ const mobileNavLinks = [
                 ];
 
                 const testimonials = [
-                    { name: 'Md. Mamunur Rashid', role: 'Manager (IT), Keya Knit Composite Ltd.', text: 'Amin360IT managed our entire GPRO ERP operation across 50+ workstations. The RFID tracking implementation and user training transformed our production workflow.' },
-                    { name: 'Production Director', role: 'DhakaThai AlcoMaxx PLC', text: 'The Weight Checker automation system eliminated hours of daily manual data entry. Our label output tripled and accuracy reached 100%. Exceptional technical work.' },
-                    { name: 'CEO', role: 'TIC Accessories Inc., New York', text: 'From building our company website to managing 200+ Amazon listings, the work was professional and results-driven. Our online sales grew significantly under their management.' }
+                    { name: 'Md. Mamunur Rashid', role: 'Manager (IT) | Keya Knit Composite Ltd.', text: 'Amin360IT managed our GPRO ERP RFID operation across 30+ workstations. The RFID tracking implementation and user training transformed our production workflow.' },
+                    { name: 'Karim Dean', role: 'Managing Director | DhakaThai AlcoMaxx PLC', text: 'The Weight Checker automation system eliminated hours of daily manual data entry. Our label output tripled and accuracy reached 100%. Exceptional technical work.' },
+                    { name: 'Advocate MD. Sumon ', role: ' CEO | TIC Accessories Inc., New York', text: 'From building our company website to managing 200+ Amazon listings, the work was professional and results-driven. Our online sales grew significantly under their management.' },
+                    { name: 'Managing Director', role: 'DhakaThai AlcoMaxx PLC', text: 'Aminur rebuilt our company website from scratch — modern, fast, and easy to update. Our international buyers now see a professional company the moment they visit.' },
+                    { name: 'MD. Istiak Ahmed', role: 'Operations Head | DhakaThai AlcoMaxx PLC', text: 'The invoice system demo let our team visualize the entire billing workflow in days. Professional presentation and practical features right out of the box.' },
+                    { name: 'Md. Abdul Aziz', role: 'Production Manager | DhakaThai AlcoMaxx PLC', text: 'The Weight Checker v4.5 GUI is a huge upgrade. Operators learned it in minutes and labeling got even faster — training new staff is now effortless.' }
                 ];
 
-                const categories = ['All', 'Web', 'App', 'Desktop', 'Enterprise'];
+                const categories = ['All', 'Web', 'App', 'Desktop', 'Industrial'];
 
 const projects = [
                     { id: 1, title: 'Weight Checker V3/V4', category: 'Desktop', client: 'DhakaThai AlcoMaxx PLC', tech: ['C# .NET', 'RS232', 'ERP Automation'], duration: '2025-2026', image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800&q=80', screenshots: ['https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800&q=80'], live_link: '#', ui_story: 'Console-based industrial automation suite with real-time RS232 polling at 200ms intervals. Dynamic CSV parsing into high-speed memory dictionary for O(1) lookup of 1,500+ die profiles.', case_study: 'Challenge: Manual weight entry caused 500-700 min/day bottlenecks. Solution: Automated scale-to-ERP bridge filtering noise and validating against master die charts. Result: 70% time reduction, 8,000+ daily labels.', testimonial: { name: 'Production Manager', role: 'DhakaThai AlcoMaxx PLC', text: 'The weight checker eliminated our daily data entry bottlenecks. Throughput tripled almost overnight.', avatar: 'https://randomuser.me/api/portraits/men/75.jpg' }, link: '#', description: 'Industrial automation suite connecting YAOHUA weight indicators to LightHouse ERP via serial port communication.' },
-                    { id: 2, title: 'GPRO ERP Administration', category: 'Enterprise', client: 'Keya Knit Composite Ltd.', tech: ['GPRO ERP', 'RFID', 'MOXA', 'RS-485'], duration: '2022-2025', image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80', screenshots: ['https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80'], live_link: '#', ui_story: 'Administered all GPRO ERP modules across cutting, store, production, payroll, billing, and inventory with 30+ NXP MCU RFID terminals over RS-485 network.', case_study: 'Challenge: 50+ workstations needed ERP access with RFID tracking across 30 production lines. Solution: Configured MOXA serial cards over RS-485 cabling for real-time data collection. Result: Managed 100+ users with near-zero downtime.', testimonial: { name: 'Md. Mamunur Rashid', role: 'Manager (IT), Keya Group', text: 'Aminur streamlined our entire GPRO ERP operation. RFID tracking across production lines became seamless.', avatar: 'https://randomuser.me/api/portraits/men/32.jpg' }, link: '#', description: 'Full GPRO ERP administration with RFID terminal management, MOXA serial card configuration, and user training for 50+ workstations.' },
+                    { id: 2, title: 'GPRO ERP Administration', category: 'Industrial', client: 'Keya Knit Composite Ltd.', tech: ['GPRO ERP', 'RFID', 'MOXA', 'RS-485'], duration: '2022-2025', image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80', screenshots: ['https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80'], live_link: '#', ui_story: 'Administered all GPRO ERP modules across cutting, store, production, payroll, billing, and inventory with 30+ NXP MCU RFID terminals over RS-485 network.', case_study: 'Challenge: 50+ workstations needed ERP access with RFID tracking across 30 production lines. Solution: Configured MOXA serial cards over RS-485 cabling for real-time data collection. Result: Managed 100+ users with near-zero downtime.', testimonial: { name: 'Md. Mamunur Rashid', role: 'Manager (IT), Keya Group', text: 'Aminur streamlined our entire GPRO ERP operation. RFID tracking across production lines became seamless.', avatar: 'https://randomuser.me/api/portraits/men/32.jpg' }, link: '#', description: 'Full GPRO ERP administration with RFID terminal management, MOXA serial card configuration, and user training for 50+ workstations.' },
                     { id: 3, title: 'DifferentCafeBD', category: 'Web', client: 'DifferentCafeBD', tech: ['WordPress', 'Elementor', 'WooCommerce'], duration: '2021', image: 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=800&q=80', screenshots: ['https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=800&q=80'], live_link: 'https://differentcafebd.com', ui_story: 'Cafe brand website with digital menu, online ordering, location integration, and local SEO optimized for Google Maps discoverability.', case_study: 'Challenge: Cafe needed online presence with ordering capability. Solution: Built Elementor-based responsive site with WooCommerce ordering. Result: 40% increase in online orders within first month.', testimonial: { name: 'Cafe Owner', role: 'DifferentCafeBD', text: 'The website brought in a wave of new customers who found us through Google Maps.', avatar: 'https://randomuser.me/api/portraits/men/22.jpg' }, link: '#', description: 'Cafe brand website with digital menu, online ordering, and local SEO optimization.' },
                     { id: 4, title: 'TIC Accessories Inc.', category: 'Web', client: 'TIC Accessories Inc. (New York)', tech: ['WordPress', 'WooCommerce', 'Amazon', 'eBay'], duration: '2020', image: 'https://images.unsplash.com/photo-1556761175-b413da4baf72?w=800&q=80', screenshots: ['https://images.unsplash.com/photo-1556761175-b413da4baf72?w=800&q=80'], live_link: '#', ui_story: 'Full corporate website with WooCommerce store, product catalog, and contact system. Managed 200+ Amazon/eBay listings with optimized SEO content.', case_study: 'Challenge: Company needed unified web presence + marketplace management. Solution: Built company website and optimized 200+ listings across Amazon/eBay. Result: Online sales grew 3x in 6 months.', testimonial: { name: 'CEO', role: 'TIC Accessories Inc.', text: 'Aminur handled everything from our website to marketplace listings. Sales grew significantly.', avatar: 'https://randomuser.me/api/portraits/men/45.jpg' }, link: '#', description: 'Corporate website, WooCommerce store, and 200+ Amazon/eBay marketplace listings management.' },
                     { id: 5, title: 'CosmicShopBD', category: 'App', client: 'CosmicShopBD', tech: ['WordPress', 'WooCommerce', 'Android', 'Java'], duration: '2024', image: 'https://images.unsplash.com/photo-1472851294608-062f824d29cc?w=800&q=80', screenshots: ['https://images.unsplash.com/photo-1472851294608-062f824d29cc?w=800&q=80'], live_link: '#', ui_story: 'Dual-mode retail/wholesale WooCommerce store with multi-tier pricing. Native Android app connects via REST API for product browsing, cart, and checkout.', case_study: 'Challenge: Retail store needed website + Android app with wholesale pricing. Solution: WooCommerce dual-mode store with native Android app via REST API. Result: 500+ app downloads in first month.', testimonial: { name: 'Store Owner', role: 'CosmicShopBD', text: 'Having both a website and Android app with wholesale pricing doubled our customer base.', avatar: 'https://randomuser.me/api/portraits/men/55.jpg' }, link: '#', description: 'Dual-mode retail/wholesale WooCommerce store with native Android shopping app via REST API.' },
                     { id: 6, title: 'Tasbih — Digital Counter', category: 'App', client: 'Personal Project', tech: ['MIT App Inventor', 'Android', 'TinyDB'], duration: '2024', image: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=800&q=80', screenshots: ['https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=800&q=80'], live_link: '#', ui_story: 'Clean Material Design interface optimized for one-handed use. Multiple counter profiles with daily/weekly/monthly history tracking and haptic feedback.', case_study: 'Challenge: Needed an intuitive digital prayer counter. Solution: Built Android app with multiple profiles and history tracking. Result: Positive user feedback with clean, functional design.', link: '#', description: 'Digital tasbih counter Android app with multiple profiles, session history, and Material Design.' },
                     { id: 7, title: 'Tuition Management System', category: 'Desktop', client: 'Personal Project', tech: ['C#', 'SQL Server', 'WinForms'], duration: '2016', image: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=800&q=80', screenshots: ['https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=800&q=80'], live_link: '#', ui_story: 'Desktop application for tuition center management with student profiles, fee tracking, batch management, and Excel export capabilities.', case_study: 'Challenge: Manual fee tracking at tuition center was error-prone. Solution: C# WinForms app with SQL Server Local DB. Result: Automated fee tracking with due date alerts and report generation.', link: '#', description: 'Student and fee management desktop app with batch organization and automated reporting.' },
-                    { id: 8, title: 'Yaohua Scale Integration', category: 'Enterprise', client: 'DhakaThai AlcoMaxx PLC', tech: ['RS232', 'Serial Port', 'Hardware'], duration: '2025', image: 'https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=800&q=80', screenshots: ['https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=800&q=80'], live_link: '#', ui_story: 'Industrial hardware integration connecting YAOHUA XK3190-D# weight indicators to LightHouse ERP via RS232 at 200ms polling cycles.', case_study: 'Challenge: Weight data entry was manual and slow. Solution: RS232 hardware bridge with noise filtering and 1,500+ die profile validation. Result: 100% accurate ERP weight pushes eliminating 500-700 daily manual entries.', link: '#', description: 'RS232 hardware-software bridge connecting digital weight indicators to ERP with real-time data validation.' },
+                    { id: 8, title: 'Yaohua Scale Integration', category: 'Industrial', client: 'DhakaThai AlcoMaxx PLC', tech: ['RS232', 'Serial Port', 'Hardware'], duration: '2025', image: 'https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=800&q=80', screenshots: ['https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=800&q=80'], live_link: '#', ui_story: 'Industrial hardware integration connecting YAOHUA XK3190-D# weight indicators to LightHouse ERP via RS232 at 200ms polling cycles.', case_study: 'Challenge: Weight data entry was manual and slow. Solution: RS232 hardware bridge with noise filtering and 1,500+ die profile validation. Result: 100% accurate ERP weight pushes eliminating 500-700 daily manual entries.', link: '#', description: 'RS232 hardware-software bridge connecting digital weight indicators to ERP with real-time data validation.' },
                     { id: 9, title: 'ZenBreaths', category: 'App', client: 'Personal Project', tech: ['Vue 3', 'Nuxt', 'Tailwind', 'Capacitor'], duration: '2026', image: 'https://images.unsplash.com/photo-1545205597-3d9d02c29597?w=800&q=80', screenshots: ['https://images.unsplash.com/photo-1545205597-3d9d02c29597?w=800&q=80'], live_link: '#', ui_story: 'Cross-platform meditation app with guided breathing animations, customizable session durations (1-30 min), ambient sounds, and haptic feedback.', case_study: 'Challenge: Needed a calming guided breathing app. Solution: Built with Vue 3 + Nuxt, wrapped as native Android via Capacitor. Result: Clean, responsive app with visual inhale/hold/exhale guide.', link: '#', description: 'Cross-platform guided breathing and meditation app with customizable sessions and ambient sounds.' },
-                    { id: 10, title: 'Auto Bell 2.0', category: 'Desktop', client: 'Institutional', tech: ['VB.net', 'MS Access', 'TTS'], duration: '2017', image: 'https://images.unsplash.com/photo-1501386761578-eac5c94b800a?w=800&q=80', screenshots: ['https://images.unsplash.com/photo-1501386761578-eac5c94b800a?w=800&q=80'], live_link: '#', ui_story: 'Automated school bell system with Text-to-Speech voice announcements. Customizable schedules for weekdays, holidays, and special events with manual override.', case_study: 'Challenge: Schools needed automated bell scheduling with voice announcements. Solution: VB.net app with MS Access DB and Windows TTS engine. Result: Reliable automated bell system with voice period announcements.', link: '#', description: 'Automated school bell system with customizable schedules and Text-to-Speech voice announcements.' }
+                    { id: 10, title: 'Auto Bell 2.0', category: 'Desktop', client: 'Institutional', tech: ['VB.net', 'MS Access', 'TTS'], duration: '2017', image: 'https://images.unsplash.com/photo-1501386761578-eac5c94b800a?w=800&q=80', screenshots: ['https://images.unsplash.com/photo-1501386761578-eac5c94b800a?w=800&q=80'], live_link: '#', ui_story: 'Automated school bell system with Text-to-Speech voice announcements. Customizable schedules for weekdays, holidays, and special events with manual override.', case_study: 'Challenge: Schools needed automated bell scheduling with voice announcements. Solution: VB.net app with MS Access DB and Windows TTS engine. Result: Reliable automated bell system with voice period announcements.', link: '#', description: 'Automated school bell system with customizable schedules and Text-to-Speech voice announcements.' },
+                    { id: 11, title: 'DhakaThai Website Redesign', category: 'Web', client: 'DhakaThai AlcoMaxx PLC', tech: ['HTML5', 'CSS3', 'JavaScript', 'SEO'], duration: '2026', new: true, image: 'https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=800&q=80', screenshots: ['https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=800&q=80'], live_link: '#', ui_story: 'Complete corporate website redesign with modern branding, a clean design system, product showcase for their food & beverage plant, and a fully responsive layout. Integrated Google Maps, contact forms, and SEO-ready meta structure.', case_study: 'Challenge: Outdated site did not reflect a modern industrial brand. Solution: Rebuilt from scratch with mobile-first layout, fast loading, and easy content handover. Result: New site delivered this month with stronger first impressions and improved search visibility.', testimonial: { name: 'Managing Director', role: 'DhakaThai AlcoMaxx PLC', text: 'The new website finally represents our company properly. Modern, fast, and easy to update on our own.', avatar: 'https://randomuser.me/api/portraits/men/41.jpg' }, link: '#', description: 'Corporate website redesign for a food & beverage manufacturer — modern branding, responsive layout, and SEO-ready structure.' },
+                    { id: 12, title: 'Invoice System Demo', category: 'Web', client: 'DhakaThai AlcoMaxx PLC', tech: ['Vue 3', 'Tailwind CSS', 'JavaScript'], duration: '2026', new: true, image: 'https://images.unsplash.com/photo-1554224154-26032ffc0d07?w=800&q=80', screenshots: ['https://images.unsplash.com/photo-1554224154-26032ffc0d07?w=800&q=80'], live_link: '#', ui_story: 'Interactive invoice & billing demo with dynamic line items, automatic tax and discount calculation, customer records, invoice numbering, and one-click PDF export — built as a lightweight single-page app.', case_study: 'Challenge: Needed a quick, shareable demo to prove automated invoicing before a full ERP rollout. Solution: Built a functional Vue demo with editable line items, live totals, and print/PDF output. Result: Client approved the workflow and moved toward full implementation.', testimonial: { name: 'Operations Head', role: 'DhakaThai AlcoMaxx PLC', text: 'The invoice demo let our team visualize the whole billing workflow in days. Clean and practical.', avatar: 'https://randomuser.me/api/portraits/women/44.jpg' }, link: '#', description: 'Interactive invoice & billing system demo with dynamic line items, taxes, and PDF export.' },
+                    { id: 13, title: 'DTL Weight Checker GUI v4.5', category: 'Desktop', client: 'DhakaThai AlcoMaxx PLC', tech: ['C# .NET', 'WinForms', 'RS232', 'SQLite'], duration: '2026', new: true, image: 'https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=800&q=80', screenshots: ['https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=800&q=80'], live_link: '#', ui_story: 'Major GUI upgrade of the DTL Weight Checker suite — modern dashboard with live weight monitoring, color-coded validation status, batch summaries, operator logins, and one-click label printing. Preserves the proven 200ms RS232 polling engine with a far friendlier interface.', case_study: 'Challenge: Operators found the old console interface hard to read during busy shifts. Solution: Rebuilt the front-end as a WinForms GUI with live dashboard, larger fonts, validation states, and quick-print shortcuts. Result: Faster training, fewer misreads, and 8,000+ daily labels with 100% accuracy maintained.', testimonial: { name: 'Production Manager', role: 'DhakaThai AlcoMaxx PLC', text: 'v4.5 is a joy to use. Operators learned it in minutes and labeling got even faster.', avatar: 'https://randomuser.me/api/portraits/men/75.jpg' }, link: '#', description: 'GUI v4.5 upgrade of the DTL Weight Checker — modern dashboard, live validation, and one-click labeling.' }
                 ];
 
-                const pricing = [
-                    { name: 'Quick Fix', price: '$50', desc: 'Landing page, WordPress fix, or small automation — handled fast with no fuss.', features: ['Single Page / Small Fix', '2-3 Day Delivery', '1 Revision Included', 'Email Support', 'Source Code Delivered'], badge: '', featured: false, cta: 'Let\'s Talk', limit: '2 gigs / month' },
-                    { name: 'Standard Project', price: '$150', desc: 'Full website, custom tool, or ERP module — built to your spec with care.', features: ['Full Website / App / Tool', '5-7 Day Delivery', '3 Revisions Included', 'WhatsApp & Email Support', '30-Day Bug Fixes'], badge: 'Popular', featured: true, cta: 'Hire Me', limit: '1 gig / week' },
-                    { name: 'Enterprise Solution', price: '$500+', desc: 'End-to-end industrial automation, ERP integration, or a full-stack platform.', features: ['End-to-End Solution', '7-14 Day Delivery', 'Unlimited Revisions', 'Live Demo & Deployment', '60-Day Priority Support'], badge: 'Best Value', featured: false, cta: 'Let\'s Talk', limit: '1 gig / 2 weeks' }
-                ];
-
-const clients = [
+                const clients = [
                     { id: 1, name: 'DhakaThai AlcoMaxx', industry: 'Manufacturing', icon: 'fas fa-industry', color: '#E2136E' },
                     { id: 2, name: 'Keya Group', industry: 'Textile & RMG', icon: 'fas fa-tshirt', color: '#3B82F6' },
                     { id: 3, name: 'TIC Accessories Inc.', industry: 'E-Commerce (USA)', icon: 'fas fa-shopping-cart', color: '#FF6B35' },
@@ -1908,6 +1843,12 @@ const clients = [
                 const filteredProjects = computed(() => {
                     if (activeFilter.value === 'All') return projects;
                     return projects.filter(p => p.category === activeFilter.value);
+                });
+
+                const categoryCounts = computed(() => {
+                    const counts = {};
+                    categories.forEach(c => { counts[c] = c === 'All' ? projects.length : projects.filter(p => p.category === c).length; });
+                    return counts;
                 });
 
                 const currentTestimonialData = computed(() => testimonials[currentTestimonial.value]);
@@ -2085,21 +2026,31 @@ const animateCounters = () => {
                 let particlesObserver = null;
 
                 onMounted(() => {
-                    const savedTheme = localStorage.getItem('theme');
-                    if (savedTheme === 'light') { isDark.value = false; document.documentElement.classList.remove('dark'); document.documentElement.classList.add('light'); }
+                    try {
+                        const savedTheme = localStorage.getItem('theme');
+                        if (savedTheme === 'light') { isDark.value = false; document.documentElement.classList.remove('dark'); document.documentElement.classList.add('light'); }
+                    } catch (e) {}
 
-                    AOS.init({ duration: 800, once: true, offset: 50, easing: 'ease-out-cubic' });
                     lockScroll();
-                    const hideLoader = () => { loading.value = false; animateCounters(); unlockScroll(); };
+                    let loaderHidden = false;
+                    const hideLoader = () => {
+                        if (loaderHidden) return;
+                        loaderHidden = true;
+                        loading.value = false;
+                        try { animateCounters(); } catch (e) {}
+                        unlockScroll();
+                    };
                     if (document.readyState === 'complete') {
                         setTimeout(hideLoader, 400);
                     } else {
                         window.addEventListener('load', () => setTimeout(hideLoader, 400));
                     }
-                    setTimeout(hideLoader, 4000);
-                    typeText();
-                    initParticles();
-                    resetTestimonialTimer();
+                    setTimeout(hideLoader, 3000);
+
+                    if (window.AOS) { try { AOS.init({ duration: 800, once: true, offset: 50, easing: 'ease-out-cubic' }); } catch (e) {} }
+                    try { typeText(); } catch (e) {}
+                    try { initParticles(); } catch (e) {}
+                    try { resetTestimonialTimer(); } catch (e) {}
 
 
 
@@ -2168,12 +2119,21 @@ onUnmounted(() => {
                     activeSection, activeFilter, activeServiceTab, selectedProject, currentTestimonial, cursor,
                     contactForm, formStatus, toast, typedText,
                     navLinks, mobileNavLinks, stats, serviceGroups, process, testimonials,
-                    categories, filteredProjects, pricing, clients, projects, currentTestimonialData,
+                    categories, filteredProjects, categoryCounts, clients, projects, currentTestimonialData,
                     toggleTheme, openProjectModal, closeProjectModal, openVideo, closeVideo, scrollToTop,
                     submitForm, setTestimonial, subscribeNewsletter, videoId
                 };
             }
         }).mount('#app');
+</script>
+
+<script>
+    setTimeout(function () {
+        var preloaderEl = document.querySelector('.preloader');
+        if (preloaderEl) preloaderEl.remove();
+        document.body.classList.remove('scroll-locked');
+        document.body.style.paddingRight = '';
+    }, 4500);
 </script>
 
 </div>
