@@ -10,20 +10,21 @@
     <meta property="og:title" content="Amin360IT | Software &amp; Web Solutions">
     <meta property="og:description" content="Software, Web Development & Digital Solutions by Amin360IT.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://amin360it.com">
+    <meta property="og:url" content="https://amin360it.github.io">
+    <link rel="canonical" href="https://amin360it.github.io/">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Amin360IT | Software & Web Solutions">
     <meta name="twitter:description" content="Software, Web Development & Digital Solutions by Amin360IT.">
-    <meta property="og:image" content="https://amin360it.com/amin360it-logo.png">
-    <meta name="twitter:image" content="https://amin360it.com/amin360it-logo.png">
+    <meta property="og:image" content="https://amin360it.github.io/amin360it-logo.png">
+    <meta name="twitter:image" content="https://amin360it.github.io/amin360it-logo.png">
     <link rel="icon" type="image/svg+xml" href="./amin360it-logo.png" preconnect>
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
-        "@type": "Solo Agency",
+        "@type": "ProfessionalService",
         "name": "Amin360IT | Software & Web Solutions",
-        "url": "https://amin360it.com",
-        "jobTitle": "Software & Web Developer",
+        "url": "https://amin360it.github.io",
+        "founder": {"@type": "Person", "name": "Aminur", "jobTitle": "Software & Web Developer"},
         "knowsAbout": ["Web Development", "ERP Systems", "Mobile Apps", "Desktop Software"],
         "description": "Solo software developer building web apps, ERP systems, mobile apps, and automation tools."
     }
@@ -158,6 +159,7 @@
         }
         @media (hover: hover) and (pointer: fine) { body { cursor: none; } }
         html { scroll-behavior: smooth; }
+        section[id] { scroll-margin-top: 80px; }
         html, body { overflow-x: hidden; }
         body.scroll-locked { overflow: hidden !important; }
 
@@ -171,12 +173,25 @@
            CUSTOM CURSOR
            ============================================ */
         .cursor-dot, .cursor-outline {
-            position: fixed; top: 0; left: 0; transform: translate(-50%, -50%);
+            position: fixed; top: 0; left: 0;
+            transform: translate3d(var(--cx, -100px), var(--cy, -100px), 0) translate(-50%, -50%);
             border-radius: 50%; z-index: 9999; pointer-events: none;
+            will-change: transform;
         }
-        .cursor-dot { width: 8px; height: 8px; background-color: #8b5cf6; box-shadow: 0 0 10px rgba(139, 92, 246, 0.5); }
-        .cursor-outline { width: 40px; height: 40px; border: 1.5px solid rgba(139, 92, 246, 0.4); transition: width 0.15s, height 0.15s, background-color 0.15s; }
-        body.hovering .cursor-outline { width: 60px; height: 60px; background-color: rgba(139, 92, 246, 0.08); border-color: transparent; }
+        .cursor-dot-inner {
+            display: block; width: 9px; height: 9px; border-radius: 50%;
+            background-color: #a78bfa; box-shadow: 0 0 12px rgba(167, 139, 250, 0.8);
+            transition: transform 0.15s ease, background-color 0.15s ease, box-shadow 0.15s ease;
+        }
+        .cursor-outline-inner {
+            display: block; width: 36px; height: 36px; border-radius: 50%;
+            border: 1.5px solid rgba(167, 139, 250, 0.55);
+            transition: width 0.18s ease, height 0.18s ease, border-color 0.18s ease, background-color 0.18s ease, border-width 0.18s ease;
+        }
+        body.hovering .cursor-dot-inner { transform: scale(2.2); background-color: #f0abfc; box-shadow: 0 0 18px rgba(240, 171, 252, 0.9); }
+        body.hovering .cursor-outline-inner { width: 56px; height: 56px; background-color: rgba(217, 70, 239, 0.10); border-color: rgba(217, 70, 239, 0.7); }
+        body.cursor-down .cursor-dot-inner { transform: scale(1.6); }
+        body.cursor-down .cursor-outline-inner { width: 26px; height: 26px; border-width: 2.5px; }
         @media (max-width: 768px) { .cursor-dot, .cursor-outline { display: none !important; } body { cursor: auto; } }
 
         /* ============================================
@@ -325,6 +340,29 @@
             -webkit-text-fill-color: transparent;
             animation: gradientLoop 5s ease infinite;
         }
+        .brand-logo-box {
+            position: relative;
+            isolation: isolate;
+        }
+        .btn-gradient {
+            background-image: linear-gradient(120deg, #1e40af 0%, #5b21b6 30%, #4f46e5 55%, #6d28d9 80%, #1e40af 100%);
+            background-size: 300% 300%;
+            animation: gradientLoop 6s ease infinite;
+        }
+        .brand-logo-box::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+            border-radius: inherit;
+            background-image: linear-gradient(135deg, rgba(59,130,246,0.25) 0%, rgba(139,92,246,0.25) 33%, rgba(236,72,153,0.25) 66%, rgba(59,130,246,0.25) 100%);
+            background-size: 300% 300%;
+            animation: gradientLoop 5s ease infinite, logoGlow 3s ease-in-out infinite alternate;
+        }
+        @keyframes logoGlow {
+            from { opacity: 0.4; }
+            to { opacity: 1; }
+        }
         .text-gradient-warm {
             display: inline-block;
             background-image: linear-gradient(135deg, #f97316 0%, #ec4899 100%);
@@ -436,6 +474,16 @@
            ============================================ */
         .heading-xl { font-size: clamp(2rem, 5vw, 4.5rem); font-weight: 800; line-height: 1.15; letter-spacing: -0.03em; }
         .heading-lg { font-size: clamp(2rem, 4vw, 3.5rem); font-weight: 700; line-height: 1.1; letter-spacing: -0.025em; }
+        .heading-lg.tp {
+            padding-top: 5px;
+            padding-bottom: 5px;
+            background-image: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 33%, #ec4899 66%, #3b82f6 100%);
+            background-size: 300% 300%;
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientLoop 5s ease infinite;
+        }
         .heading-md { font-size: clamp(1.5rem, 3vw, 2.5rem); font-weight: 700; line-height: 1.15; letter-spacing: -0.02em; }
         .heading-sm { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 600; line-height: 1.2; letter-spacing: -0.015em; }
         .body-lg { font-size: clamp(1rem, 1.5vw, 1.25rem); line-height: 1.7; }
@@ -545,6 +593,8 @@
         .nav-link { position: relative; }
         .nav-link::after { content: ''; position: absolute; bottom: -2px; left: 50%; transform: translateX(-50%); width: 0; height: 2px; background: #8b5cf6; border-radius: 1px; transition: width 0.3s ease; }
         .nav-link:hover::after { width: 60%; }
+        .nav-idle { color: var(--text-secondary); }
+        .nav-idle:hover { color: var(--text-primary); background: var(--card-bg-hover); }
         .light .glass { background: rgba(255, 255, 255, 0.8); border-color: rgba(15, 23, 42, 0.06); }
         .light ::-webkit-scrollbar-thumb { background: #94a3b8; }
         .text-stroke { -webkit-text-stroke: 1px rgba(255,255,255,0.1); }
@@ -555,6 +605,7 @@
         }
         .animate-bounce-pill { animation: bounce-pill 1.5s ease-in-out infinite; }
         .hover-trigger { transition: all 0.3s ease; }
+
     </style>
 </head>
 <body class="antialiased">
@@ -562,18 +613,20 @@
     <div class="noise-overlay"></div>
 
         <!-- Custom Cursor -->
-        <div class="cursor-dot hidden md:block" aria-hidden="true" :style="{ left: cursor.x + 'px', top: cursor.y + 'px' }"></div>
-        <div class="cursor-outline hidden md:block" aria-hidden="true" :style="{ left: cursor.x + 'px', top: cursor.y + 'px' }"></div>
+        <div class="cursor-dot hidden md:block" aria-hidden="true"><span class="cursor-dot-inner"></span></div>
+        <div class="cursor-outline hidden md:block" aria-hidden="true"><span class="cursor-outline-inner"></span></div>
 
 <!-- Preloader -->
         <transition name="fade">
             <div v-if="loading" class="preloader">
                 <div style="display:flex;flex-direction:column;align-items:center;gap:24px">
-                    <img src="./amin360it-logo.png" :alt="siteName" style="width:80px;height:80px;object-fit:contain;animation:pulse 2s ease-in-out infinite">
+                    <div class="brand-logo-box flex items-center justify-center" style="width:88px;height:88px;border-radius:20px;padding:10px;animation:pulse 2s ease-in-out infinite">
+                        <img src="./amin360it-logo.png" :alt="siteName" class="w-full h-full object-contain drop-shadow">
+                    </div>
                     
                     <div style="display:flex;flex-direction:column;align-items:center">
-                        <p style="font-size:24px;font-family:'Plus Jakarta Sans','Inter',system-ui,sans-serif;font-weight:700;color:#fff;letter-spacing:0.05em">Amin360IT</p>
-                        <p style="font-size:14px;color:#9ca3af;text-transform:uppercase;letter-spacing:0.2em;margin-top:4px">Software, Web & Digital Solutions</p>
+                        <p class="text-gradient-duotone" style="font-size:24px;font-family:'Plus Jakarta Sans','Inter',system-ui,sans-serif;font-weight:700;letter-spacing:0.05em">Amin360IT</p>
+                        <p style="font-size:14px;color:var(--text-secondary);text-transform:uppercase;letter-spacing:0.2em;margin-top:4px">Software, Web & Digital Solutions</p>
                     </div>
                     <div style="width:40px;height:40px;border:4px solid #3b82f6;border-top-color:transparent;border-radius:50%;animation:spin 1s linear infinite"></div>
                 </div>
@@ -584,59 +637,61 @@
         <div class="fixed top-0 left-0 h-[2px] bg-gradient-to-r from-blue-500 via-violet-500 to-pink-500 z-[100] transition-all duration-100" :style="{ width: scrollProgress + '%' }"></div>
 
 <!-- Navigation -->
-<nav id="navbar" class="fixed w-full z-50 transition-all duration-500 py-4 px-4 md:px-8"><div class="max-w-7xl mx-auto"><div class="glass rounded-2xl px-6 py-4 flex justify-between items-center shadow-lg transition-all duration-500 w-full"><a href="#home" class="flex items-center gap-2 sm:gap-3 group hover-trigger"><div class="relative w-8 sm:w-10 h-8 sm:h-10 rounded-xl bg-gradient-to-br from-blue-900 to-black-500 flex items-center justify-center transform group-hover:rotate-12 transition-all duration-500 shadow-lg"><img src="./amin360it-logo.png" alt="Amin360IT" class="w-full h-full object-contain rounded-xl"></div><div class="block"><h1 class="font-display font-bold text-base sm:text-xl leading-none tracking-tight nav-title">Amin360IT</h1><span class="text-[5px] sm:text-[7px] uppercase tracking-widest font-medium nav-subtitle">Software, Web & Digital Solutions</span></div></a><div class="hidden lg:flex items-center gap-1 bg-white/5 rounded-full p-1"><a href="#home" class="px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 nav-link bg-gradient-to-r from-blue-500/20 to-violet-500/20 text-blue-400 shadow-lg">Home</a><a href="#about" class="px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 nav-link text-slate-400 hover:text-white hover:bg-white/5">About</a><a href="#services" class="px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 nav-link text-slate-400 hover:text-white hover:bg-white/5">Services</a><a href="#portfolio" class="px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 nav-link text-slate-400 hover:text-white hover:bg-white/5">Work</a><a href="#process" class="px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 nav-link text-slate-400 hover:text-white hover:bg-white/5">Process</a><a href="#contact" class="px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 nav-link text-slate-400 hover:text-white hover:bg-white/5">Contact</a></div><div class="flex items-center gap-3"><button class="w-10 h-10 rounded-xl glass flex items-center justify-center hover-trigger transition-all duration-300 hover:scale-110 hover:rotate-12" title="Toggle Theme"><i class="fas fa-sun text-yellow-400 transition-transform duration-500"></i></button><a href="#contact" class="hidden md:inline-flex items-center px-5 py-2.5 bg-gradient-to-r from-blue-500 to-violet-500 text-white text-sm font-semibold rounded-xl hover:shadow-lg transition-all duration-300 hover-trigger hover:scale-105 btn-shimmer"> Start Project <i class="fas fa-arrow-right ml-2 text-xs"></i></a><button class="lg:hidden tp hover-trigger p-2" aria-label="Open navigation menu"><i class="fas fa-bars text-xl"></i></button></div></div></div></nav>
+<nav id="navbar" class="fixed w-full z-50 transition-all duration-500 py-2 px-3 sm:px-4 md:px-8"><div class="max-w-7xl mx-auto"><div class="glass rounded-2xl px-4 sm:px-6 py-2 sm:py-2.5 flex justify-between items-center shadow-lg transition-all duration-500 w-full"><a href="#home" class="flex items-center gap-2 sm:gap-3 group hover-trigger"><div class="relative w-8 sm:w-10 h-8 sm:h-10 brand-logo-box rounded-xl flex items-center justify-center p-1 transform group-hover:rotate-12 transition-all duration-500"><img src="./amin360it-logo.png" alt="Amin360IT" class="w-full h-full object-contain drop-shadow"></div><div class="block"><div class="font-display font-bold text-base sm:text-xl leading-none tracking-tight nav-title text-gradient-duotone">Amin360IT</div><span class="block text-[9px] sm:text-[10px] uppercase tracking-widest font-medium nav-subtitle mt-0.5">Software, Web & Digital Solutions</span></div></a><div class="hidden lg:flex items-center gap-1 bgt rounded-full p-1"><a href="#home" class="px-3 py-1.5 rounded-full text-[13px] font-medium transition-all duration-300 nav-link bg-gradient-to-r from-blue-500/20 to-violet-500/20 text-blue-400 shadow-lg">Home</a><a href="#about" class="px-3 py-1.5 rounded-full text-[13px] font-medium transition-all duration-300 nav-link nav-idle">About</a><a href="#services" class="px-3 py-1.5 rounded-full text-[13px] font-medium transition-all duration-300 nav-link nav-idle">Services</a><a href="#portfolio" class="px-3 py-1.5 rounded-full text-[13px] font-medium transition-all duration-300 nav-link nav-idle">Projects</a><a href="#contact" class="px-3 py-1.5 rounded-full text-[13px] font-medium transition-all duration-300 nav-link nav-idle">Contact</a></div><div class="flex items-center gap-3"><button @click="toggleTheme" class="w-10 h-10 rounded-xl glass flex items-center justify-center hover-trigger transition-all duration-300 hover:scale-110 hover:rotate-12" title="Toggle Theme" aria-label="Toggle dark or light theme"><i :class="isDark ? 'fas fa-sun text-yellow-400' : 'fas fa-moon text-blue-400'" class="transition-transform duration-500"></i></button><a href="#contact" @click.prevent="goToContactForm" class="hidden md:inline-flex items-center px-5 py-2.5 btn-gradient text-white text-sm font-semibold rounded-xl hover:shadow-lg transition-all duration-300 hover-trigger hover:scale-105 btn-shimmer"> Start Project <i class="fas fa-arrow-right ml-2 text-xs"></i></a><button @click="mobileMenuOpen = true" class="lg:hidden tp hover-trigger p-2" aria-label="Open navigation menu" :aria-expanded="mobileMenuOpen ? 'true' : 'false'"><i class="fas fa-bars text-xl" aria-hidden="true"></i></button></div></div></div></nav>
 <!-- Off-Canvas Mobile Menu -->
+        <transition name="slide-menu">
         <div v-if="mobileMenuOpen" class="fixed inset-0 z-[60]" @click.self="mobileMenuOpen = false">
             <div class="absolute inset-0 bg-black/70 backdrop-blur-sm"></div>
-            <div class="absolute right-0 top-0 bottom-0 w-80 max-w-[85vw] bg-[#0f172a] shadow-xl flex flex-col" :style="{ borderLeft: '1px solid rgba(255,255,255,0.06)' }">
-                <div class="flex justify-between items-center p-5 shrink-0" :style="{ borderBottom: '1px solid rgba(255,255,255,0.06)' }">
+            <div class="absolute right-0 top-0 bottom-0 w-80 max-w-[85vw] bgs shadow-xl flex flex-col" :style="{ borderLeft: '1px solid var(--border-color)' }">
+                <div class="flex justify-between items-center p-5 shrink-0" :style="{ borderBottom: '1px solid var(--border-color)' }">
                     <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-violet-500 flex items-center justify-center shadow-lg">
-                            <i class="fas fa-code text-white"></i>
+                        <div class="w-10 h-10 flex-shrink-0 brand-logo-box rounded-xl flex items-center justify-center p-1">
+                            <img src="./amin360it-logo.png" alt="Amin360IT" class="w-full h-full object-contain drop-shadow">
                         </div>
                         <div>
-                            <h2 class="font-display font-bold text-lg text-white tracking-tight">Amin360IT</h2>
-                            <span class="text-[8px] uppercase tracking-widest text-gray-400">Software, Web & Digital Solutions</span>
+                            <h2 class="font-display font-bold text-lg text-gradient-duotone tracking-tight">Amin360IT</h2>
+                            <span class="block text-[9px] sm:text-[10px] uppercase tracking-widest tm mt-0.5">Software, Web & Digital Solutions</span>
                         </div>
                     </div>
-                    <button @click="mobileMenuOpen = false" class="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-white hover:bg-white/10 transition-all" aria-label="Close navigation menu">
-                        <i class="fas fa-times"></i>
+                    <button @click="mobileMenuOpen = false" class="w-10 h-10 rounded-xl bgt flex items-center justify-center tp hover:opacity-80 transition-all" aria-label="Close navigation menu">
+                        <i class="fas fa-times" aria-hidden="true"></i>
                     </button>
                 </div>
                 <div class="flex flex-col p-4 space-y-2 overflow-y-auto flex-1 min-h-0">
                     <a v-for="link in mobileNavLinks" :key="link.name" :href="link.href" @click="mobileMenuOpen = false"
-                       class="flex items-center gap-3 px-4 py-3.5 rounded-xl text-gray-300 hover:text-white hover:bg-white/5 transition-all">
-                        <i :class="link.icon" class="w-5 text-center text-sm text-blue-400"></i>
+                       class="flex items-center gap-3 px-4 py-3.5 rounded-xl nav-idle transition-all">
+                        <i :class="link.icon" class="w-5 text-center text-sm text-blue-400" aria-hidden="true"></i>
                         <span class="text-base font-medium">{{ link.name }}</span>
                     </a>
                 </div>
-                <div class="p-5 space-y-4 shrink-0" :style="{ borderTop: '1px solid rgba(255,255,255,0.06)' }">
+                <div class="p-5 space-y-4 shrink-0" :style="{ borderTop: '1px solid var(--border-color)' }">
                     <div class="space-y-3">
-                        <div class="flex items-center gap-3 text-gray-400 text-sm">
-                            <i class="fas fa-envelope text-blue-400 w-4"></i>
+                        <a href="mailto:amin360it@gmail.com" class="flex items-center gap-3 ts text-sm hover:text-blue-500 transition-colors">
+                            <i class="fas fa-envelope text-blue-400 w-4" aria-hidden="true"></i>
                             <span>amin360it@gmail.com</span>
-                        </div>
-                        <div class="flex items-center gap-3 text-gray-400 text-sm">
-                            <i class="fas fa-phone text-blue-400 w-4"></i>
+                        </a>
+                        <a href="tel:+8801973670601" class="flex items-center gap-3 ts text-sm hover:text-blue-500 transition-colors">
+                            <i class="fas fa-phone text-blue-400 w-4" aria-hidden="true"></i>
                             <span>+880 1973 670601</span>
-                        </div>
-                        <div class="flex items-center gap-3 text-gray-400 text-sm">
-                            <i class="fas fa-map-marker-alt text-blue-400 w-4"></i>
+                        </a>
+                        <div class="flex items-center gap-3 ts text-sm">
+                            <i class="fas fa-map-marker-alt text-blue-400 w-4" aria-hidden="true"></i>
                             <span>Savar, Dhaka</span>
                         </div>
                     </div>
-                    <a href="#contact" @click="mobileMenuOpen = false" class="w-full py-3 bg-gradient-to-r from-blue-500 to-violet-500 text-white font-semibold rounded-xl shadow-lg transition-all hover:shadow-xl hover:scale-[1.02] flex items-center justify-center gap-2">
-                        <i class="fas fa-rocket"></i> Start Project
+                    <a href="#contact" @click="mobileMenuOpen = false" class="w-full py-3 btn-gradient text-white font-semibold rounded-xl shadow-lg transition-all hover:shadow-xl hover:scale-[1.02] flex items-center justify-center gap-2">
+                        <i class="fas fa-rocket" aria-hidden="true"></i> Start Project
                     </a>
                     <div class="flex justify-center gap-3">
-                        <a href="#" aria-label="Facebook" class="w-9 h-9 rounded-lg bg-white/5 flex items-center justify-center text-gray-400 hover:bg-blue-500 hover:text-white transition-all"><i class="fab fa-facebook-f text-sm"></i></a>
-                        <a href="#" aria-label="LinkedIn" class="w-9 h-9 rounded-lg bg-white/5 flex items-center justify-center text-gray-400 hover:bg-blue-500 hover:text-white transition-all"><i class="fab fa-linkedin-in text-sm"></i></a>
-                        <a href="#" aria-label="GitHub" class="w-9 h-9 rounded-lg bg-white/5 flex items-center justify-center text-gray-400 hover:bg-blue-500 hover:text-white transition-all"><i class="fab fa-github text-sm"></i></a>
-                        <a href="#" aria-label="YouTube" class="w-9 h-9 rounded-lg bg-white/5 flex items-center justify-center text-gray-400 hover:bg-red-500 hover:text-white transition-all"><i class="fab fa-youtube text-sm"></i></a>
+                        <a href="#" @click.prevent aria-label="Facebook" class="w-9 h-9 rounded-lg bgt flex items-center justify-center ts hover:bg-blue-500 hover:text-white transition-all"><i class="fab fa-facebook-f text-sm"></i></a>
+                        <a href="#" @click.prevent aria-label="LinkedIn" class="w-9 h-9 rounded-lg bgt flex items-center justify-center ts hover:bg-blue-500 hover:text-white transition-all"><i class="fab fa-linkedin-in text-sm"></i></a>
+                        <a href="#" @click.prevent aria-label="GitHub" class="w-9 h-9 rounded-lg bgt flex items-center justify-center ts hover:bg-blue-500 hover:text-white transition-all"><i class="fab fa-github text-sm"></i></a>
+                        <a href="#" @click.prevent aria-label="YouTube" class="w-9 h-9 rounded-lg bgt flex items-center justify-center ts hover:bg-red-500 hover:text-white transition-all"><i class="fab fa-youtube text-sm"></i></a>
                     </div>
                 </div>
             </div>
         </div>
+        </transition>
 
 <!-- Hero Section -->
         <section id="home" class="relative min-h-screen overflow-hidden flex items-center justify-center pt-32 pb-16" style="z-index: 1;">
@@ -675,7 +730,7 @@
                                 <span class="w-2.5 h-2.5 rounded-full bg-green-500/80"></span>
                             </div>
                             <code class="text-xs sm:text-sm text-slate-300 font-mono tracking-wide flex items-center gap-2" style="font-family: 'JetBrains Mono', monospace;">
-                                <span class="text-green-400 font-bold">❯</span> 
+                                <span class="text-green-400 font-bold">ÃƒÂ¢Ã‚ÂÃ‚Â¯</span> 
                                 <span>npm run deploy</span>
                                 <span class="text-violet-400">--production</span>
                             </code>
@@ -683,14 +738,14 @@
                     </div>
                     
                     <p class="body-lg ts max-w-2xl mx-auto mb-12 font-light leading-relaxed" data-aos="fade-up" data-aos-delay="600">
-                        I build high-performance web apps, desktop software, ERP automations, and tailored digital solutions — end to end.
+                        I build high-performance web apps, desktop software, ERP automations, and tailored digital solutions ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â end to end.
                     </p>
 
                     <div class="flex flex-col sm:flex-row justify-center gap-4 mb-20" data-aos="fade-up" data-aos-delay="800">
-                        <a href="#services" class="btn-primary bg-gradient-to-r from-blue-500 to-violet-500 text-white hover:shadow-2xl hover-trigger hover:scale-105 btn-shimmer ripple-effect">
+                        <a href="#services" class="btn-primary btn-gradient text-white hover:shadow-2xl hover-trigger hover:scale-105 btn-shimmer ripple-effect">
                             Explore Solutions <i class="fas fa-arrow-right transition-transform"></i>
                         </a>
-                        <button @click="openVideo" class="btn-secondary glass tp hover:bg-white/10 transition-all duration-300 hover-trigger hover:scale-105" :style="{ borderColor: 'var(--border-color)' }">
+                        <button v-if="videoId && videoId !== 'REPLACE_WITH_YOUR_VIDEO_ID'" @click="openVideo" class="btn-secondary glass tp hover:bg-white/10 transition-all duration-300 hover-trigger hover:scale-105" :style="{ borderColor: 'var(--border-color)' }">
                             <div class="w-8 h-8 rounded-full flex items-center justify-center" style="background: rgba(139, 92, 246, 0.15);">
                                 <i class="fas fa-play text-xs ml-0.5" style="color: #a78bfa;"></i>
                             </div>
@@ -780,7 +835,7 @@
                             <!-- Our Mission Card -->
                             <div class="glass-card p-6 hover-trigger interactive-hover">
                                 <div class="flex items-start gap-4">
-                                    <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-violet-500 flex items-center justify-center flex-shrink-0">
+                                    <div class="w-12 h-12 rounded-xl btn-gradient flex items-center justify-center flex-shrink-0">
                                         <i class="fas fa-bullseye text-white text-lg"></i>
                                     </div>
                                     <div class="flex-1">
@@ -798,7 +853,7 @@
                                     </div>
                                     <div class="flex-1">
                                         <h3 class="heading-sm tp mb-3">My Vision</h3>
-                                        <p class="body-sm ts leading-relaxed">To be the leading solo developer partner for businesses seeking digital transformation — known for quality, speed, and client success.</p>
+                                        <p class="body-sm ts leading-relaxed">To be the leading solo developer partner for businesses seeking digital transformation ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â known for quality, speed, and client success.</p>
                                     </div>
                                 </div>
                             </div>
@@ -811,7 +866,7 @@
                                     </div>
                                     <div class="flex-1">
                                         <h3 class="heading-sm tp mb-3">My Values</h3>
-                                        <p class="body-sm ts leading-relaxed">Integrity, Excellence, Innovation — I build lasting relationships through transparent communication and exceptional work.</p>
+                                        <p class="body-sm ts leading-relaxed">Integrity, Excellence, Innovation ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â I build lasting relationships through transparent communication and exceptional work.</p>
                                     </div>
                                 </div>
                             </div>
@@ -839,7 +894,7 @@
                                         </div>
                                         <div>
                             <span class="font-semibold tp text-sm">Direct Developer Access</span>
-                            <p class="text-xs ts mt-1">You work one-on-one with me — no account managers, no layers, just direct communication.</p>
+                            <p class="text-xs ts mt-1">You work one-on-one with me ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â no account managers, no layers, just direct communication.</p>
                                         </div>
                                     </li>
                                     <li class="flex items-start gap-3">
@@ -912,10 +967,10 @@
                 <div class="section-header" data-aos="fade-up">
                     <div class="flex justify-center mb-4">
                         <div class="relative">
-                            <div class="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-violet-500 flex items-center justify-center animate-pulse-icon">
+                            <div class="w-12 h-12 rounded-full btn-gradient flex items-center justify-center animate-pulse-icon">
                                 <i class="fas fa-cogs text-white text-lg"></i>
                             </div>
-                            <div class="absolute inset-0 rounded-full bg-gradient-to-br from-blue-500 to-violet-500 animate-pulse-ring opacity-50"></div>
+                            <div class="absolute inset-0 rounded-full btn-gradient animate-pulse-ring opacity-50"></div>
                         </div>
                     </div>
                     <span class="section-label text-blue-500">
@@ -926,50 +981,51 @@
                     <h2 class="heading-lg tp">COMPREHENSIVE <span class="text-gradient-duotone">SOLUTIONS</span></h2>
                     <div class="section-divider-line bg-gradient-to-r from-blue-500 to-violet-500"></div>
                     <p class="body-sm ts mt-6 section-subtitle max-w-3xl mx-auto">
-                        I build web apps, automate workflows, design brands, and solve industrial IT problems — one project at a time.
+                        I build web apps, automate workflows, design brands, and solve industrial IT problems ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â one project at a time.
                     </p>
                 </div>
 
-                <!-- Tab Navigation -->
-                <div class="flex justify-center mb-10" data-aos="fade-up">
-                    <div class="inline-flex flex-wrap justify-center gap-1 p-1.5 glass rounded-2xl max-w-full" :style="{ borderColor: 'var(--border-color)' }">
-                        <button v-for="(group, gIndex) in serviceGroups" :key="gIndex"
-                                @click="activeServiceTab = gIndex"
-                                class="relative flex items-center gap-2 px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-300"
-                                :class="activeServiceTab === gIndex ? 'text-white' : 'ts hover:text-white hover:bg-white/5'">
-                            <span v-if="activeServiceTab === gIndex" class="absolute inset-0 rounded-xl bg-gradient-to-r from-blue-500 to-violet-500 shadow-lg"></span>
-                            <span class="relative z-10 material-icons text-base">{{ group.icon }}</span>
-                            <span class="relative z-10">{{ group.title }}</span>
-                            <span class="relative z-10 px-1.5 py-0.5 rounded-md text-[10px] font-bold leading-none" :class="activeServiceTab === gIndex ? 'bg-white/20' : 'bg-white/10 tm'">{{ group.items.length }}</span>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Tab Content -->
-                <transition name="fade" mode="out-in">
-                    <div :key="activeServiceTab">
-                        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                             <div v-for="(item, i) in serviceGroups[activeServiceTab].items" :key="i" 
-                                 class="glass-card card-padding hover-trigger group interactive-hover">
-                                <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-blue-500/15 to-violet-500/15 flex items-center justify-center mb-6 text-blue-500 text-xl group-hover:from-blue-500 group-hover:to-violet-500 group-hover:text-white transition-all duration-300">
-                                    <span class="material-icons">{{ item.icon }}</span>
-                                </div>
-                                <h3 class="heading-sm tp mb-3">{{ item.title }}</h3>
-                                <p class="body-sm ts leading-relaxed mb-5">{{ item.description }}</p>
-                                <ul class="body-sm ts space-y-2.5">
-                                    <li v-for="highlight in item.highlights" :key="highlight" class="flex items-center gap-2.5">
-                                        <i class="fas fa-check text-violet-500 text-xs"></i> {{ highlight }}
-                                    </li>
-                                </ul>
-                            </div>
+                <!-- Service Category Tabs -->
+                <div class="max-w-6xl mx-auto" data-aos="fade-up">
+                    <div class="flex justify-center mb-10">
+                        <div class="inline-flex flex-wrap justify-center gap-1 p-1.5 glass rounded-2xl max-w-full" :style="{ borderColor: 'var(--border-color)' }" role="tablist" aria-label="Service categories">
+                            <button v-for="(group, gIndex) in serviceGroups" :key="gIndex" type="button"
+                                    @click="activeServiceTab = gIndex"
+                                    role="tab"
+                                    :aria-selected="activeServiceTab === gIndex ? 'true' : 'false'"
+                                    class="relative flex items-center gap-2 px-5 sm:px-6 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-300"
+                                    :class="activeServiceTab === gIndex ? 'text-white' : 'nav-idle'">
+                                <span v-if="activeServiceTab === gIndex" class="absolute inset-0 rounded-xl btn-gradient shadow-lg"></span>
+                                <span class="material-icons text-base relative z-10" aria-hidden="true">{{ group.icon }}</span>
+                                <span class="relative z-10">{{ group.title }}</span>
+                                <span class="relative z-10 px-1.5 py-0.5 rounded-md text-[10px] font-bold leading-none" :class="activeServiceTab === gIndex ? 'bg-white/20' : 'bg-white/10 tm'">{{ group.items.length }}</span>
+                            </button>
                         </div>
                     </div>
-                </transition>
+                    <!-- Tab Content -->
+                        <transition name="fade" mode="out-in">
+                            <div :key="activeServiceTab" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                                <div v-for="(item, i) in serviceGroups[activeServiceTab].items" :key="i" 
+                                     class="glass-card card-padding hover-trigger group interactive-hover">
+                                    <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-blue-500/15 to-violet-500/15 flex items-center justify-center mb-6 text-blue-500 text-xl group-hover:from-blue-600 group-hover:to-violet-600 group-hover:text-white transition-all duration-300">
+                                        <span class="material-icons">{{ item.icon }}</span>
+                                    </div>
+                                    <h3 class="heading-sm tp mb-3">{{ item.title }}</h3>
+                                    <p class="body-sm ts leading-relaxed mb-5">{{ item.description }}</p>
+                                    <ul class="body-sm ts space-y-2.5">
+                                        <li v-for="highlight in item.highlights" :key="highlight" class="flex items-center gap-2.5">
+                                            <i class="fas fa-check text-violet-500 text-xs" aria-hidden="true"></i> {{ highlight }}
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </transition>
+                </div>
             </div>
         </section>
 
         <!-- Tech Stack Marquee -->
-        <section class="bgp py-16 border-y" :style="{ borderColor: 'var(--border-color)' }">
+        <section id="technologies" class="bgp py-16 border-y" :style="{ borderColor: 'var(--border-color)' }">
             <div class="fluid-container mb-12">
                 <div class="section-header mb-0">
                     <span class="section-label text-violet-500">
@@ -1095,8 +1151,8 @@
                     <div class="inline-flex flex-wrap justify-center gap-1 p-1.5 glass rounded-2xl max-w-full" :style="{ borderColor: 'var(--border-color)' }">
                         <button v-for="cat in categories" :key="cat" @click="activeFilter = cat"
                                 class="relative flex items-center gap-2 px-5 sm:px-6 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-300"
-                                :class="activeFilter === cat ? 'text-white' : 'ts hover:text-white hover:bg-white/5'">
-                            <span v-if="activeFilter === cat" class="absolute inset-0 rounded-xl bg-gradient-to-r from-blue-500 to-violet-500 shadow-lg"></span>
+                                :class="activeFilter === cat ? 'text-white' : 'nav-idle'">
+                            <span v-if="activeFilter === cat" class="absolute inset-0 rounded-xl btn-gradient shadow-lg"></span>
                             <span class="relative z-10">{{ cat }}</span>
                             <span class="relative z-10 px-1.5 py-0.5 rounded-md text-[10px] font-bold leading-none" :class="activeFilter === cat ? 'bg-white/20' : 'bg-white/10 tm'">{{ categoryCounts[cat] }}</span>
                         </button>
@@ -1106,9 +1162,10 @@
 <div class="grid sm:grid-cols-2 lg:grid-cols-3 grid-unified">
                      <transition-group name="slide-up">
                         <div v-for="project in filteredProjects" :key="project.id" 
-                             class="portfolio-item group relative rounded-2xl overflow-hidden h-56 sm:h-64 cursor-pointer hover-trigger"
-                             @click="openProjectModal(project)">
-                            <div v-if="project.new" class="absolute top-3 left-3 z-10 bg-gradient-to-r from-blue-500 to-violet-500 text-white text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full shadow-lg">New</div>
+                             role="button" tabindex="0" :aria-label="'View details of ' + project.title"
+                             class="portfolio-item group relative rounded-2xl overflow-hidden h-56 sm:h-64 cursor-pointer hover-trigger focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                             @click="openProjectModal(project)" @keyup.enter="openProjectModal(project)">
+                            <div v-if="project.new" class="absolute top-3 left-3 z-10 btn-gradient text-white text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full shadow-lg">New</div>
                             <img :src="project.image" :alt="project.title" loading="lazy" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" @error="$event.target.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 800 600%22 fill=%22%23334155%22%3E%3Crect width=%22800%22 height=%22600%22/%3E%3Ctext x=%22400%22 y=%22300%22 text-anchor=%22middle%22 fill=%22%2394a3b8%22 font-size=%2224%22%3EProject Image%3C/text%3E%3C/svg%3E'">
                             <div class="absolute inset-0 opacity-60 group-hover:opacity-90 transition-opacity" :style="{ background: project.bgGradient || 'linear-gradient(to top, rgba(2,6,23,1) 0%, rgba(2,6,23,0.5) 50%, transparent 100%)' }"></div>
                             <div class="portfolio-overlay absolute inset-0 flex flex-col justify-end p-5 sm:p-6">
@@ -1149,7 +1206,7 @@
         </section>
 
         <!-- Testimonials -->
-        <section class="bgs section-spacing relative overflow-hidden">
+        <section id="testimonials" class="bgs section-spacing relative overflow-hidden">
             <div class="absolute top-0 left-1/4 w-[400px] h-[400px] rounded-full opacity-10 filter blur-[100px]" style="background: #3b82f6;"></div>
             <div class="absolute bottom-0 right-1/4 w-[400px] h-[400px] rounded-full opacity-10 filter blur-[100px]" style="background: #8b5cf6;"></div>
             
@@ -1178,7 +1235,7 @@
                                     {{ currentTestimonialData.name.charAt(0) }}
                                 </div>
                                 <div class="text-left">
-                                    <div class="text-white font-bold">{{ currentTestimonialData.name }}</div>
+                                    <div class="tp font-bold">{{ currentTestimonialData.name }}</div>
                                     <div class="text-violet-400 text-sm">{{ currentTestimonialData.role }}</div>
                                 </div>
                             </div>
@@ -1186,14 +1243,14 @@
                     </transition>
                     
                     <div class="flex justify-center gap-3 mt-12">
-                        <button v-for="(t, i) in testimonials" :key="i" @click="setTestimonial(i)" :class="['w-3 h-3 rounded-full transition-all', currentTestimonial === i ? 'bg-violet-500 w-8' : 'bg-white/20 hover:bg-white/40']"></button>
+                        <button v-for="(t, i) in testimonials" :key="i" @click="setTestimonial(i)" :aria-label="'Show testimonial ' + (i + 1)" :class="['w-3 h-3 rounded-full transition-all', currentTestimonial === i ? 'bg-violet-500 w-8' : 'bg-slate-400/40 hover:bg-slate-400/70']"></button>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Clients Section -->
-        <section class="bgp section-spacing relative overflow-hidden">
+<!-- Clients Section -->
+<section id="clients" class="bgp section-spacing relative overflow-hidden">
             <div class="absolute top-0 right-1/4 w-[300px] h-[300px] rounded-full opacity-10 filter blur-[100px]" style="background: #f97316;"></div>
             <div class="absolute bottom-0 left-1/4 w-[300px] h-[300px] rounded-full opacity-10 filter blur-[100px]" style="background: #3b82f6;"></div>
             
@@ -1227,8 +1284,8 @@
             </div>
         </section>
 
-        <!-- Pricing CTA Section -->
-        <section id="pricing" class="bgp section-spacing relative overflow-hidden">
+<!-- Pricing CTA Section -->
+<section id="get-started" class="bgp section-spacing relative overflow-hidden">
             <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full opacity-10 blur-[120px] pointer-events-none" style="background: #8b5cf6;"></div>
             <div class="fluid-container relative z-10">
                 <div class="text-center max-w-3xl mx-auto" data-aos="fade-up">
@@ -1239,9 +1296,9 @@
                     </span>
                     <h2 class="heading-lg tp mb-6">READY TO <span class="text-gradient-duotone">START?</span></h2>
                     <p class="body-lg ts mb-10 font-light leading-relaxed">
-                        No fixed packages — every project gets a custom quote based on your exact needs. Describe your idea and I'll take it from there.
+                        No fixed packages ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â every project gets a custom quote based on your exact needs. Describe your idea and I'll take it from there.
                     </p>
-                    <a href="#contact" class="btn-primary bg-gradient-to-r from-blue-500 to-violet-500 text-white hover:shadow-2xl hover-trigger hover:scale-105 btn-shimmer ripple-effect">
+                    <a href="#contact" @click.prevent="goToContactForm" class="btn-primary btn-gradient text-white hover:shadow-2xl hover-trigger hover:scale-105 btn-shimmer ripple-effect">
                         Start Your Project <i class="fas fa-arrow-right transition-transform"></i>
                     </a>
                 </div>
@@ -1309,7 +1366,7 @@
                                 <span class="font-bold tp">MongoDB</span>
                             </div>
                             <div class="flex items-center gap-3 px-6 py-4 glass rounded-xl hover:bg-white/10 transition-all hover:scale-105 flex-shrink-0">
-                                <i class="fab fa-swift text-3xl text-orange-500"></i>
+                                <i class="fas fa-mobile-screen text-3xl text-orange-500"></i>
                                 <span class="font-bold tp">Flutter</span>
                             </div>
                             <div class="flex items-center gap-3 px-6 py-4 glass rounded-xl hover:bg-white/10 transition-all hover:scale-105 flex-shrink-0">
@@ -1359,7 +1416,7 @@
                                 <span class="font-bold tp">MongoDB</span>
                             </div>
                             <div class="flex items-center gap-3 px-6 py-4 glass rounded-xl hover:bg-white/10 transition-all hover:scale-105 flex-shrink-0">
-                                <i class="fab fa-swift text-3xl text-orange-500"></i>
+                                <i class="fas fa-mobile-screen text-3xl text-orange-500"></i>
                                 <span class="font-bold tp">Flutter</span>
                             </div>
                             <div class="flex items-center gap-3 px-6 py-4 glass rounded-xl hover:bg-white/10 transition-all hover:scale-105 flex-shrink-0">
@@ -1394,30 +1451,30 @@
                             <div class="w-12 h-12 rounded-xl flex items-center justify-center text-blue-500 flex-shrink-0" style="background: rgba(59, 130, 246, 0.12);"><i class="fas fa-map-marker-alt"></i></div>
                             <div>
                                 <h4 class="font-bold tp text-sm">Visit Me</h4>
-                                <p class="body-sm ts leading-snug">House#408, Rd#29, Mohakhali DOHS, Dhaka-1212</p>
+                                <p class="body-sm ts leading-snug">Savar, Dhaka, Bangladesh</p>
                             </div>
                         </div>
                         <div class="flex items-center gap-4 p-4 glass rounded-xl hover:bg-white/5 transition-colors hover-trigger interactive-hover" :style="{ borderColor: 'var(--border-color)' }">
                             <div class="w-12 h-12 rounded-xl flex items-center justify-center text-violet-500 flex-shrink-0" style="background: rgba(139, 92, 246, 0.12);"><i class="fas fa-phone-alt"></i></div>
                             <div>
                                 <h4 class="font-bold tp text-sm">Call Me</h4>
-                                <p class="body-sm ts">+880 1979 670601</p>
+                                <a href="tel:+8801973670601" class="body-sm ts hover:text-blue-500 transition-colors">+880 1973 670601</a>
                             </div>
                         </div>
                         <div class="flex items-center gap-4 p-4 glass rounded-xl hover:bg-white/5 transition-colors hover-trigger interactive-hover" :style="{ borderColor: 'var(--border-color)' }">
                             <div class="w-12 h-12 rounded-xl flex items-center justify-center text-pink-500 flex-shrink-0" style="background: rgba(236, 72, 153, 0.12);"><i class="fas fa-envelope"></i></div>
                             <div>
                                 <h4 class="font-bold tp text-sm">Email Me</h4>
-                                <p class="body-sm ts">amin670bd@gmail.com</p>
+                                <a href="mailto:amin360it@gmail.com" class="body-sm ts hover:text-blue-500 transition-colors">amin360it@gmail.com</a>
                             </div>
                         </div>
 
                         <div class="mt-8">
                             <h4 class="font-bold tp text-sm">Follow Me</h4>
                             <div class="flex gap-3">
-                                <a href="#" aria-label="Facebook" class="w-10 h-10 rounded-xl flex items-center justify-center ts transition-all hover-trigger hover:bg-blue-500 hover:text-white interactive-hover" :style="{ backgroundColor: 'rgba(255,255,255,0.04)' }"><i class="fab fa-facebook-f text-sm"></i></a>
-                                <a href="#" aria-label="LinkedIn" class="w-10 h-10 rounded-xl flex items-center justify-center ts transition-all hover-trigger hover:bg-blue-500 hover:text-white interactive-hover" :style="{ backgroundColor: 'rgba(255,255,255,0.04)' }"><i class="fab fa-linkedin-in text-sm"></i></a>
-                                <a href="#" aria-label="GitHub" class="w-10 h-10 rounded-xl flex items-center justify-center ts transition-all hover-trigger hover:bg-blue-500 hover:text-white interactive-hover" :style="{ backgroundColor: 'rgba(255,255,255,0.04)' }"><i class="fab fa-github text-sm"></i></a>
+                                <a href="#" @click.prevent aria-label="Facebook" class="w-10 h-10 rounded-xl flex items-center justify-center ts transition-all hover-trigger hover:bg-blue-500 hover:text-white interactive-hover" :style="{ backgroundColor: 'rgba(255,255,255,0.04)' }"><i class="fab fa-facebook-f text-sm"></i></a>
+                                <a href="#" @click.prevent aria-label="LinkedIn" class="w-10 h-10 rounded-xl flex items-center justify-center ts transition-all hover-trigger hover:bg-blue-500 hover:text-white interactive-hover" :style="{ backgroundColor: 'rgba(255,255,255,0.04)' }"><i class="fab fa-linkedin-in text-sm"></i></a>
+                                <a href="#" @click.prevent aria-label="GitHub" class="w-10 h-10 rounded-xl flex items-center justify-center ts transition-all hover-trigger hover:bg-blue-500 hover:text-white interactive-hover" :style="{ backgroundColor: 'rgba(255,255,255,0.04)' }"><i class="fab fa-github text-sm"></i></a>
                             </div>
                         </div>
                     </div>
@@ -1427,26 +1484,26 @@
                              <h3 class="heading-sm tp mb-8">Send me a message</h3>
                             <form class="form-spacing" @submit.prevent="submitForm">
                                 <input type="hidden" name="access_key" value="10c1a904-df2c-4b15-8e7c-6407e5ae6943">
-                                <input type="text" name="honeypot" style="display:none" tabindex="-1" autocomplete="off">
+                                <input type="text" name="honeypot" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true">
                                 <div class="grid grid-cols-2 gap-4">
                                     <div>
                                         <label for="form-name" class="form-label tm">Your Name</label>
-                                        <input id="form-name" type="text" v-model="contactForm.name" class="form-input tp focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all hover-trigger placeholder:tm" :style="{ backgroundColor: 'var(--input-bg)', borderColor: 'var(--input-border)' }" placeholder="John Doe" required>
+                                        <input id="form-name" type="text" v-model="contactForm.name" autocomplete="name" class="form-input tp focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all hover-trigger placeholder:tm" :style="{ backgroundColor: 'var(--input-bg)', borderColor: 'var(--input-border)' }" placeholder="John Doe" required>
                                     </div>
                                     <div>
                                         <label for="form-email" class="form-label tm">Email Address</label>
-                                        <input id="form-email" type="email" v-model="contactForm.email" class="form-input tp focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all hover-trigger placeholder:tm" :style="{ backgroundColor: 'var(--input-bg)', borderColor: 'var(--input-border)' }" placeholder="john@company.com" required>
+                                        <input id="form-email" type="email" v-model="contactForm.email" autocomplete="email" class="form-input tp focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all hover-trigger placeholder:tm" :style="{ backgroundColor: 'var(--input-bg)', borderColor: 'var(--input-border)' }" placeholder="john@company.com" required>
                                     </div>
                                 </div>
                                 <div>
                                     <label for="form-subject" class="form-label tm">Subject</label>
-                                    <input id="form-subject" type="text" v-model="contactForm.subject" class="form-input tp focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all hover-trigger placeholder:tm" :style="{ backgroundColor: 'var(--input-bg)', borderColor: 'var(--input-border)' }" placeholder="Project inquiry" required>
+                                    <input id="form-subject" type="text" v-model="contactForm.subject" autocomplete="off" class="form-input tp focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all hover-trigger placeholder:tm" :style="{ backgroundColor: 'var(--input-bg)', borderColor: 'var(--input-border)' }" placeholder="Project inquiry" required>
                                 </div>
                                 <div>
                                     <label for="form-message" class="form-label tm">Message</label>
-                                    <textarea id="form-message" rows="5" v-model="contactForm.message" class="form-input tp focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all hover-trigger resize-none placeholder:tm" :style="{ backgroundColor: 'var(--input-bg)', borderColor: 'var(--input-border)' }" placeholder="Tell me about your project requirements..." required></textarea>
+                                    <textarea id="form-message" rows="5" v-model="contactForm.message" autocomplete="off" class="form-input tp focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all hover-trigger resize-none placeholder:tm" :style="{ backgroundColor: 'var(--input-bg)', borderColor: 'var(--input-border)' }" placeholder="Tell me about your project requirements..." required></textarea>
                                 </div>
-                                <button type="submit" class="w-full btn-primary bg-gradient-to-r from-blue-500 to-violet-500 text-white hover:shadow-lg transition-all transform hover:-translate-y-0.5 hover-trigger btn-shimmer ripple-effect" :disabled="formStatus === 'sending'">
+                                <button type="submit" class="w-full btn-primary btn-gradient text-white hover:shadow-lg transition-all transform hover:-translate-y-0.5 hover-trigger btn-shimmer ripple-effect" :disabled="formStatus === 'sending'">
                                     <i v-if="formStatus === 'sending'" class="fas fa-spinner fa-spin"></i>
                                     <i v-else class="fas fa-paper-plane"></i> {{ formStatus === 'sending' ? 'Sending...' : 'Send Message' }}
                                 </button>
@@ -1463,22 +1520,22 @@
                 <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-12 mb-14">
                     <div>
                         <div class="flex items-center gap-3 mb-6">
-                            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-violet-500 flex items-center justify-center">
-                                <i class="fas fa-code text-white text-sm"></i>
+                            <div class="w-10 h-10 flex-shrink-0 brand-logo-box rounded-xl flex items-center justify-center p-1">
+                                <img src="./amin360it-logo.png" alt="Amin360IT" class="w-full h-full object-contain drop-shadow">
                             </div>
                             <div>
-                                <h4 class="font-bold text-lg tp tracking-tight">Amin360IT</h4>
-                                <span class="text-[10px] uppercase ts tracking-widest">Software, Web & Digital Solutions</span>
+                                <h4 class="font-bold text-lg text-gradient-duotone tracking-tight">Amin360IT</h4>
+                                <span class="block text-[9px] sm:text-[10px] uppercase tracking-widest font-medium ts mt-0.5">Software, Web & Digital Solutions</span>
                             </div>
                         </div>
                         <p class="body-sm ts leading-relaxed mb-6">
                             Empowering businesses with cutting-edge software solutions.
                         </p>
                         <div class="flex gap-4">
-                            <a href="#" aria-label="Facebook" class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-slate-400 hover:bg-violet-500 hover:text-white transition-all"><i class="fab fa-facebook-f text-sm"></i></a>
-                            <a href="#" aria-label="Twitter" class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-slate-400 hover:bg-blue-500 hover:text-white transition-all"><i class="fab fa-twitter text-sm"></i></a>
-                            <a href="#" aria-label="LinkedIn" class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-slate-400 hover:bg-violet-500 hover:text-white transition-all"><i class="fab fa-linkedin-in text-sm"></i></a>
-                            <a href="#" aria-label="Instagram" class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-slate-400 hover:bg-pink-500 hover:text-white transition-all"><i class="fab fa-instagram text-sm"></i></a>
+                            <a href="#" @click.prevent aria-label="Facebook" class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center ts hover:bg-violet-500 hover:text-white transition-all"><i class="fab fa-facebook-f text-sm"></i></a>
+                            <a href="#" @click.prevent aria-label="Twitter" class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center ts hover:bg-blue-500 hover:text-white transition-all"><i class="fab fa-twitter text-sm"></i></a>
+                            <a href="#" @click.prevent aria-label="LinkedIn" class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center ts hover:bg-violet-500 hover:text-white transition-all"><i class="fab fa-linkedin-in text-sm"></i></a>
+                            <a href="#" @click.prevent aria-label="Instagram" class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center ts hover:bg-pink-500 hover:text-white transition-all"><i class="fab fa-instagram text-sm"></i></a>
                         </div>
                     </div>
                     <div>
@@ -1492,9 +1549,9 @@
                         <ul class="space-y-3 body-sm ts">
                             <li><a href="#services" class="hover:text-violet-500 transition-colors hover-trigger">Web Development</a></li>
                             <li><a href="#services" class="hover:text-violet-500 transition-colors hover-trigger">Web Applications</a></li>
-							<li><a href="#services" class="hover:text-violet-500 transition-colors hover-trigger">Mobile App</a></li>
+							<li><a href="#services" class="hover:text-violet-500 transition-colors hover-trigger">Mobile Apps</a></li>
                             <li><a href="#services" class="hover:text-violet-500 transition-colors hover-trigger">Desktop Software</a></li>
-							<li><a href="#services" class="hover:text-violet-500 transition-colors hover-trigger">ERP/Automations</a></li>
+							<li><a href="#services" class="hover:text-violet-500 transition-colors hover-trigger">ERP Automation</a></li>
                             <li><a href="#services" class="hover:text-violet-500 transition-colors hover-trigger">Custom Solutions</a></li>
                         </ul>
                     </div>
@@ -1502,18 +1559,18 @@
                         <h4 class="font-bold mb-6 border-l-4 pl-3 tp text-xs uppercase tracking-widest" style="border-color: #8b5cf6;">Newsletter</h4>
                         <p class="body-sm ts leading-relaxed mb-4">Subscribe to get the latest tech insights.</p>
                         <div class="flex gap-2">
-                            <input id="newsletter-email" type="email" aria-label="Email for newsletter" class="flex-1 border rounded-xl px-4 py-2.5 body-sm tp focus:outline-none focus:border-blue-500 hover-trigger placeholder:tm" :style="{ backgroundColor: 'var(--bg-tertiary)', borderColor: 'var(--input-border)' }" placeholder="Your Email">
-                            <button @click="subscribeNewsletter" class="bg-violet-500 px-4 py-2.5 rounded-xl hover:bg-violet-600 transition-colors hover-trigger text-white">
+                            <input id="newsletter-email" type="email" v-model="newsletterEmail" @keyup.enter="subscribeNewsletter" autocomplete="email" aria-label="Email for newsletter" class="flex-1 border rounded-xl px-4 py-2.5 body-sm tp focus:outline-none focus:border-blue-500 hover-trigger placeholder:tm" :style="{ backgroundColor: 'var(--bg-tertiary)', borderColor: 'var(--input-border)' }" placeholder="Your Email">
+                            <button @click="subscribeNewsletter" class="btn-gradient px-4 py-2.5 rounded-xl transition-colors hover-trigger text-white">
                                 <i class="fas fa-paper-plane text-xs"></i>
                             </button>
                         </div>
                     </div>
                 </div>
                 <div class="flex flex-col sm:flex-row justify-between items-center gap-4 pt-8" :style="{ borderTop: '1px solid var(--border-color)' }">
-                    <p class="body-sm ts">&copy; 2026 Amin360IT. All Rights Reserved.</p>
+                    <p class="body-sm ts">&copy; {{ year }} Amin360IT. All Rights Reserved.</p>
                     <div class="flex gap-6 body-sm ts">
-                        <a href="#home" class="hover:text-violet-500 transition-colors hover-trigger">Privacy Policy</a>
-                        <a href="#home" class="hover:text-violet-500 transition-colors hover-trigger">Terms of Service</a>
+                        <a href="#" @click.prevent class="hover:text-violet-500 transition-colors hover-trigger">Privacy Policy</a>
+                        <a href="#" @click.prevent class="hover:text-violet-500 transition-colors hover-trigger">Terms of Service</a>
                     </div>
                 </div>
             </div>
@@ -1531,7 +1588,7 @@
                         <div class="relative h-56 sm:h-64">
                             <img :src="selectedProject.image" :alt="selectedProject.title" loading="lazy" class="w-full h-full object-cover" @error="$event.target.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 800 600%22 fill=%22%23334155%22%3E%3Crect width=%22800%22 height=%22600%22/%3E%3C/svg%3E'">
                             <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/60 to-transparent"></div>
-                            <button @click="closeProjectModal" class="absolute top-4 right-4 w-10 h-10 rounded-full bg-black/40 hover:bg-black/60 flex items-center justify-center text-white transition-all z-10 backdrop-blur-sm">
+                            <button @click="closeProjectModal" aria-label="Close project details" class="absolute top-4 right-4 w-10 h-10 rounded-full bg-black/40 hover:bg-black/60 flex items-center justify-center text-white transition-all z-10 backdrop-blur-sm">
                                 <i class="fas fa-times"></i>
                             </button>
                             <div class="absolute bottom-4 left-4 right-4">
@@ -1618,7 +1675,7 @@
                             
                             <!-- Action Buttons -->
                             <div class="flex flex-wrap gap-3">
-                                 <a v-if="selectedProject.live_link" :href="selectedProject.live_link" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-blue-500 to-violet-500 hover:from-blue-600 hover:to-violet-600 text-white font-semibold rounded-xl transition-all shadow-lg hover:shadow-xl">
+                                 <a v-if="selectedProject.live_link && selectedProject.live_link !== '#'" :href="selectedProject.live_link" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-5 py-2.5 btn-gradient text-white font-semibold rounded-xl transition-all shadow-lg hover:shadow-xl">
                                     <i class="fas fa-external-link-alt"></i> Live Demo
                                 </a>
                                  <a v-if="selectedProject.yt_link" :href="selectedProject.yt_link" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-5 py-2.5 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-xl transition-all shadow-lg hover:shadow-xl">
@@ -1638,7 +1695,7 @@
         <transition name="fade">
             <div v-if="videoOpen" class="fixed inset-0 z-[80] flex items-center justify-center p-4" :style="{ backgroundColor: 'var(--overlay-bg)' }" @click.self="closeVideo">
                 <div class="relative w-full max-w-4xl aspect-video bg-black rounded-xl overflow-hidden shadow-2xl">
-                    <button @click="closeVideo" class="absolute top-4 right-4 z-10 text-white hover:text-violet-500 text-2xl hover-trigger"><i class="fas fa-times"></i></button>
+                    <button @click="closeVideo" aria-label="Close video" class="absolute top-4 right-4 z-10 text-white hover:text-violet-500 text-2xl hover-trigger"><i class="fas fa-times"></i></button>
                     <div v-if="videoId.length > 0 && videoId !== 'REPLACE_WITH_YOUR_VIDEO_ID'" class="w-full h-full">
                         <iframe class="w-full h-full" :src="'https://www.youtube.com/embed/' + videoId + '?autoplay=1'" title="Showreel video" allow="autoplay; encrypted-media; fullscreen" allowfullscreen></iframe>
                     </div>
@@ -1657,14 +1714,14 @@
                     <i :class="toast.type === 'success' ? 'fas fa-check' : 'fas fa-exclamation'"></i>
                 </div>
                 <div class="flex-1 text-sm font-medium leading-snug">{{ toast.message }}</div>
-                <button @click="toast.show = false" class="opacity-50 hover:opacity-100 transition-opacity flex-shrink-0">
+                <button @click="toast.show = false" aria-label="Dismiss notification" class="opacity-50 hover:opacity-100 transition-opacity flex-shrink-0">
                     <i class="fas fa-times text-xs"></i>
                 </button>
             </div>
         </transition>
 
         <!-- Go to Top -->
-        <button v-show="scrolled" @click="scrollToTop" class="fixed bottom-20 sm:bottom-8 right-4 sm:right-8 w-12 h-12 bg-gradient-to-r from-blue-500 to-violet-500 text-white rounded-xl shadow-lg flex items-center justify-center hover:scale-110 transition-transform z-40 hover-trigger">
+        <button v-show="scrolled" @click="scrollToTop" aria-label="Go to top" class="fixed bottom-20 sm:bottom-8 right-4 sm:right-8 w-12 h-12 btn-gradient text-white rounded-xl shadow-lg flex items-center justify-center hover:scale-110 transition-transform z-40 hover-trigger">
             <i class="fas fa-arrow-up text-sm"></i>
         </button>
     </div>
@@ -1711,10 +1768,9 @@ createApp({
                 const activeSection = ref('home');
                 const activeFilter = ref('All');
                 const activeServiceTab = ref(0);
-                const selectedProject = ref(null);
+const selectedProject = ref(null);
                 const currentTestimonial = ref(0);
-                const cursor = reactive({ x: 0, y: 0 });
-                
+
                 const contactForm = reactive({ name: '', email: '', subject: '', message: '' });
                 const formStatus = ref(null);
                 const toast = reactive({ show: false, type: 'success', message: '' });
@@ -1734,8 +1790,7 @@ createApp({
                     { name: 'Home', href: '#home', id: 'home', icon: 'fas fa-home' },
                     { name: 'About', href: '#about', id: 'about', icon: 'fas fa-user' },
                     { name: 'Services', href: '#services', id: 'services', icon: 'fas fa-cogs' },
-                    { name: 'Work', href: '#portfolio', id: 'portfolio', icon: 'fas fa-briefcase' },
-                    { name: 'Process', href: '#process', id: 'process', icon: 'fas fa-layer-group' },
+                    { name: 'Projects', href: '#portfolio', id: 'portfolio', icon: 'fas fa-briefcase' },
                     { name: 'Contact', href: '#contact', id: 'contact', icon: 'fas fa-envelope' }
                 ];
 
@@ -1743,8 +1798,7 @@ const mobileNavLinks = [
                     { name: 'Home', href: '#home', id: 'home', icon: 'fas fa-home' },
                     { name: 'About', href: '#about', id: 'about', icon: 'fas fa-user' },
                     { name: 'Services', href: '#services', id: 'services', icon: 'fas fa-cogs' },
-                    { name: 'Work', href: '#portfolio', id: 'portfolio', icon: 'fas fa-briefcase' },
-                    { name: 'Process', href: '#process', id: 'process', icon: 'fas fa-layer-group' },
+                    { name: 'Projects', href: '#portfolio', id: 'portfolio', icon: 'fas fa-briefcase' },
                     { name: 'Contact', href: '#contact', id: 'contact', icon: 'fas fa-envelope' }
                 ];
 
@@ -1756,43 +1810,43 @@ const mobileNavLinks = [
                 ];
 
                 const serviceGroups = [
-                    { icon: 'laptop_mac', title: 'Web & App Development', items: [
+                    { icon: 'laptop_mac', title: 'Web & Apps', items: [
                         { icon: 'web', title: 'Web Development & CMS', description: 'Custom WordPress, WooCommerce, Vue, and Laravel development with responsive design, SEO optimization, and payment system integration.', highlights: ['WordPress, Elementor, WooCommerce', 'Vue 3 SPA Development', 'Laravel REST API & Backend', 'Custom Theme & Plugin Development', 'Payment Gateway Integration, LMS, ACF', 'SEO Optimization & Performance Tuning'] },
-                        { icon: 'important_devices', title: 'Hybrid Mobile App (PWA, Web, Android)', description: 'Cross-platform mobile solutions combining PWA and Capacitor — installable web apps and hybrid Android APKs from a single Vue/React codebase.', highlights: ['Progressive Web App (PWA) Development', 'Hybrid Android APK via Capacitor', 'Vue 3 / React + Capacitor Integration', 'Offline Mode, Push Notifications & Service Workers', 'Play Store Deployment & App Updates', 'Camera, GPS & Native Plugin Access'] },
+                        { icon: 'important_devices', title: 'Hybrid Mobile App (PWA, Web, Android)', description: 'Cross-platform mobile solutions combining PWA and Capacitor ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â installable web apps and hybrid Android APKs from a single Vue/React codebase.', highlights: ['Progressive Web App (PWA) Development', 'Hybrid Android APK via Capacitor', 'Vue 3 / React + Capacitor Integration', 'Offline Mode, Push Notifications & Service Workers', 'Play Store Deployment & App Updates', 'Camera, GPS & Native Plugin Access'] },
                         { icon: 'code', title: 'Custom Software & Tools Development', description: 'Bespoke desktop applications, internal business tools, utility software, and process automation scripts tailored to your workflow.', highlights: ['Bespoke Desktop Applications', 'Internal Business & Productivity Tools', 'Utility Software & CLI Tools', 'Process Automation Scripts', 'C# .NET WinForms & ADO.NET', 'System Integration & Custom Reporting'] }
                     ]},
-                    { icon: 'support', title: 'IT & Business Support', items: [
-                        { icon: 'dns', title: 'IT Support & System Administration', description: 'End-to-end IT support for businesses — PC assembly, OS installation, hardware/software diagnostics, remote support, and user training.', highlights: ['PC Assembly, Upgrade & Repair', 'Windows / Linux OS Installation & Configuration', 'Hardware & Software Diagnostics', 'Remote IT Support (AnyDesk, TeamViewer)', 'Driver Setup & System Maintenance', 'User Training & Onboarding'] },
+                    { icon: 'support', title: 'IT Support', items: [
+                        { icon: 'dns', title: 'IT Support & System Administration', description: 'End-to-end IT support for businesses ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â PC assembly, OS installation, hardware/software diagnostics, remote support, and user training.', highlights: ['PC Assembly, Upgrade & Repair', 'Windows / Linux OS Installation & Configuration', 'Hardware & Software Diagnostics', 'Remote IT Support (AnyDesk, TeamViewer)', 'Driver Setup & System Maintenance', 'User Training & Onboarding'] },
                         { icon: 'settings_applications', title: 'ERP & Business Systems Administration', description: 'Full-cycle ERP management including module configuration, data entry, payroll, inventory, POS, and user support across various business systems.', highlights: ['ERP Module Configuration & Management', 'Inventory, Payroll & Billing Operations', 'POS Systems & Data Entry', 'File Handling & Document Management', 'ERP Install, Migration & Support', 'Garments Systems & RFID Tag Generation'] },
-                        { icon: 'lan', title: 'Network Infrastructure & Security', description: 'Basic network services — IP configuration, LAN/router setup, printer sharing, firewall, and general network troubleshooting for small offices and production floors.', highlights: ['Laptop / PC IP Configuration & Troubleshooting', 'LAN / Router Setup & Network Configuration', 'File & Printer Sharing Setup', 'Firewall & Antivirus Deployment', 'Network Device Diagnostics & Maintenance', 'PC / Printer Network Troubleshooting'] }
+                        { icon: 'lan', title: 'Network Infrastructure & Security', description: 'Basic network services ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â IP configuration, LAN/router setup, printer sharing, firewall, and general network troubleshooting for small offices and production floors.', highlights: ['Laptop / PC IP Configuration & Troubleshooting', 'LAN / Router Setup & Network Configuration', 'File & Printer Sharing Setup', 'Firewall & Antivirus Deployment', 'Network Device Diagnostics & Maintenance', 'PC / Printer Network Troubleshooting'] }
                     ]},
-                    { icon: 'trending_up', title: 'E-Commerce & Marketing', items: [
-                        { icon: 'shopping_cart', title: 'E-Commerce & Online Store Solutions', description: 'Full WooCommerce store development on WordPress — from theme customization and product catalog setup to photography, infographics, order management, and promotional email campaigns.', highlights: ['WooCommerce Store Development on WordPress', 'Theme Customization & Product Catalog Setup', 'Product Photography, Editing & Infographics', 'Order, Shipping & Inventory Management', 'Promotional Email Campaigns & Newsletters', 'Store Maintenance & Performance Optimization'] },
-                        { icon: 'campaign', title: 'Email Marketing & Campaigns', description: 'End-to-end email campaign management — from strategy and copywriting to automation, analytics, and subscriber list management.', highlights: ['Campaign Setup & Automation', 'Newsletter & Lead Nurture Sequences', 'Bulk Mailing Tools (Mailchimp, SendGrid)', 'Email Copywriting & Analytics', 'Subscriber List Management & Segmentation', 'A/B Testing & Performance Reporting'] },
+                    { icon: 'trending_up', title: 'E-Commerce', items: [
+                        { icon: 'shopping_cart', title: 'E-Commerce & Online Store Solutions', description: 'Full WooCommerce store development on WordPress ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â from theme customization and product catalog setup to photography, infographics, order management, and promotional email campaigns.', highlights: ['WooCommerce Store Development on WordPress', 'Theme Customization & Product Catalog Setup', 'Product Photography, Editing & Infographics', 'Order, Shipping & Inventory Management', 'Promotional Email Campaigns & Newsletters', 'Store Maintenance & Performance Optimization'] },
+                        { icon: 'campaign', title: 'Email Marketing & Campaigns', description: 'End-to-end email campaign management ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â from strategy and copywriting to automation, analytics, and subscriber list management.', highlights: ['Campaign Setup & Automation', 'Newsletter & Lead Nurture Sequences', 'Bulk Mailing Tools (Mailchimp, SendGrid)', 'Email Copywriting & Analytics', 'Subscriber List Management & Segmentation', 'A/B Testing & Performance Reporting'] },
                         { icon: 'webhook', title: 'Email & Web Template Design', description: 'Custom-coded HTML email templates and responsive web page templates designed for branding, engagement, and cross-client compatibility.', highlights: ['HTML Email Template Design & Coding', 'Responsive Email Layouts (Dark Mode Ready)', 'Landing Page & Web Template Design', 'Mailchimp / SendGrid Template Integration', 'Brand-consistent Visual Email Design', 'Cross-client Email Rendering Testing'] }
                     ]},
-                    { icon: 'auto_awesome', title: 'Design & Multimedia', items: [
-                        { icon: 'palette', title: 'Graphic Design & Branding', description: 'Professional print and digital design — business identity, promotional materials, product visuals, and social media creatives.', highlights: ['Business Cards, Flyers & Banners', 'Social Media Posts & Cover Art', 'Product Photography & Editing', 'Infographics, Labels & Invoices', 'Logo & Brand Identity Design', 'Brochures, Menus & Print-ready Artwork'] },
+                    { icon: 'auto_awesome', title: 'Design & Media', items: [
+                        { icon: 'palette', title: 'Graphic Design & Branding', description: 'Professional print and digital design ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â business identity, promotional materials, product visuals, and social media creatives.', highlights: ['Business Cards, Flyers & Banners', 'Social Media Posts & Cover Art', 'Product Photography & Editing', 'Infographics, Labels & Invoices', 'Logo & Brand Identity Design', 'Brochures, Menus & Print-ready Artwork'] },
                         { icon: 'videocam', title: 'Video Editing', description: 'Creative video editing and post-production for social media reels, promotional clips, event recaps, and multimedia presentations.', highlights: ['Short-form Reels & Social Media Clips', 'Promotional & Corporate Video Editing', 'Trimming, Transitions & Color Grading', 'Text Overlays, Captions & Titles', 'Background Music & Audio Sync', 'CapCut & Mobile-first Video Optimization'] },
-                        { icon: 'movie_creation', title: 'AI-Powered Multimedia Production', description: 'End-to-end multimedia content created with AI — comics, cartoons, digital art, image manipulation, audio editing, music scoring, and motion graphics for media and marketing.', highlights: ['AI Comic Strip & Cartoon Generation', 'AI Digital Art & Image Compositing', 'AI Photo Retouching & Manipulation', 'AI Audio Editing & Voiceover Production', 'AI Music Composition & Background Scoring', 'AI Animation & Motion Graphics'] }
+                        { icon: 'movie_creation', title: 'AI-Powered Multimedia Production', description: 'End-to-end multimedia content created with AI ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â comics, cartoons, digital art, image manipulation, audio editing, music scoring, and motion graphics for media and marketing.', highlights: ['AI Comic Strip & Cartoon Generation', 'AI Digital Art & Image Compositing', 'AI Photo Retouching & Manipulation', 'AI Audio Editing & Voiceover Production', 'AI Music Composition & Background Scoring', 'AI Animation & Motion Graphics'] }
                     ]},
                     { icon: 'psychology', title: 'AI Services', items: [
-                        { icon: 'description', title: 'AI Writing & Document Help', description: 'Practical AI-powered writing for everyday needs — resumes, cover letters, official emails, applications, reports, and business documents done fast.', highlights: ['Resume & Cover Letter Writing', 'Official Email & Letter Drafting', 'Job Application & Proposal Writing', 'Report & Document Formatting', 'Proofreading & Paraphrasing', 'Multi-language Translation'] },
-                        { icon: 'auto_awesome', title: 'AI Image & Photo Services', description: 'Real-world image solutions — product photos, portrait retouching, background removal, old photo restoration, and custom visuals for personal or business use.', highlights: ['Product Photo Editing & Retouching', 'Background Removal & Replacement', 'Old Photo Restoration & Colorization', 'Passport & ID Photo Processing', 'AI Portrait & Profile Picture Creation', 'Social Media Visual & Thumbnail Design'] },
-                        { icon: 'smart_toy', title: 'AI Automation & Chatbot Setup', description: 'Practical automation for small businesses — AI chatbots for customer queries, automated email replies, data entry help, and simple workflow bots.', highlights: ['AI Customer Reply Chatbot Setup', 'Automated Email & Message Responses', 'Data Entry & Spreadsheet Automation', 'PDF Data Extraction & Processing', 'Social Media Auto-Reply & Scheduling', 'Simple n8n Workflow Automation'] }
+                        { icon: 'description', title: 'AI Writing & Document Help', description: 'Practical AI-powered writing for everyday needs ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â resumes, cover letters, official emails, applications, reports, and business documents done fast.', highlights: ['Resume & Cover Letter Writing', 'Official Email & Letter Drafting', 'Job Application & Proposal Writing', 'Report & Document Formatting', 'Proofreading & Paraphrasing', 'Multi-language Translation'] },
+                        { icon: 'auto_awesome', title: 'AI Image & Photo Services', description: 'Real-world image solutions ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â product photos, portrait retouching, background removal, old photo restoration, and custom visuals for personal or business use.', highlights: ['Product Photo Editing & Retouching', 'Background Removal & Replacement', 'Old Photo Restoration & Colorization', 'Passport & ID Photo Processing', 'AI Portrait & Profile Picture Creation', 'Social Media Visual & Thumbnail Design'] },
+                        { icon: 'smart_toy', title: 'AI Automation & Chatbot Setup', description: 'Practical automation for small businesses ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â AI chatbots for customer queries, automated email replies, data entry help, and simple workflow bots.', highlights: ['AI Customer Reply Chatbot Setup', 'Automated Email & Message Responses', 'Data Entry & Spreadsheet Automation', 'PDF Data Extraction & Processing', 'Social Media Auto-Reply & Scheduling', 'Simple n8n Workflow Automation'] }
                     ]},
-                    { icon: 'brush', title: 'Creative Services', items: [
-                        { icon: 'edit_note', title: 'Custom Poetry & Voice', description: 'Personalized poetry and spoken-word content for events, presentations, and media projects — crafted with AI assistance and delivered in text or voice format.', highlights: ['Custom Poetry for Events & Occasions', 'Voice-Recorded Spoken Word', 'Presentation & Script Writing', 'Multi-language Poetry Options', 'Themed & Branded Content', 'Quick Turnaround Delivery'] },
-                        { icon: 'music_note', title: 'Custom Songs & Music Production', description: 'Original songs with personalized lyrics, AI-assisted music composition, and video production — suitable for wedding presentations, brand campaigns, and special celebrations.', highlights: ['Personalized Lyrics & Composition', 'AI-Assisted Music Production', 'Wedding & Event Presentation Songs', 'Brand Campaign Audio Content', 'Full Audio + Video Output', 'Customizable Genre & Style'] },
-                        { icon: 'videocam', title: 'AI Video Content Creation', description: 'Video content from concept to final edit — AI-powered visuals, animation, and storyboarding combined with professional editing for social media, portfolios, and promotions.', highlights: ['Content Planning & Storyboarding', 'AI-Generated Visuals & Animation', 'Photo Montage & Slideshow Videos', 'Voiceover & Background Music Sync', 'Social Media-Ready Short Clips', 'Professional Editing & Color Grading'] },
-                        { icon: 'gesture', title: 'Pencil Sketch & Portrait Art', description: 'Hand-drawn pencil portraits from reference photos — realistic sketch art on paper with optional framing, capturing expressions with traditional technique and AI-enhanced reference processing.', highlights: ['Portrait Sketch from Photo Reference', 'Realistic Pencil Drawing on Paper', 'Custom Size & Framing Options', 'Gift-Ready Packaged Artwork', 'AI-Enhanced Photo Reference Prep', 'Digital Scan Copy Included'] },
-                        { icon: 'wallpaper', title: 'AI Home Decor Design', description: 'Custom wall art and decor designs created with AI — framed pictures, canvas prints, and thematic pieces tailored to your space, style, and preferred dimensions.', highlights: ['Custom Wall-Framed Picture Design', 'AI-Generated Canvas & Print Art', 'Personalized Quote & Name Frames', 'Custom Size & Aspect Ratio Options', 'Theme-Based Decor Collections', 'Printable & Ready-to-Frame Formats'] },
-                        { icon: 'store', title: 'Custom Stationery & Branding', description: 'Bespoke stationery sets, t-shirt graphics, brand identity guides, and merchandise design — combining graphics software expertise with AI for a polished, professional finish.', highlights: ['Custom Stationery Sets Design', 'T-Shirt Graphics & Print-Ready Art', 'Brand Identity & Style Guide Creation', 'Logo, Business Card & Letterhead Sets', 'Packaging & Label Design', 'Full Merchandise Design Suite'] }
+                    { icon: 'brush', title: 'Creative', items: [
+                        { icon: 'edit_note', title: 'Custom Poetry & Voice', description: 'Personalized poetry and spoken-word content for events, presentations, and media projects ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â crafted with AI assistance and delivered in text or voice format.', highlights: ['Custom Poetry for Events & Occasions', 'Voice-Recorded Spoken Word', 'Presentation & Script Writing', 'Multi-language Poetry Options', 'Themed & Branded Content', 'Quick Turnaround Delivery'] },
+                        { icon: 'music_note', title: 'Custom Songs & Music Production', description: 'Original songs with personalized lyrics, AI-assisted music composition, and video production ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â suitable for wedding presentations, brand campaigns, and special celebrations.', highlights: ['Personalized Lyrics & Composition', 'AI-Assisted Music Production', 'Wedding & Event Presentation Songs', 'Brand Campaign Audio Content', 'Full Audio + Video Output', 'Customizable Genre & Style'] },
+                        { icon: 'videocam', title: 'AI Video Content Creation', description: 'Video content from concept to final edit ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â AI-powered visuals, animation, and storyboarding combined with professional editing for social media, portfolios, and promotions.', highlights: ['Content Planning & Storyboarding', 'AI-Generated Visuals & Animation', 'Photo Montage & Slideshow Videos', 'Voiceover & Background Music Sync', 'Social Media-Ready Short Clips', 'Professional Editing & Color Grading'] },
+                        { icon: 'gesture', title: 'Pencil Sketch & Portrait Art', description: 'Hand-drawn pencil portraits from reference photos ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â realistic sketch art on paper with optional framing, capturing expressions with traditional technique and AI-enhanced reference processing.', highlights: ['Portrait Sketch from Photo Reference', 'Realistic Pencil Drawing on Paper', 'Custom Size & Framing Options', 'Gift-Ready Packaged Artwork', 'AI-Enhanced Photo Reference Prep', 'Digital Scan Copy Included'] },
+                        { icon: 'wallpaper', title: 'AI Home Decor Design', description: 'Custom wall art and decor designs created with AI ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â framed pictures, canvas prints, and thematic pieces tailored to your space, style, and preferred dimensions.', highlights: ['Custom Wall-Framed Picture Design', 'AI-Generated Canvas & Print Art', 'Personalized Quote & Name Frames', 'Custom Size & Aspect Ratio Options', 'Theme-Based Decor Collections', 'Printable & Ready-to-Frame Formats'] },
+                        { icon: 'store', title: 'Custom Stationery & Branding', description: 'Bespoke stationery sets, t-shirt graphics, brand identity guides, and merchandise design ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â combining graphics software expertise with AI for a polished, professional finish.', highlights: ['Custom Stationery Sets Design', 'T-Shirt Graphics & Print-Ready Art', 'Brand Identity & Style Guide Creation', 'Logo, Business Card & Letterhead Sets', 'Packaging & Label Design', 'Full Merchandise Design Suite'] }
                     ]},
-                    { icon: 'precision_manufacturing', title: 'Industrial & On-Site', items: [
-                        { icon: 'storage', title: 'Desktop Automation & Hardware Integration', description: 'Custom C# .NET desktop applications integrated with industrial hardware — weight scales, barcode printers, serial ports, and ERP systems for production environments.', highlights: ['C# .NET WinForms & ADO.NET Applications', 'YAOHUA Digital Weight Scale Integration', 'Automated Label & Barcode Printing Systems', 'Serial Port & Hardware Communication', 'Crystal Reports & Data Export Solutions', 'Excel VBA Macros & Process Automation'] },
-                        { icon: 'settings_ethernet', title: 'Industrial RFID, Barcode & IoT Systems', description: 'Production floor data collection infrastructure — RFID terminals, MOXA serial communication over RJ-6 (RS-485), barcode automation, and IoT checkpoint systems.', highlights: ['RFID NXP MCU Terminal Setup & Management', 'MOXA Multiport Serial Card Configuration', 'RJ-6 (RS-485) Cabling & Infrastructure', 'Barcode Printer Configuration & Label Automation', 'Production Floor RFID Checkpoints & Data Collection', 'ERP-to-Floor Device Integration (MOXA / RFID)'] },
-                        { icon: 'dns', title: 'Production Floor IT & Systems Support', description: 'IT support tailored for manufacturing environments — workstation setup, printer/network troubleshooting, ERP user admin, and equipment integration across production lines.', highlights: ['PC / Printer Setup & Troubleshooting on Production Floor', 'LAN, IP Config & Network Diagnostics', 'ERP User Administration & Module Support', 'File & Printer Sharing for Workshop Environments', '30+ Workstation & Device Management', 'RJ-6 / MOXA Device Networking & Support'] }
+                    { icon: 'precision_manufacturing', title: 'Industrial', items: [
+                        { icon: 'storage', title: 'Desktop Automation & Hardware Integration', description: 'Custom C# .NET desktop applications integrated with industrial hardware ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â weight scales, barcode printers, serial ports, and ERP systems for production environments.', highlights: ['C# .NET WinForms & ADO.NET Applications', 'YAOHUA Digital Weight Scale Integration', 'Automated Label & Barcode Printing Systems', 'Serial Port & Hardware Communication', 'Crystal Reports & Data Export Solutions', 'Excel VBA Macros & Process Automation'] },
+                        { icon: 'settings_ethernet', title: 'Industrial RFID, Barcode & IoT Systems', description: 'Production floor data collection infrastructure ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â RFID terminals, MOXA serial communication over RJ-6 (RS-485), barcode automation, and IoT checkpoint systems.', highlights: ['RFID NXP MCU Terminal Setup & Management', 'MOXA Multiport Serial Card Configuration', 'RJ-6 (RS-485) Cabling & Infrastructure', 'Barcode Printer Configuration & Label Automation', 'Production Floor RFID Checkpoints & Data Collection', 'ERP-to-Floor Device Integration (MOXA / RFID)'] },
+                        { icon: 'dns', title: 'Production Floor IT & Systems Support', description: 'IT support tailored for manufacturing environments ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â workstation setup, printer/network troubleshooting, ERP user admin, and equipment integration across production lines.', highlights: ['PC / Printer Setup & Troubleshooting on Production Floor', 'LAN, IP Config & Network Diagnostics', 'ERP User Administration & Module Support', 'File & Printer Sharing for Workshop Environments', '30+ Workstation & Device Management', 'RJ-6 / MOXA Device Networking & Support'] }
                     ]}
                 ];
                 const process = [
@@ -1805,10 +1859,9 @@ const mobileNavLinks = [
                 const testimonials = [
                     { name: 'Md. Mamunur Rashid', role: 'Manager (IT) | Keya Knit Composite Ltd.', text: 'Amin360IT managed our GPRO ERP RFID operation across 30+ workstations. The RFID tracking implementation and user training transformed our production workflow.' },
                     { name: 'Karim Dean', role: 'Managing Director | DhakaThai AlcoMaxx PLC', text: 'The Weight Checker automation system eliminated hours of daily manual data entry. Our label output tripled and accuracy reached 100%. Exceptional technical work.' },
-                    { name: 'Advocate MD. Sumon ', role: ' CEO | TIC Accessories Inc., New York', text: 'From building our company website to managing 200+ Amazon listings, the work was professional and results-driven. Our online sales grew significantly under their management.' },
-                    { name: 'Managing Director', role: 'DhakaThai AlcoMaxx PLC', text: 'Aminur rebuilt our company website from scratch — modern, fast, and easy to update. Our international buyers now see a professional company the moment they visit.' },
+                    { name: 'Advocate Md. Sumon', role: 'CEO | TIC Accessories Inc., New York', text: 'From building our company website to managing 200+ Amazon listings, the work was professional and results-driven. Our online sales grew significantly under his management.' },
                     { name: 'MD. Istiak Ahmed', role: 'Operations Head | DhakaThai AlcoMaxx PLC', text: 'The invoice system demo let our team visualize the entire billing workflow in days. Professional presentation and practical features right out of the box.' },
-                    { name: 'Md. Abdul Aziz', role: 'Production Manager | DhakaThai AlcoMaxx PLC', text: 'The Weight Checker v4.5 GUI is a huge upgrade. Operators learned it in minutes and labeling got even faster — training new staff is now effortless.' }
+                    { name: 'Md. Abdul Aziz', role: 'Production Manager | DhakaThai AlcoMaxx PLC', text: 'The Weight Checker v4.5 GUI is a huge upgrade. Operators learned it in minutes and labeling got even faster ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â training new staff is now effortless.' }
                 ];
 
                 const categories = ['All', 'Web', 'App', 'Desktop', 'Industrial'];
@@ -1819,14 +1872,14 @@ const projects = [
                     { id: 3, title: 'DifferentCafeBD', category: 'Web', client: 'DifferentCafeBD', tech: ['WordPress', 'Elementor', 'WooCommerce'], duration: '2021', image: 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=800&q=80', screenshots: ['https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=800&q=80'], live_link: 'https://differentcafebd.com', ui_story: 'Cafe brand website with digital menu, online ordering, location integration, and local SEO optimized for Google Maps discoverability.', case_study: 'Challenge: Cafe needed online presence with ordering capability. Solution: Built Elementor-based responsive site with WooCommerce ordering. Result: 40% increase in online orders within first month.', testimonial: { name: 'Cafe Owner', role: 'DifferentCafeBD', text: 'The website brought in a wave of new customers who found us through Google Maps.', avatar: 'https://randomuser.me/api/portraits/men/22.jpg' }, link: '#', description: 'Cafe brand website with digital menu, online ordering, and local SEO optimization.' },
                     { id: 4, title: 'TIC Accessories Inc.', category: 'Web', client: 'TIC Accessories Inc. (New York)', tech: ['WordPress', 'WooCommerce', 'Amazon', 'eBay'], duration: '2020', image: 'https://images.unsplash.com/photo-1556761175-b413da4baf72?w=800&q=80', screenshots: ['https://images.unsplash.com/photo-1556761175-b413da4baf72?w=800&q=80'], live_link: '#', ui_story: 'Full corporate website with WooCommerce store, product catalog, and contact system. Managed 200+ Amazon/eBay listings with optimized SEO content.', case_study: 'Challenge: Company needed unified web presence + marketplace management. Solution: Built company website and optimized 200+ listings across Amazon/eBay. Result: Online sales grew 3x in 6 months.', testimonial: { name: 'CEO', role: 'TIC Accessories Inc.', text: 'Aminur handled everything from our website to marketplace listings. Sales grew significantly.', avatar: 'https://randomuser.me/api/portraits/men/45.jpg' }, link: '#', description: 'Corporate website, WooCommerce store, and 200+ Amazon/eBay marketplace listings management.' },
                     { id: 5, title: 'CosmicShopBD', category: 'App', client: 'CosmicShopBD', tech: ['WordPress', 'WooCommerce', 'Android', 'Java'], duration: '2024', image: 'https://images.unsplash.com/photo-1472851294608-062f824d29cc?w=800&q=80', screenshots: ['https://images.unsplash.com/photo-1472851294608-062f824d29cc?w=800&q=80'], live_link: '#', ui_story: 'Dual-mode retail/wholesale WooCommerce store with multi-tier pricing. Native Android app connects via REST API for product browsing, cart, and checkout.', case_study: 'Challenge: Retail store needed website + Android app with wholesale pricing. Solution: WooCommerce dual-mode store with native Android app via REST API. Result: 500+ app downloads in first month.', testimonial: { name: 'Store Owner', role: 'CosmicShopBD', text: 'Having both a website and Android app with wholesale pricing doubled our customer base.', avatar: 'https://randomuser.me/api/portraits/men/55.jpg' }, link: '#', description: 'Dual-mode retail/wholesale WooCommerce store with native Android shopping app via REST API.' },
-                    { id: 6, title: 'Tasbih — Digital Counter', category: 'App', client: 'Personal Project', tech: ['MIT App Inventor', 'Android', 'TinyDB'], duration: '2024', image: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=800&q=80', screenshots: ['https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=800&q=80'], live_link: '#', ui_story: 'Clean Material Design interface optimized for one-handed use. Multiple counter profiles with daily/weekly/monthly history tracking and haptic feedback.', case_study: 'Challenge: Needed an intuitive digital prayer counter. Solution: Built Android app with multiple profiles and history tracking. Result: Positive user feedback with clean, functional design.', link: '#', description: 'Digital tasbih counter Android app with multiple profiles, session history, and Material Design.' },
+                    { id: 6, title: 'Tasbih ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Digital Counter', category: 'App', client: 'Personal Project', tech: ['MIT App Inventor', 'Android', 'TinyDB'], duration: '2024', image: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=800&q=80', screenshots: ['https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=800&q=80'], live_link: '#', ui_story: 'Clean Material Design interface optimized for one-handed use. Multiple counter profiles with daily/weekly/monthly history tracking and haptic feedback.', case_study: 'Challenge: Needed an intuitive digital prayer counter. Solution: Built Android app with multiple profiles and history tracking. Result: Positive user feedback with clean, functional design.', link: '#', description: 'Digital tasbih counter Android app with multiple profiles, session history, and Material Design.' },
                     { id: 7, title: 'Tuition Management System', category: 'Desktop', client: 'Personal Project', tech: ['C#', 'SQL Server', 'WinForms'], duration: '2016', image: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=800&q=80', screenshots: ['https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=800&q=80'], live_link: '#', ui_story: 'Desktop application for tuition center management with student profiles, fee tracking, batch management, and Excel export capabilities.', case_study: 'Challenge: Manual fee tracking at tuition center was error-prone. Solution: C# WinForms app with SQL Server Local DB. Result: Automated fee tracking with due date alerts and report generation.', link: '#', description: 'Student and fee management desktop app with batch organization and automated reporting.' },
                     { id: 8, title: 'Yaohua Scale Integration', category: 'Industrial', client: 'DhakaThai AlcoMaxx PLC', tech: ['RS232', 'Serial Port', 'Hardware'], duration: '2025', image: 'https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=800&q=80', screenshots: ['https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=800&q=80'], live_link: '#', ui_story: 'Industrial hardware integration connecting YAOHUA XK3190-D# weight indicators to LightHouse ERP via RS232 at 200ms polling cycles.', case_study: 'Challenge: Weight data entry was manual and slow. Solution: RS232 hardware bridge with noise filtering and 1,500+ die profile validation. Result: 100% accurate ERP weight pushes eliminating 500-700 daily manual entries.', link: '#', description: 'RS232 hardware-software bridge connecting digital weight indicators to ERP with real-time data validation.' },
                     { id: 9, title: 'ZenBreaths', category: 'App', client: 'Personal Project', tech: ['Vue 3', 'Nuxt', 'Tailwind', 'Capacitor'], duration: '2026', image: 'https://images.unsplash.com/photo-1545205597-3d9d02c29597?w=800&q=80', screenshots: ['https://images.unsplash.com/photo-1545205597-3d9d02c29597?w=800&q=80'], live_link: '#', ui_story: 'Cross-platform meditation app with guided breathing animations, customizable session durations (1-30 min), ambient sounds, and haptic feedback.', case_study: 'Challenge: Needed a calming guided breathing app. Solution: Built with Vue 3 + Nuxt, wrapped as native Android via Capacitor. Result: Clean, responsive app with visual inhale/hold/exhale guide.', link: '#', description: 'Cross-platform guided breathing and meditation app with customizable sessions and ambient sounds.' },
                     { id: 10, title: 'Auto Bell 2.0', category: 'Desktop', client: 'Institutional', tech: ['VB.net', 'MS Access', 'TTS'], duration: '2017', image: 'https://images.unsplash.com/photo-1501386761578-eac5c94b800a?w=800&q=80', screenshots: ['https://images.unsplash.com/photo-1501386761578-eac5c94b800a?w=800&q=80'], live_link: '#', ui_story: 'Automated school bell system with Text-to-Speech voice announcements. Customizable schedules for weekdays, holidays, and special events with manual override.', case_study: 'Challenge: Schools needed automated bell scheduling with voice announcements. Solution: VB.net app with MS Access DB and Windows TTS engine. Result: Reliable automated bell system with voice period announcements.', link: '#', description: 'Automated school bell system with customizable schedules and Text-to-Speech voice announcements.' },
-                    { id: 11, title: 'DhakaThai Website Redesign', category: 'Web', client: 'DhakaThai AlcoMaxx PLC', tech: ['HTML5', 'CSS3', 'JavaScript', 'SEO'], duration: '2026', new: true, image: 'https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=800&q=80', screenshots: ['https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=800&q=80'], live_link: '#', ui_story: 'Complete corporate website redesign with modern branding, a clean design system, product showcase for their food & beverage plant, and a fully responsive layout. Integrated Google Maps, contact forms, and SEO-ready meta structure.', case_study: 'Challenge: Outdated site did not reflect a modern industrial brand. Solution: Rebuilt from scratch with mobile-first layout, fast loading, and easy content handover. Result: New site delivered this month with stronger first impressions and improved search visibility.', testimonial: { name: 'Managing Director', role: 'DhakaThai AlcoMaxx PLC', text: 'The new website finally represents our company properly. Modern, fast, and easy to update on our own.', avatar: 'https://randomuser.me/api/portraits/men/41.jpg' }, link: '#', description: 'Corporate website redesign for a food & beverage manufacturer — modern branding, responsive layout, and SEO-ready structure.' },
-                    { id: 12, title: 'Invoice System Demo', category: 'Web', client: 'DhakaThai AlcoMaxx PLC', tech: ['Vue 3', 'Tailwind CSS', 'JavaScript'], duration: '2026', new: true, image: 'https://images.unsplash.com/photo-1554224154-26032ffc0d07?w=800&q=80', screenshots: ['https://images.unsplash.com/photo-1554224154-26032ffc0d07?w=800&q=80'], live_link: '#', ui_story: 'Interactive invoice & billing demo with dynamic line items, automatic tax and discount calculation, customer records, invoice numbering, and one-click PDF export — built as a lightweight single-page app.', case_study: 'Challenge: Needed a quick, shareable demo to prove automated invoicing before a full ERP rollout. Solution: Built a functional Vue demo with editable line items, live totals, and print/PDF output. Result: Client approved the workflow and moved toward full implementation.', testimonial: { name: 'Operations Head', role: 'DhakaThai AlcoMaxx PLC', text: 'The invoice demo let our team visualize the whole billing workflow in days. Clean and practical.', avatar: 'https://randomuser.me/api/portraits/women/44.jpg' }, link: '#', description: 'Interactive invoice & billing system demo with dynamic line items, taxes, and PDF export.' },
-                    { id: 13, title: 'DTL Weight Checker GUI v4.5', category: 'Desktop', client: 'DhakaThai AlcoMaxx PLC', tech: ['C# .NET', 'WinForms', 'RS232', 'SQLite'], duration: '2026', new: true, image: 'https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=800&q=80', screenshots: ['https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=800&q=80'], live_link: '#', ui_story: 'Major GUI upgrade of the DTL Weight Checker suite — modern dashboard with live weight monitoring, color-coded validation status, batch summaries, operator logins, and one-click label printing. Preserves the proven 200ms RS232 polling engine with a far friendlier interface.', case_study: 'Challenge: Operators found the old console interface hard to read during busy shifts. Solution: Rebuilt the front-end as a WinForms GUI with live dashboard, larger fonts, validation states, and quick-print shortcuts. Result: Faster training, fewer misreads, and 8,000+ daily labels with 100% accuracy maintained.', testimonial: { name: 'Production Manager', role: 'DhakaThai AlcoMaxx PLC', text: 'v4.5 is a joy to use. Operators learned it in minutes and labeling got even faster.', avatar: 'https://randomuser.me/api/portraits/men/75.jpg' }, link: '#', description: 'GUI v4.5 upgrade of the DTL Weight Checker — modern dashboard, live validation, and one-click labeling.' }
+                    { id: 11, title: 'DhakaThai Website Redesign', category: 'Web', client: 'DhakaThai AlcoMaxx PLC', tech: ['HTML5', 'CSS3', 'JavaScript', 'SEO'], duration: '2026', new: true, image: 'https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=800&q=80', screenshots: ['https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=800&q=80'], live_link: '#', ui_story: 'Complete corporate website redesign with modern branding, a clean design system, product showcase for their food & beverage plant, and a fully responsive layout. Integrated Google Maps, contact forms, and SEO-ready meta structure.', case_study: 'Challenge: Outdated site did not reflect a modern industrial brand. Solution: Rebuilt from scratch with mobile-first layout, fast loading, and easy content handover. Result: New site delivered this month with stronger first impressions and improved search visibility.', testimonial: { name: 'Managing Director', role: 'DhakaThai AlcoMaxx PLC', text: 'The new website finally represents our company properly. Modern, fast, and easy to update on our own.', avatar: 'https://randomuser.me/api/portraits/men/41.jpg' }, link: '#', description: 'Corporate website redesign for a food & beverage manufacturer ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â modern branding, responsive layout, and SEO-ready structure.' },
+                    { id: 12, title: 'Invoice System Demo', category: 'Web', client: 'DhakaThai AlcoMaxx PLC', tech: ['Vue 3', 'Tailwind CSS', 'JavaScript'], duration: '2026', new: true, image: 'https://images.unsplash.com/photo-1554224154-26032ffc0d07?w=800&q=80', screenshots: ['https://images.unsplash.com/photo-1554224154-26032ffc0d07?w=800&q=80'], live_link: '#', ui_story: 'Interactive invoice & billing demo with dynamic line items, automatic tax and discount calculation, customer records, invoice numbering, and one-click PDF export ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â built as a lightweight single-page app.', case_study: 'Challenge: Needed a quick, shareable demo to prove automated invoicing before a full ERP rollout. Solution: Built a functional Vue demo with editable line items, live totals, and print/PDF output. Result: Client approved the workflow and moved toward full implementation.', testimonial: { name: 'Operations Head', role: 'DhakaThai AlcoMaxx PLC', text: 'The invoice demo let our team visualize the whole billing workflow in days. Clean and practical.', avatar: 'https://randomuser.me/api/portraits/women/44.jpg' }, link: '#', description: 'Interactive invoice & billing system demo with dynamic line items, taxes, and PDF export.' },
+                    { id: 13, title: 'DTL Weight Checker GUI v4.5', category: 'Desktop', client: 'DhakaThai AlcoMaxx PLC', tech: ['C# .NET', 'WinForms', 'RS232', 'SQLite'], duration: '2026', new: true, image: 'https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=800&q=80', screenshots: ['https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=800&q=80'], live_link: '#', ui_story: 'Major GUI upgrade of the DTL Weight Checker suite ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â modern dashboard with live weight monitoring, color-coded validation status, batch summaries, operator logins, and one-click label printing. Preserves the proven 200ms RS232 polling engine with a far friendlier interface.', case_study: 'Challenge: Operators found the old console interface hard to read during busy shifts. Solution: Rebuilt the front-end as a WinForms GUI with live dashboard, larger fonts, validation states, and quick-print shortcuts. Result: Faster training, fewer misreads, and 8,000+ daily labels with 100% accuracy maintained.', testimonial: { name: 'Production Manager', role: 'DhakaThai AlcoMaxx PLC', text: 'v4.5 is a joy to use. Operators learned it in minutes and labeling got even faster.', avatar: 'https://randomuser.me/api/portraits/men/75.jpg' }, link: '#', description: 'GUI v4.5 upgrade of the DTL Weight Checker ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â modern dashboard, live validation, and one-click labeling.' }
                 ];
 
                 const clients = [
@@ -1880,6 +1933,8 @@ const projects = [
                     document.documentElement.classList.toggle('dark', isDark.value);
                     document.documentElement.classList.toggle('light', !isDark.value);
                     localStorage.setItem('theme', isDark.value ? 'dark' : 'light');
+                    const m = document.querySelector('meta[name="theme-color"]');
+                    if (m) m.setAttribute('content', isDark.value ? '#020617' : '#f8fafc');
                     updateParticleColor();
                 };
 
@@ -1889,12 +1944,28 @@ const projects = [
                 const closeVideo = () => { videoOpen.value = false; unlockScroll(); };
                 const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
 
+                const goToContactForm = () => {
+                    const section = document.querySelector('#contact');
+                    if (section) section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    setTimeout(() => {
+                        const field = document.querySelector('#form-name');
+                        if (field) field.focus({ preventScroll: true });
+                    }, 700);
+                };
+
                 const setTestimonial = (index) => {
                     currentTestimonial.value = index;
                     resetTestimonialTimer();
                 };
 
+                const newsletterEmail = ref('');
                 const subscribeNewsletter = () => {
+                    const value = newsletterEmail.value.trim();
+                    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value)) {
+                        showToast('error', 'Please enter a valid email address.');
+                        return;
+                    }
+                    newsletterEmail.value = '';
                     showToast('success', 'Thanks for subscribing! I\'ll keep you updated.');
                 };
 
@@ -1926,7 +1997,7 @@ const projects = [
                     })
                     .catch(() => {
                         formStatus.value = null;
-                        showToast('error', 'Something went wrong. Please email me directly at amin670bd@gmail.com');
+                        showToast('error', 'Something went wrong. Please email me directly at amin360it@gmail.com');
                     });
                 };
 
@@ -2022,13 +2093,24 @@ const animateCounters = () => {
                 let cursorRaf = null;
                 let handleScroll = null;
                 let handleCursorMove = null;
+                let handleKeydown = null;
+                let handleMouseDown = null;
+                let handleMouseUp = null;
                 let particlesVisible = true;
                 let particlesObserver = null;
 
                 onMounted(() => {
                     try {
                         const savedTheme = localStorage.getItem('theme');
-                        if (savedTheme === 'light') { isDark.value = false; document.documentElement.classList.remove('dark'); document.documentElement.classList.add('light'); }
+                        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                        if (savedTheme === 'light' || (!savedTheme && !prefersDark)) {
+                            isDark.value = false;
+                            document.documentElement.classList.remove('dark');
+                            document.documentElement.classList.add('light');
+                        } else if (!document.documentElement.classList.contains('dark')) {
+                            document.documentElement.classList.remove('light');
+                            document.documentElement.classList.add('dark');
+                        }
                     } catch (e) {}
 
                     lockScroll();
@@ -2080,11 +2162,39 @@ const animateCounters = () => {
                     };
                     window.addEventListener('scroll', handleScroll, { passive: true });
 
+                    let mx = -100, my = -100, rx = -100, ry = -100;
+                    const dotEl = document.querySelector('.cursor-dot');
+                    const ringEl = document.querySelector('.cursor-outline');
                     handleCursorMove = (e) => {
-                        cancelAnimationFrame(cursorRaf);
-                        cursorRaf = requestAnimationFrame(() => { cursor.x = e.clientX; cursor.y = e.clientY; });
+                        mx = e.clientX; my = e.clientY;
+                        if (dotEl) {
+                            dotEl.style.setProperty('--cx', mx + 'px');
+                            dotEl.style.setProperty('--cy', my + 'px');
+                        }
                     };
-                    document.addEventListener('mousemove', handleCursorMove);
+                    document.addEventListener('mousemove', handleCursorMove, { passive: true });
+                    handleMouseDown = () => document.body.classList.add('cursor-down');
+                    handleMouseUp = () => document.body.classList.remove('cursor-down');
+                    document.addEventListener('mousedown', handleMouseDown);
+                    document.addEventListener('mouseup', handleMouseUp);
+                    const followRing = () => {
+                        rx += (mx - rx) * 0.35;
+                        ry += (my - ry) * 0.35;
+                        if (ringEl) {
+                            ringEl.style.setProperty('--cx', rx + 'px');
+                            ringEl.style.setProperty('--cy', ry + 'px');
+                        }
+                        cursorRaf = requestAnimationFrame(followRing);
+                    };
+                    cursorRaf = requestAnimationFrame(followRing);
+
+                    handleKeydown = (e) => {
+                        if (e.key !== 'Escape') return;
+                        if (mobileMenuOpen.value) { mobileMenuOpen.value = false; }
+                        if (videoOpen.value) { closeVideo(); }
+                        if (selectedProject.value) { selectedProject.value = null; unlockScroll(); }
+                    };
+                    document.addEventListener('keydown', handleKeydown);
                 });
 
 
@@ -2106,6 +2216,10 @@ onUnmounted(() => {
                     }
                     if (handleScroll) window.removeEventListener('scroll', handleScroll);
                     if (handleCursorMove) document.removeEventListener('mousemove', handleCursorMove);
+                    if (handleMouseDown) document.removeEventListener('mousedown', handleMouseDown);
+                    if (handleMouseUp) document.removeEventListener('mouseup', handleMouseUp);
+                    if (cursorRaf) cancelAnimationFrame(cursorRaf);
+                    if (handleKeydown) document.removeEventListener('keydown', handleKeydown);
                     if (particlesObserver) particlesObserver.disconnect();
                 });
                 
@@ -2113,15 +2227,17 @@ onUnmounted(() => {
                     if (val) { lockScroll(); } else { unlockScroll(); }
                 });
 
+                const year = new Date().getFullYear();
+
                 return {
                     siteName, siteLogo, siteSubtitle,
                     isDark, loading, scrolled, scrollProgress, mobileMenuOpen, videoOpen,
-                    activeSection, activeFilter, activeServiceTab, selectedProject, currentTestimonial, cursor,
+                    activeSection, activeFilter, activeServiceTab, selectedProject, currentTestimonial,
                     contactForm, formStatus, toast, typedText,
                     navLinks, mobileNavLinks, stats, serviceGroups, process, testimonials,
                     categories, filteredProjects, categoryCounts, clients, projects, currentTestimonialData,
-                    toggleTheme, openProjectModal, closeProjectModal, openVideo, closeVideo, scrollToTop,
-                    submitForm, setTestimonial, subscribeNewsletter, videoId
+                    toggleTheme, openProjectModal, closeProjectModal, openVideo, closeVideo, scrollToTop, goToContactForm,
+                    submitForm, setTestimonial, subscribeNewsletter, newsletterEmail, videoId, year
                 };
             }
         }).mount('#app');
